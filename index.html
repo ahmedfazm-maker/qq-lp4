@@ -1,0 +1,586 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>QuidQuo · Capital formation, run by specialized AI agents</title>
+<meta name="description" content="QuidQuo is a venture platform staffed by AI agents. They assess where you stand, build every part of the investment case with you, and run the raise.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@200;300;400;500;600&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#050604;--card:#0C0F09;--l1:#1B1F14;--l2:#282D1D;--l3:#39402A;--lime:#C6FF34;--acid:#A8E01F;--pale:#E4FFA6;--bone:#F4F6EE;
+ --text:#B9BCAD;--mute:#888A7C;--up:#00E5A0;--down:#FF3B5C;--hold:#FFB020;--max:1240px;--gut:clamp(20px,5vw,48px);--navh:72px;
+ --e:cubic-bezier(.22,.8,.18,1);box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#050604;--card:#0C0F09;--l2:#282D1D;--lime:#C6FF34;--bone:#F4F6EE;--text:#B9BCAD}}
+:root[data-theme="dark"]{--bg:#050604;--card:#0C0F09;--l2:#282D1D;--lime:#C6FF34;--bone:#F4F6EE;--text:#B9BCAD}
+*,*::before,*::after{box-sizing:border-box}
+html{overflow-x:hidden;scroll-padding-top:calc(var(--navh) + env(safe-area-inset-top,0px))}
+@supports (overflow:clip){html{overflow-x:clip}}
+html,body{margin:0;background:var(--bg);color:var(--bone)}
+body{font-family:"Instrument Sans",system-ui,-apple-system,"Segoe UI",Arial,sans-serif;font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased}
+::selection{background:var(--lime);color:var(--bg)}
+a{color:inherit;text-decoration:none}
+h1,h2,h3{font-family:Sora,system-ui,sans-serif;margin:0;font-weight:300;letter-spacing:-.035em;color:var(--bone)}
+p{margin:0}
+:focus-visible{outline:2px solid var(--lime);outline-offset:3px;border-radius:8px}
+.wrap{max-width:var(--max);margin:0 auto;padding:0 var(--gut);position:relative}
+
+/* the 3D field behind everything */
+#field{position:fixed;inset:0;width:100%;height:100%;z-index:0;display:block;touch-action:pan-y}
+.still{position:fixed;inset:0;z-index:0;display:none;background:radial-gradient(50% 50% at 70% 60%,rgba(198,255,52,.12),transparent 70%),var(--bg)}
+.nogl #field{display:none}.nogl .still{display:block}
+.shade{position:fixed;inset:0;z-index:1;pointer-events:none;background:linear-gradient(90deg,rgba(5,6,4,.94) 0%,rgba(5,6,4,.82) 34%,rgba(5,6,4,.3) 52%,rgba(5,6,4,0) 64%)}
+@media(max-width:920px){.shade{background:linear-gradient(180deg,rgba(5,6,4,.2),rgba(5,6,4,.62) 40%,rgba(5,6,4,.7))}}
+main,footer{position:relative;z-index:2}
+main>section{overflow:hidden}
+main{pointer-events:none}main a,main button,main .panel,main .shot,main .tabs,main .chips,main .stg,main .au,main .dc{pointer-events:auto}
+
+.nav{position:fixed;inset:0 0 auto;z-index:80;padding-top:env(safe-area-inset-top,0px);transition:background .3s,border-color .3s;border-bottom:1px solid transparent}
+.nav.on{background:rgba(5,6,4,.82);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-color:var(--l1)}
+.nav .wrap{display:flex;align-items:center;gap:34px;height:var(--navh);max-width:1320px}
+.logo{display:flex;align-items:center;gap:10px;font-family:Sora,sans-serif;font-weight:600;font-size:18px;letter-spacing:-.02em}
+.logo svg{width:28px;height:28px}
+.menu{display:flex;gap:28px;font-size:14.5px;color:var(--text)}.menu a:hover{color:var(--bone)}
+.nav .side{margin-left:auto;display:flex;align-items:center;gap:14px}.nav .si{font-size:14.5px;color:var(--text)}
+@media(max-width:920px){.menu,.nav .si{display:none}}
+.btn{position:relative;overflow:hidden;display:inline-flex;align-items:center;gap:10px;height:52px;padding:0 26px;border-radius:999px;
+ font:600 15px/1 "Instrument Sans",sans-serif;border:1px solid var(--l3);color:var(--bone);cursor:pointer;background:rgba(5,6,4,.7);transition:border-color .2s,transform .3s var(--e),box-shadow .3s}
+.btn:hover{border-color:var(--mute)}
+.btn.go{background:var(--lime);border-color:var(--lime);color:var(--bg)}
+.btn.go:hover{transform:translateY(-2px);box-shadow:0 16px 40px -12px rgba(198,255,52,.7)}
+.btn svg{width:16px;height:16px}.btn.sm{height:40px;padding:0 17px;font-size:14px}
+
+/* sections and panels */
+.scene{min-height:100vh;min-height:100svh;display:flex;align-items:center;padding:calc(var(--navh) + 50px) 0 70px}
+.scene>.wrap{width:100%}
+.panel{max-width:560px;border:1px solid var(--l2);border-radius:26px;padding:clamp(26px,3vw,40px);background:rgba(8,10,6,.86);
+ backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);box-shadow:0 40px 90px -40px rgba(0,0,0,.95)}
+.panel.wide{max-width:none}
+.tag{display:inline-flex;align-items:center;gap:10px;font-family:"JetBrains Mono",monospace;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--mute);margin-bottom:18px}
+.tag b{font-weight:500;color:var(--lime)}
+.h2{font-size:clamp(30px,3.6vw,50px);line-height:1.06;text-wrap:balance}
+.lead{color:var(--text);font-size:clamp(16px,1.2vw,18px);margin-top:16px}
+.tilt3d{transform-origin:50% 100%;will-change:transform,opacity}
+.hint{display:inline-flex;align-items:center;gap:8px;margin-top:18px;font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:.08em;color:var(--mute)}
+.hint i{width:7px;height:7px;border-radius:50%;background:var(--lime);box-shadow:0 0 10px var(--lime)}
+
+/* hero */
+.hero .panel{background:none;border:0;box-shadow:none;backdrop-filter:none;-webkit-backdrop-filter:none;padding:0;max-width:640px}
+.pill{display:inline-flex;align-items:center;gap:10px;height:34px;padding:0 14px 0 6px;border-radius:999px;border:1px solid var(--l2);background:rgba(12,15,9,.85);font-size:13.5px;color:var(--text)}
+.pill b{font-weight:600;color:var(--bg);background:var(--lime);border-radius:999px;padding:3px 9px;font-size:12px}
+.pl-s{display:none}@media(max-width:520px){.pl-l{display:none}.pl-s{display:inline}}
+.hero h1{font-size:clamp(44px,6vw,90px);line-height:1;letter-spacing:-.05em;margin-top:24px;text-wrap:balance}
+.hero h1 .hl{color:var(--lime)}
+.hero .lead{margin-top:24px;max-width:52ch;font-size:clamp(16.5px,1.3vw,19px)}
+.ctas{display:flex;gap:12px;flex-wrap:wrap;margin-top:32px}
+.note{margin-top:16px;font-size:13.5px;color:var(--mute)}
+.in0{opacity:0;transform:translateY(22px);animation:in0 1s var(--e) forwards}
+@keyframes in0{to{opacity:1;transform:none}}
+/* agents: chips drive the towers */
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:24px}
+.chip{font:500 13.5px/1 "Instrument Sans",sans-serif;color:var(--text);background:rgba(12,15,9,.9);border:1px solid var(--l2);border-radius:999px;padding:10px 14px;cursor:pointer;transition:all .2s}
+.chip:hover,.chip.on{background:var(--lime);border-color:var(--lime);color:var(--bg)}
+.agcard{margin-top:18px;border-top:1px solid var(--l2);padding-top:16px;min-height:96px}
+.agcard b{font-family:Sora,sans-serif;font-weight:400;font-size:19px}.agcard s{text-decoration:none;font-family:"JetBrains Mono",monospace;font-size:11px;color:var(--mute);margin-left:10px;letter-spacing:.08em}
+.agcard p{color:var(--text);font-size:15px;margin-top:6px}
+.facts{display:grid;grid-template-columns:1fr;gap:10px;margin-top:22px}
+.facts div{border:1px solid var(--l2);border-radius:14px;padding:12px 14px;font-size:13.5px;color:var(--text)}
+.facts b{display:block;color:var(--bone);font-weight:500;font-size:14px;margin-bottom:3px}
+@media(max-width:620px){.facts{grid-template-columns:1fr}}
+
+/* journey: stage list drives the steps */
+.stg{list-style:none;margin:22px 0 0;padding:0;display:grid;gap:6px}
+.stg li{display:grid;grid-template-columns:38px 1fr;gap:10px;padding:11px 12px;border-radius:12px;border:1px solid transparent;cursor:pointer;transition:all .25s}
+.stg li:hover,.stg li.on{background:rgba(198,255,52,.07);border-color:rgba(198,255,52,.3)}
+.stg .n{font-family:"JetBrains Mono",monospace;font-size:12px;color:var(--mute);padding-top:2px}
+.stg li.on .n{color:var(--lime)}
+.stg b{display:block;font-weight:600;font-size:15.5px}.stg span{display:block;color:var(--text);font-size:14px;max-height:0;overflow:hidden;transition:max-height .4s var(--e)}
+.stg li.on span{max-height:70px;margin-top:3px}
+
+/* platform: the screen takes the stage */
+#platform .scene{flex-direction:column;justify-content:center}
+.ptop{text-align:center;max-width:760px;margin:0 auto}
+.ptop .panel{margin:0 auto}
+.tabs{display:inline-flex;gap:4px;padding:5px;border:1px solid var(--l2);border-radius:14px;background:var(--card);margin-top:24px;max-width:100%;overflow-x:auto;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{height:40px;padding:0 20px;border:0;border-radius:10px;background:transparent;color:var(--text);font:500 14.5px/1 "Instrument Sans",sans-serif;cursor:pointer;white-space:nowrap;transition:all .25s}
+.tab:hover{color:var(--bone)}.tab[aria-selected="true"]{background:var(--lime);color:var(--bg)}
+.pcopy{margin-top:18px;min-height:76px}.pcopy h3{font-size:clamp(21px,2vw,28px);font-weight:400}.pcopy p{color:var(--text);margin:6px auto 0;max-width:56ch;font-size:15.5px}
+.stage3d{margin:36px auto 0;max-width:1080px;width:100%;perspective:2000px}
+.stage3d .tilt{transform-origin:50% 60%;will-change:transform}
+.fadein{animation:fi .5s var(--e)}@keyframes fi{from{opacity:0;transform:translateY(8px)}}
+/* app window, designed at 1080x660 and scaled so it stays crisp */
+.shot{position:relative;width:100%;aspect-ratio:1080/660;text-align:left;text-align:left;border-radius:14px;overflow:hidden;background:#0A0C07;
+ border:1px solid var(--l2);box-shadow:0 0 0 1px rgba(0,0,0,.5),0 60px 120px -40px rgba(0,0,0,.95),0 0 80px -30px rgba(198,255,52,.18)}
+.shot.crop{aspect-ratio:884/660}
+.win{position:absolute;left:0;top:0;width:1080px;height:660px;transform-origin:0 0;display:flex;flex-direction:column;
+ font-size:13px;color:var(--text);background:#0A0C07}
+.wbar{flex:0 0 38px;display:flex;align-items:center;gap:7px;padding:0 14px;background:#080A06;border-bottom:1px solid var(--l1)}
+.wbar i{width:10px;height:10px;border-radius:50%;background:var(--l2)}
+.wbar span{margin:0 auto;font-family:"JetBrains Mono",monospace;font-size:11px;color:var(--mute);background:var(--bg2);
+ border:1px solid var(--l1);border-radius:7px;padding:4px 44px}
+.wapp{flex:1;display:flex;min-height:0}
+.wside{flex:0 0 196px;border-right:1px solid var(--l1);padding:16px 12px;display:flex;flex-direction:column;gap:3px;background:#080A06}
+.wside .wb{display:flex;align-items:center;gap:8px;font-family:Sora,sans-serif;font-weight:600;font-size:14px;color:var(--bone);margin:0 6px 16px}
+.wside .wb svg{width:20px;height:20px}
+.wside .grp{font-family:"JetBrains Mono",monospace;font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:#5d6052;margin:14px 8px 6px}
+.wside a{display:flex;align-items:center;gap:9px;padding:7px 9px;border-radius:8px;color:var(--mute);font-size:12.5px}
+.wside a i{width:6px;height:6px;border-radius:50%;background:var(--l3)}
+.wside a.on{background:rgba(198,255,52,.10);color:var(--pale)}
+.wside a.on i{background:var(--lime)}
+.wmain{flex:1;padding:20px 24px;min-width:0;display:flex;flex-direction:column;gap:14px;overflow:hidden}
+.wtop{display:flex;align-items:center;gap:10px}
+.wtop h4{font-weight:300;font-size:22px;letter-spacing:-.02em}
+.wtop .sp{flex:1}
+.chip{font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase;border:1px solid var(--l3);
+ border-radius:999px;padding:4px 9px;color:var(--mute);white-space:nowrap;transition:all .5s var(--e)}
+.chip.up{color:var(--up);border-color:rgba(0,229,160,.4)}.chip.hold{color:var(--hold);border-color:rgba(255,176,32,.4)}
+.chip.down{color:var(--down);border-color:rgba(255,59,92,.4)}.chip.pale{color:var(--pale)}
+.wgrid{display:grid;gap:12px}
+.card{border:1px solid var(--l1);border-radius:12px;background:#0C0F09;padding:14px 16px}
+.kl{font-family:"JetBrains Mono",monospace;font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--mute)}
+.kv{font-family:Sora,sans-serif;font-weight:300;font-size:30px;color:var(--pale);letter-spacing:-.03em;margin-top:6px;line-height:1}
+.ks{font-size:11.5px;color:var(--mute);margin-top:6px}
+.row{display:flex;align-items:center;gap:12px;padding:9px 0;border-bottom:1px solid var(--l1)}
+.row:last-child{border-bottom:0}.row .k{flex:1;color:var(--text)}
+.row .v{font-family:"JetBrains Mono",monospace;font-size:12px;color:var(--pale)}
+.mbar{flex:0 0 40%;height:5px;border-radius:3px;background:var(--l1);overflow:hidden}
+.mbar i{display:block;height:100%;background:var(--pale)}.mbar i.h{background:var(--hold)}
+.wbtn{display:inline-flex;align-items:center;font:600 12px/1 "Instrument Sans",sans-serif;padding:9px 14px;border-radius:999px;
+ border:1px solid var(--l3);color:var(--bone)}
+.wbtn.go{background:var(--lime);border-color:var(--lime);color:var(--bg)}
+.bub{max-width:80%;padding:11px 14px;border-radius:14px;background:#0F130B;border:1px solid var(--l1);font-size:13px;line-height:1.55}
+.bub.me{margin-left:auto;background:rgba(198,255,52,.08);border-color:rgba(198,255,52,.22);color:var(--bone)}
+.who{font-family:"JetBrains Mono",monospace;font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--mute);margin-bottom:5px}
+.kcol{border:1px solid var(--l1);border-radius:12px;background:#0B0E08;padding:10px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.kcol h5{margin:0 0 2px;font-family:"JetBrains Mono",monospace;font-weight:400;font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;
+ color:var(--mute);display:flex;justify-content:space-between}
+.inv{border:1px solid var(--l2);border-radius:9px;padding:9px 10px;background:#0F130B}
+.inv b{display:block;font-weight:500;color:var(--bone);font-size:12px}
+.inv s{display:block;text-decoration:none;font-family:"JetBrains Mono",monospace;font-size:10.5px;color:var(--pale);margin-top:3px}
+/* difference: the recount */
+.recount{display:flex;align-items:center;gap:14px;margin-top:22px;flex-wrap:wrap}
+.counter{font-family:Sora,sans-serif;font-weight:200;font-size:clamp(44px,5vw,68px);letter-spacing:-.05em;line-height:1;color:var(--pale);font-variant-numeric:tabular-nums;min-width:4.2ch}
+.counter small{font-size:.42em;color:var(--mute);margin-left:4px;letter-spacing:0}
+.rbtn{height:44px;padding:0 18px;font-size:14px}
+.dgrid{display:grid;gap:12px;margin-top:22px}
+.dc{border:1px solid var(--l2);border-radius:16px;padding:16px 18px;transition:border-color .3s,background .3s;cursor:default}
+.dc:hover{border-color:rgba(198,255,52,.4);background:rgba(198,255,52,.04)}
+.dc b{display:block;font-family:Sora,sans-serif;font-weight:400;font-size:18px;letter-spacing:-.02em}
+.dc p{color:var(--text);font-size:14.5px;margin-top:5px}
+.dc em{font-style:normal;display:inline-block;margin-top:8px;font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:.06em;color:var(--pale)}
+
+/* who: cards reshape the field */
+.audg{display:grid;gap:10px;margin-top:22px}
+.au{display:grid;grid-template-columns:54px 1fr;gap:14px;align-items:start;border:1px solid var(--l2);border-radius:16px;padding:14px 16px;cursor:pointer;transition:all .25s}
+.au:hover,.au.on{border-color:var(--lime);background:rgba(198,255,52,.06)}
+.au .g{height:46px;display:flex;align-items:center;gap:4px;flex-wrap:wrap}
+.au .g i{display:block;background:var(--l3);border-radius:4px;transition:background .3s}
+.au.on .g i,.au:hover .g i{background:var(--lime)}
+.au b{display:block;font-weight:600;font-size:15.5px}.au p{color:var(--text);font-size:14px;margin-top:3px}
+
+/* join */
+#join .scene{justify-content:flex-start}
+.flow{list-style:none;margin:26px 0 0;padding:0;display:grid;border-top:1px solid var(--l2)}
+.flow li{display:grid;grid-template-columns:40px 1fr auto;gap:10px;padding:11px 0;border-bottom:1px solid var(--l2);align-items:baseline;font-size:14.5px}
+.flow .n{font-family:"JetBrains Mono",monospace;font-size:11.5px;color:var(--mute)}
+.flow b{font-weight:600}.flow span{color:var(--text)}
+.flow em{font-style:normal;font-family:"JetBrains Mono",monospace;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--bg);background:var(--lime);border-radius:999px;padding:3px 9px}
+.right{margin-left:auto}
+@media(max-width:920px){.right{margin-left:0}.scene{align-items:flex-end;padding-top:calc(var(--navh) + 46vh)}.hero.scene{align-items:center;padding-top:calc(var(--navh) + 30px)}
+ #platform .scene{padding-top:calc(var(--navh) + 40px)}.panel{max-width:none}}
+
+/* footer */
+footer{border-top:1px solid var(--l1);background:linear-gradient(180deg,rgba(7,9,6,.97),#040503)}
+.fgrid{display:grid;grid-template-columns:minmax(0,1.4fr) repeat(3,minmax(0,1fr));gap:40px;padding-top:70px;padding-bottom:50px}
+.fbrand p{color:var(--text);font-size:15px;margin-top:14px;max-width:34ch}
+.social{display:flex;gap:10px;margin-top:22px}
+.social a{width:42px;height:42px;border-radius:12px;border:1px solid var(--l2);display:grid;place-items:center;color:var(--text);transition:all .25s}
+.social a:hover{border-color:var(--lime);color:var(--lime);transform:translateY(-3px)}
+.social svg{width:18px;height:18px}
+.fcol h4{font-family:"JetBrains Mono",monospace;font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--mute);font-weight:500;margin:0 0 16px}
+.fcol a,.fcol span{display:block;color:var(--text);font-size:15px;padding:5px 0;transition:color .2s}.fcol a:hover{color:var(--bone)}
+.fcol .ct{display:flex;align-items:center;gap:10px}.fcol .ct svg{width:16px;height:16px;color:var(--pale);flex:0 0 auto}
+.fbar{border-top:1px solid var(--l1)}
+.fbar .wrap{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;padding-top:22px;padding-bottom:calc(24px + env(safe-area-inset-bottom,0px));font-size:13.5px;color:var(--mute)}
+.fbar nav{display:flex;gap:20px}.fbar a:hover{color:var(--bone)}
+@media(max-width:920px){.fgrid{grid-template-columns:1fr 1fr}.fbrand{grid-column:1/-1}}
+@media(max-width:520px){.fgrid{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){.in0{opacity:1!important;transform:none!important;animation:none!important}.tilt3d{transform:none!important;opacity:1!important}}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+ <symbol id="mark" viewBox="310.13 0 424.1 429.98"><path fill="#A8E01F" d="M403.97,273.21c0-157.93,72.2-171.56,162.13-171.56,22,0,43.67,1.22,63.66,5.4-18-71.16-83.64-77.69-157.26-98.37-110.31-30.99-151.66,22.86-160.93,132.85-10.24,121.46,35.5,162.73,97.25,175.66-3.16-12.52-4.85-27.03-4.85-43.97Z"/><path fill="#C6FF34" d="M571.86,107.4c-89.93,0-162.12,13.63-162.13,171.56,0,113.31,75.55,118.03,162.13,142.36,110.31,30.99,151.66-22.86,160.93-132.85,13.55-160.8-70.99-181.07-160.93-181.07Z"/></symbol>
+ <symbol id="ar" viewBox="0 0 16 16"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+</svg>
+<canvas id="field" aria-hidden="true"></canvas><div class="still" aria-hidden="true"></div><div class="shade" aria-hidden="true"></div>
+<header class="nav" id="nav"><div class="wrap">
+ <a class="logo" href="#top" aria-label="QuidQuo home"><svg><use href="#mark"/></svg>QuidQuo</a>
+ <nav class="menu" aria-label="Sections"><a href="#agents">Agents</a><a href="#journey">Journey</a><a href="#platform">Platform</a><a href="#who">Who it is for</a></nav>
+ <div class="side"><a class="si" href="/login">Sign in</a><a class="btn go sm" href="/signup">Get started</a></div>
+</div></header>
+
+<main id="top">
+<section id="hero" data-f="hero"><div class="scene hero"><div class="wrap"><div class="panel">
+ <span class="pill in0" style="animation-delay:.1s"><b>Free</b><span class="pl-l">Your first venture assessment costs nothing</span><span class="pl-s">Your first assessment is free</span></span>
+ <h1 class="in0" style="animation-delay:.2s">Capital formation, run by <span class="hl">specialized AI agents</span></h1>
+ <p class="lead in0" style="animation-delay:.34s">QuidQuo is a venture platform staffed by AI agents. Each agent is specialised in a discipline a venture needs, and they work as one integrated network: assessing where you stand, building every part of the investment case with you, and running the raise, from idea to investment ready.</p>
+ <div class="ctas in0" style="animation-delay:.46s"><a class="btn go" href="/signup">Get started <svg><use href="#ar"/></svg></a><a class="btn" href="#platform">See the platform</a></div>
+ <p class="note in0" style="animation-delay:.56s">Free to start. Your first venture assessment costs nothing.</p>
+ <div class="hint in0" style="animation-delay:1s"><i></i><span id="fieldHint">Move your cursor over the field, or click to send a ripple</span></div>
+</div></div></div></section>
+
+<section id="agents" data-f="agents"><div class="scene"><div class="wrap"><div class="panel tilt3d">
+ <div class="tag"><b>01</b>The agentic team</div>
+ <h2 class="h2">Meet Aether, and the network behind it</h2>
+ <p class="lead">Aether is your chief of staff and the agent you talk to by default. It works out what the venture needs, briefs the specialist agents, hands work between them and reports back.</p>
+ <div class="chips" id="chips" aria-label="Agents"></div>
+ <div class="agcard" id="agcard" aria-live="polite"></div>
+ <div class="facts">
+  <div><b>Talk to one or all of them</b>Aether brokers by default. When you want a specialist directly, you open a thread with them.</div>
+  <div><b>One venture record</b>Agents read and write structured state, so a change one makes is a change every other already knows about.</div>
+  <div><b>Contradictions surface</b>When two agents disagree, Aether shows you both readings rather than quietly picking one.</div>
+ </div>
+</div></div></div></section>
+
+<section id="journey" data-f="journey"><div class="scene"><div class="wrap"><div class="panel tilt3d">
+ <div class="tag"><b>02</b>The journey</div>
+ <h2 class="h2">Comprehensive, idea to investment ready</h2>
+ <p class="lead">Not a point solution bolted onto the end. The agentic team works every stage, and every stage writes into the same venture record.</p>
+ <ol class="stg" id="stg"></ol>
+</div></div></div></section>
+
+<section id="platform" data-f="platform"><div class="scene"><div class="wrap" style="width:100%">
+ <div class="ptop"><div class="panel tilt3d">
+  <div class="tag"><b>03</b>The platform</div>
+  <h2 class="h2">Four surfaces, each worked in depth</h2>
+  <p class="lead">Where you watch the agentic team work, review what it produces, and decide.</p>
+  <div class="tabs" role="tablist" id="tabs" aria-label="Platform surfaces"></div>
+  <div class="pcopy" id="pcopy" aria-live="polite"></div>
+ </div></div>
+ <div class="stage3d" id="stage3d"><div class="tilt" id="ptilt"><div class="shot" id="pshot" role="img"></div></div></div>
+</div></div></section>
+
+<section id="difference" data-f="diff"><div class="scene"><div class="wrap"><div class="panel tilt3d">
+ <div class="tag"><b>04</b>The difference</div>
+ <h2 class="h2">What changes when agents do the work</h2>
+ <p class="lead">Three things a founder cannot fix alone, and what the network does about each.</p>
+ <div class="recount"><div class="counter" id="counter">340<small>M</small></div><button class="btn go rbtn" id="rbtn" type="button">Recount from source</button></div>
+ <div class="dgrid">
+  <div class="dc"><b>Numbers that survive the question</b><p>A market sized as a share of a published total looks impressive until an investor asks how it was counted.</p><em>Counted from source</em></div>
+  <div class="dc"><b>One record, not a dozen files</b><p>The deck says one thing, the model another, the data room a third. Change one number and nothing else knows.</p><em>Change one, all follow</em></div>
+  <div class="dc"><b>An honest read on readiness</b><p>Every tool helps you send the deck. None of them tells you the deck should not go out yet.</p><em>Computed, not negotiated</em></div>
+ </div>
+</div></div></div></section>
+
+<section id="who" data-f="who"><div class="scene"><div class="wrap"><div class="panel tilt3d">
+ <div class="tag"><b>05</b>Who it is for</div>
+ <h2 class="h2">Built for the people who carry the raise</h2>
+ <p class="lead">One venture or fifty, the agents work the same way.</p>
+ <div class="audg">
+  <div class="au on" data-w="0" tabindex="0"><div class="g"><i style="width:34px;height:34px;border-radius:9px"></i></div><div><b>Founders</b><p>You have the venture and not the team. The agentic team gives you the operating capability a raise needs, without hiring for it.</p></div></div>
+  <div class="au" data-w="1" tabindex="0"><div class="g"><i style="width:14px;height:14px"></i><i style="width:14px;height:14px"></i><i style="width:14px;height:14px"></i><i style="width:14px;height:14px"></i></div><div><b>Portfolios and venture arms</b><p>Every venture gets its own agents and its own record, assessed on its own, never averaged into a score that hides the one in trouble.</p></div></div>
+  <div class="au" data-w="2" tabindex="0"><div class="g"><i style="width:9px;height:9px"></i><i style="width:9px;height:9px"></i><i style="width:9px;height:9px"></i><i style="width:9px;height:9px"></i><i style="width:9px;height:9px"></i><i style="width:9px;height:9px"></i><i style="width:9px;height:9px"></i><i style="width:9px;height:9px"></i></div><div><b>Accelerators</b><p>Put the same standard of investment case behind every company in a cohort, and see which of them are actually ready.</p></div></div>
+ </div>
+</div></div></div></section>
+
+<section id="join" data-f="join"><div class="scene"><div class="wrap"><div class="panel tilt3d">
+ <div class="tag"><b>06</b>Join the platform</div>
+ <h2 class="h2">Give your venture agentic capabilities</h2>
+ <p class="lead">Bring on a network of specialised AI agents and let them carry the work a venture needs done. It begins with onboarding and your first assessment, both free, so the agents know what they are working with before they start building.</p>
+ <div class="ctas"><a class="btn go" href="/signup" id="joinBtn">Get started <svg><use href="#ar"/></svg></a></div>
+ <ol class="flow">
+  <li><span class="n">01</span><div><b>Aether meets you.</b> <span>Your chief of staff introduces itself and learns the venture.</span></div><em>today</em></li>
+  <li><span class="n">02</span><div><b>The assessment runs.</b> <span>A full diagnosis with every score traced to evidence.</span></div><em>free</em></li>
+  <li><span class="n">03</span><div><b>You staff the agentic team.</b> <span>Told what the venture needs and which agents serve it, then you choose.</span></div><span></span></li>
+  <li><span class="n">04</span><div><b>They build the investment case.</b> <span>Idea generation through to investment readiness, section by section.</span></div><span></span></li>
+  <li><span class="n">05</span><div><b>They run the raise.</b> <span>Materials, valuation, terms and full pipeline management.</span></div><span></span></li>
+ </ol>
+</div></div></div></section>
+</main>
+<footer>
+ <div class="wrap fgrid">
+  <div class="fbrand">
+   <a class="logo" href="#top"><svg><use href="#mark"/></svg>QuidQuo</a>
+   <p>Capital formation, run by a specialised network of AI agents.</p>
+   <div class="social" aria-label="QuidQuo on social media">
+    <a href="https://www.linkedin.com/company/quidquo" aria-label="LinkedIn" rel="noopener" target="_blank"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9.75h4v11H3zM9.75 9.75h3.83v1.5h.06c.53-1 1.84-2.06 3.79-2.06 4.05 0 4.8 2.67 4.8 6.13v5.43h-4v-4.82c0-1.15-.02-2.63-1.6-2.63-1.6 0-1.85 1.25-1.85 2.55v4.9h-4z"/></svg></a>
+    <a href="https://x.com/quidquo" aria-label="X" rel="noopener" target="_blank"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.75 3h3.07l-6.7 7.66L22 21h-6.18l-4.84-6.33L5.44 21H2.37l7.17-8.2L2 3h6.33l4.38 5.79zm-1.08 16.17h1.7L7.4 4.74H5.58z"/></svg></a>
+    <a href="https://www.instagram.com/quidquo" aria-label="Instagram" rel="noopener" target="_blank"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.4" cy="6.6" r="1" fill="currentColor" stroke="none"/></svg></a>
+    <a href="https://www.youtube.com/@quidquo" aria-label="YouTube" rel="noopener" target="_blank"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23 12s0-3.6-.46-5.33a2.78 2.78 0 0 0-1.95-1.97C18.88 4.25 12 4.25 12 4.25s-6.88 0-8.59.45A2.78 2.78 0 0 0 1.46 6.67C1 8.4 1 12 1 12s0 3.6.46 5.33a2.78 2.78 0 0 0 1.95 1.97c1.71.45 8.59.45 8.59.45s6.88 0 8.59-.45a2.78 2.78 0 0 0 1.95-1.97C23 15.6 23 12 23 12zM9.75 15.5v-7l6 3.5z"/></svg></a>
+   </div>
+  </div>
+  <div class="fcol"><h4>Platform</h4><a href="#agents">The agents</a><a href="#journey">The journey</a><a href="#platform">The platform</a><a href="#who">Who it is for</a></div>
+  <div class="fcol"><h4>Company</h4><a href="/about">About</a><a href="/careers">Careers</a><a href="/privacy">Privacy</a><a href="/terms">Terms</a></div>
+  <div class="fcol"><h4>Contact</h4>
+   <a class="ct" href="mailto:hello@quidquo.com"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="M3.5 6.5l8.5 6 8.5-6"/></svg>hello@quidquo.com</a>
+   <a class="ct" href="mailto:partners@quidquo.com"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="9" cy="9" r="3.2"/><path d="M3 19c.8-3.2 3.2-5 6-5s5.2 1.8 6 5"/><path d="M16 11h5M18.5 8.5v5"/></svg>partners@quidquo.com</a>
+   <span class="ct"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>Cairo, Egypt</span>
+  </div>
+ </div>
+ <div class="fbar"><div class="wrap"><span>&copy; 2026 QuidQuo. All rights reserved.</span>
+  <nav><a href="/privacy">Privacy</a><a href="/terms">Terms</a><a href="mailto:hello@quidquo.com">Contact us</a></nav></div></div>
+</footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+(function(){
+var RM=matchMedia('(prefers-reduced-motion: reduce)').matches,fine=matchMedia('(hover:hover) and (pointer:fine)').matches;
+function clamp(v){return v<0?0:v>1?1:v}
+function ss(v){v=clamp(v);return v*v*(3-2*v)}
+var W=innerWidth,H=innerHeight;
+
+/* ---------- foreground content and controls ---------- */
+var AG=[['Aether','Chief of staff','Decides what the venture needs and who is needed for it, briefs them, hands off, and reports back. Present from your first message and never removed from the team.'],
+ ['Identity','Founders','Learns you and your co-founders. The progress bar is how much your chief of staff knows about you, not form completion.'],
+ ['Assessment','Diagnosis','Scores the venture from evidence, recalculating your figures from source rather than accepting them.'],
+ ['Build','Investment case','Ideation through to investment readiness, drafting each section and waiting for your approval before anything lands.'],
+ ['Deal flow','The raise','Materials, valuation, terms and full pipeline management. It drafts; you send.'],
+ ['Market','What changed','Watches the market on the venture\u2019s behalf and brings back what moved, with the source attached.'],
+ ['More specialists','As it grows','New agents join as the platform expands. You staff only what the venture needs, and stand them down when the work changes.']];
+var S={sel:0,step:-1,stepHover:-1,recounted:false,who:0,pulse:0};
+var chips=document.getElementById('chips'),agcard=document.getElementById('agcard');
+function showAg(i){S.sel=i;var a=AG[i];agcard.innerHTML='<b>'+a[0]+'</b><s>'+a[1].toUpperCase()+'</s><p>'+a[2]+'</p>';
+ [].forEach.call(chips.children,function(c,k){c.classList.toggle('on',k===i)});}
+AG.forEach(function(a,i){var b=document.createElement('button');b.className='chip';b.textContent=a[0];
+ ['mouseenter','focus','click'].forEach(function(ev){b.addEventListener(ev,function(){showAg(i)})});chips.appendChild(b);});
+showAg(0);
+var ST=[['01','Idea','Generated, targeted and shortlisted against a market you can actually reach.'],
+ ['02','Validated','Real interviews, with simulated evidence kept in its own column and capped below them.'],
+ ['03','Modelled','Market counted from source, economics built line by line, never estimated.'],
+ ['04','Built','Strategy, product, brand, commercial, legal and operations, section by section.'],
+ ['05','Documented','Deck, data room, cap table and terms, assembled as the work happens.'],
+ ['06','Investment ready','The gate is computed from evidence. If it is not there, the materials are withheld.']];
+var stg=document.getElementById('stg');
+var stl=ST.map(function(s,i){var li=document.createElement('li');li.tabIndex=0;li.innerHTML='<span class="n">'+s[0]+'</span><div><b>'+s[1]+'</b><span>'+s[2]+'</span></div>';
+ li.addEventListener('mouseenter',function(){S.stepHover=i});li.addEventListener('focus',function(){S.stepHover=i});li.addEventListener('click',function(){S.stepHover=i});
+ stg.appendChild(li);return li;});
+stg.addEventListener('mouseleave',function(){S.stepHover=-1});
+var counter=document.getElementById('counter'),rbtn=document.getElementById('rbtn'),cAnim=null;
+function setCount(to){var from=parseFloat(counter.textContent)||340,t0=performance.now();cancelAnimationFrame(cAnim);
+ (function f(t){var p=RM?1:Math.min(1,(t-t0)/1400),v=from+(to-from)*(1-Math.pow(1-p,3));counter.innerHTML=(v<100?v.toFixed(1):Math.round(v))+'<small>M</small>';if(p<1)cAnim=requestAnimationFrame(f);})(t0);}
+function recount(on){S.recounted=on;setCount(on?17:340);rbtn.textContent=on?'Show the claim':'Recount from source';}
+rbtn.addEventListener('click',function(){recount(!S.recounted);S.userRecount=true;});
+var aus=[].slice.call(document.querySelectorAll('.au'));
+aus.forEach(function(a){function go(){S.who=+a.dataset.w;aus.forEach(function(x){x.classList.toggle('on',x===a)});}
+ a.addEventListener('mouseenter',go);a.addEventListener('focus',go);a.addEventListener('click',go);});
+var jb=document.getElementById('joinBtn');jb.addEventListener('mouseenter',function(){S.pulse=1});jb.addEventListener('focus',function(){S.pulse=1});
+var MARK='<svg><use href="#mark"/></svg>';
+function side(on){var N=[['Command centre','watch'],['Venture context','ctx'],['Fundraising','raise'],['Knowledge base','kb']],
+ A=[['Aether','ae'],['Identity','id'],['Assessment','as'],['Build','bd'],['Readiness','rd']];
+ return '<aside class="wside"><div class="wb">'+MARK+'QuidQuo</div>'+N.map(function(n){return '<a class="'+(on===n[1]?'on':'')+'"><i></i>'+n[0]+'</a>'}).join('')+
+ '<div class="grp">Agents</div>'+A.map(function(n){return '<a class="'+(on===n[1]?'on':'')+'"><i></i>'+n[0]+'</a>'}).join('')+'</aside>';}
+function win(url,on,main){return '<div class="win"><div class="wbar"><i></i><i></i><i></i><span>app.quidquo.com/'+url+'</span></div><div class="wapp">'+side(on)+'<div class="wmain">'+main+'</div></div></div>';}
+function mb(p,h){return '<span class="mbar"><i class="'+(h?'h':'')+'" style="width:'+p+'%"></i></span>';}
+
+/* ---------- hero: Aether at work, live ---------- */
+var HERO=win('sanad/aether','ae',
+ '<div class="wtop"><h4>Aether</h4><span class="chip up">Live</span><span class="sp"></span><span class="chip">4 agents active</span></div>'+
+ '<div style="flex:1;display:flex;flex-direction:column;gap:12px;overflow:hidden">'+
+ '<div ><div class="who">Aether</div><div class="bub">Your market section is the weakest part of the case, so I am bringing in Build to recount it from source.</div></div>'+
+ '<div style="display:none"><span class="typing"><i></i><i></i><i></i></span></div>'+
+ '<div ><div class="who">Build agent · handed off</div><div class="bub"><b style="color:var(--bone);font-weight:500">Your deck sizes the market at EGP 340M.</b> Counted from the licence register, the part you can actually sell to is EGP 17.0M. 102 licensed distributors, a median fleet of 19, EGP 650 per vehicle.</div></div>'+
+ '<div class="card" style="border-color:rgba(198,255,52,.25)"><div class="kl">Draft · market context</div>'+
+  '<div class="wgrid" style="grid-template-columns:repeat(3,1fr);margin-top:10px">'+
+  '<div><div class="ks">TAM</div><div class="kv" style="font-size:24px">17.0M</div></div>'+
+  '<div><div class="ks">SAM</div><div class="kv" style="font-size:24px">7.43M</div></div>'+
+  '<div><div class="ks">SOM</div><div class="kv" style="font-size:24px">2.50M</div></div></div>'+
+  '<div style="display:flex;gap:8px;margin-top:12px"><span class="wbtn go" id="approveBtn">Approve and replace everywhere</span><span class="wbtn">Ask why</span></div></div>'+
+ '<div ><div class="bub me">Approved. Replace it.</div></div></div>');
+/* ---------- product screens for the tour ---------- */
+var SCREENS={
+ Assess:win('sanad/assessment','as',
+ '<div class="wtop"><h4>Venture assessment</h4><span class="chip pale">Sanad</span><span class="chip">Prototype</span><span class="sp"></span><span class="chip hold">Not ready</span></div>'+
+ '<div class="wgrid" style="grid-template-columns:repeat(4,1fr)">'+
+ '<div class="card"><div class="kl">Composite</div><div class="kv">48</div><div class="ks">of 100</div></div>'+
+ '<div class="card"><div class="kl">Confidence</div><div class="kv">0.38</div><div class="ks">capped by weakest input</div></div>'+
+ '<div class="card"><div class="kl">Measures asked</div><div class="kv">58</div><div class="ks">at prototype stage</div></div>'+
+ '<div class="card"><div class="kl">Blocking</div><div class="kv">3</div><div class="ks">findings before raising</div></div></div>'+
+ '<div class="wgrid" style="grid-template-columns:1.35fr 1fr">'+
+ '<div class="card"><div class="kl" style="margin-bottom:6px">Dimensions</div>'+
+ '<div class="row"><span class="k">Desirability</span>'+mb(58)+'<span class="v">58</span></div>'+
+ '<div class="row"><span class="k">Viability</span>'+mb(41,1)+'<span class="v">41</span></div>'+
+ '<div class="row"><span class="k">Feasibility</span>'+mb(54)+'<span class="v">54</span></div>'+
+ '<div class="row"><span class="k">Impact</span>'+mb(52)+'<span class="v">52</span></div></div>'+
+ '<div class="card"><div class="kl" style="margin-bottom:6px">Evidence quality</div>'+
+ '<div class="row"><span class="k">Verified</span>'+mb(12)+'<span class="v">4</span></div>'+
+ '<div class="row"><span class="k">Supported</span>'+mb(24)+'<span class="v">9</span></div>'+
+ '<div class="row"><span class="k">Claimed</span>'+mb(37,1)+'<span class="v">14</span></div>'+
+ '<div class="row"><span class="k">Absent</span>'+mb(29,1)+'<span class="v">11</span></div></div></div>'+
+ '<div class="card" style="display:flex;align-items:center;gap:14px"><span class="chip down">Recounted</span>'+
+ '<span style="flex:1">Market size you entered: <s style="color:var(--mute)">EGP 340M</s>. Counted from the licence register: <b style="color:var(--pale);font-weight:500">EGP 17.0M</b></span><span class="wbtn">See the working</span></div>'),
+ Build:win('sanad/venture-file','ctx',
+ '<div class="wtop"><h4>Venture file</h4><span class="chip pale">12 sections</span><span class="sp"></span><span class="chip up">42 approved</span></div>'+
+ '<div class="wgrid" style="grid-template-columns:1fr 1.25fr;flex:1;min-height:0"><div class="card" style="padding:8px 14px">'+
+ [['01 Identity','up','approved'],['02 Assessment','up','approved'],['03 Ideation','up','approved'],['04 Market context','up','approved'],
+  ['05 Strategic context','up','approved'],['06 Tactical context','pale','7 of 8'],['07 Financial context','up','approved'],
+  ['08 Brand','up','approved'],['09 Product','hold','in draft'],['10 Performance','pale','connected'],['11 Investment assets','hold','in draft']]
+ .map(function(r){return '<div class="row"><span class="k">'+r[0]+'</span><span class="chip '+r[1]+'">'+r[2]+'</span></div>'}).join('')+'</div>'+
+ '<div class="card"><div class="kl">Draft waiting for you · 09 Product</div>'+
+ '<div style="font-family:Sora,sans-serif;font-weight:300;font-size:20px;color:var(--bone);margin:10px 0 8px">The build kit</div>'+
+ '<div class="row"><span class="k">Context pack</span><span class="chip up">ready</span></div>'+
+ '<div class="row"><span class="k">Prompt pack, 11 screens</span><span class="chip up">ready</span></div>'+
+ '<div class="row"><span class="k">Architecture, tool neutral</span><span class="chip up">ready</span></div>'+
+ '<div class="row"><span class="k">Eval set</span><span class="chip hold">6 of 16</span></div>'+
+ '<div class="row"><span class="k">MVP checks</span><span class="chip hold">4 of 6</span></div>'+
+ '<div style="display:flex;gap:8px;margin-top:14px"><span class="wbtn go">Approve section</span><span class="wbtn">Request changes</span></div></div></div>'),
+ Raise:win('sanad/fundraising','raise',
+ '<div class="wtop"><h4>Fundraising pipeline</h4><span class="sp"></span><span class="chip">Target EGP 3.2M</span><span class="chip up">Committed 1.2M</span></div>'+
+ '<div class="wgrid" style="grid-template-columns:repeat(5,minmax(0,1fr));flex:1;min-height:0">'+
+ [['Scouting','4',[['Amal Ventures','EGP 1.5M'],['Osman Group','EGP 1.2M']]],['Connect','2',[['Nile Angels','EGP 800K']]],
+  ['Align','3',[['Karim Farouk','EGP 400K'],['Cairo Growth','EGP 600K']]],['Disclose','2',[['Delta Seed Fund','EGP 1.0M'],['Levant Ventures','EGP 900K']]],
+  ['Commit','1',[['Sawari Ventures','EGP 1.2M']]]]
+ .map(function(c){return '<div class="kcol"><h5>'+c[0]+'<span>'+c[1]+'</span></h5>'+c[2].map(function(v){return '<div class="inv"><b>'+v[0]+'</b><s>'+v[1]+'</s></div>'}).join('')+'</div>'}).join('')+'</div>'+
+ '<div class="card" style="display:flex;align-items:center;gap:14px"><span class="kl">Progress</span><span class="mbar" style="flex:1"><i style="width:37.5%"></i></span>'+
+ '<span style="font-family:JetBrains Mono,monospace;color:var(--pale)">37.5%</span><span class="wbtn">Send investor update</span></div>'),
+ Watch:win('sanad/command','watch',
+ '<div class="wtop"><h4>Command centre</h4><span class="chip up">All systems live</span><span class="sp"></span><span class="chip">Today</span></div>'+
+ '<div class="wgrid" style="grid-template-columns:repeat(4,1fr)">'+
+ '<div class="card"><div class="kl">Agents active</div><div class="kv">4</div><div class="ks">2 running now</div></div>'+
+ '<div class="card"><div class="kl">Your decisions</div><div class="kv">3</div><div class="ks">oldest 2 days</div></div>'+
+ '<div class="card"><div class="kl">Runway</div><div class="kv">4.2<span style="font-size:14px"> mo</span></div><div class="ks">from the bank feed</div></div>'+
+ '<div class="card"><div class="kl">Approved</div><div class="kv">42</div><div class="ks">sections this month</div></div></div>'+
+ '<div class="wgrid" style="grid-template-columns:1.3fr 1fr;flex:1;min-height:0"><div class="card"><div class="kl">Revenue, six months</div>'+
+ '<svg viewBox="0 0 400 130" style="width:100%;height:150px;margin-top:8px" preserveAspectRatio="none"><defs><linearGradient id="g1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#E4FFA6" stop-opacity=".25"/><stop offset="1" stop-color="#E4FFA6" stop-opacity="0"/></linearGradient></defs>'+
+ '<path d="M0,110 L80,98 L160,86 L240,70 L320,52 L400,30 L400,130 L0,130Z" fill="url(#g1)"/><path d="M0,110 L80,98 L160,86 L240,70 L320,52 L400,30" fill="none" stroke="#E4FFA6" stroke-width="2"/></svg></div>'+
+ '<div class="card"><div class="kl" style="margin-bottom:4px">Activity</div>'+
+ '<div class="row"><span class="k">Build · financial model</span><span class="chip up">running</span></div>'+
+ '<div class="row"><span class="k">Assessment · rescore</span><span class="chip up">done</span></div>'+
+ '<div class="row"><span class="k">Year 3 above market ceiling</span><span class="chip down">conflict</span></div>'+
+ '<div class="row"><span class="k">Delta Seed opened the memo</span><span class="chip pale">2h</span></div></div></div>')};
+var TOUR=[{k:'Assess',h:'Know exactly where the venture stands',p:'A full diagnosis across four dimensions and fourteen sub-pillars, with every score traced to its evidence.'},
+ {k:'Build',h:'The investment case, section by section',p:'The agents draft every section from ideation to the financial model. Nothing lands until you approve it.'},
+ {k:'Raise',h:'Run the raise with the record behind you',p:'Materials, valuation, terms and the pipeline, all generated from the same record you approved.'},
+ {k:'Watch',h:'One place to see the whole venture',p:'What the agents are working on, what needs your decision, and how the business is actually performing.'}];
+var tabs=document.getElementById('tabs'),pcopy=document.getElementById('pcopy'),pshot=document.getElementById('pshot');
+function scale(){[].forEach.call(document.querySelectorAll('.shot'),function(s){if(!s.firstChild)return;var crop=W<640;s.classList.toggle('crop',crop);
+ s.firstChild.style.transform='scale('+(s.clientWidth/(crop?884:1080))+')'+(crop?' translateX(-196px)':'');});}
+function sel(i){[].forEach.call(tabs.children,function(b,k){b.setAttribute('aria-selected',k===i?'true':'false');b.tabIndex=k===i?0:-1});
+ pcopy.innerHTML='<div class="fadein"><h3>'+TOUR[i].h+'</h3><p>'+TOUR[i].p+'</p></div>';pshot.innerHTML=SCREENS[TOUR[i].k];pshot.setAttribute('aria-label',TOUR[i].k+' screen');scale();}
+TOUR.forEach(function(x,i){var b=document.createElement('button');b.className='tab';b.setAttribute('role','tab');b.textContent=x.k;b.addEventListener('click',function(){sel(i)});tabs.appendChild(b);});
+tabs.addEventListener('keydown',function(e){var i=[].findIndex.call(tabs.children,function(b){return b.getAttribute('aria-selected')==='true'});
+ if(e.key==='ArrowRight'||e.key==='ArrowLeft'){e.preventDefault();i=(i+(e.key==='ArrowRight'?1:3))%4;sel(i);tabs.children[i].focus();}});
+sel(0);
+if(!fine)document.getElementById('fieldHint').textContent='Tap the field to send a ripple';
+
+/* ================= the data field ================= */
+var cv=document.getElementById('field'),GL=null;
+try{if(window.THREE){GL=new THREE.WebGLRenderer({canvas:cv,antialias:true,powerPreference:'high-performance'});}}catch(e){GL=null;}
+if(!GL){document.documentElement.classList.add('nogl');}
+var PA="M403.97,273.21c0-157.93,72.2-171.56,162.13-171.56,22,0,43.67,1.22,63.66,5.4-18-71.16-83.64-77.69-157.26-98.37-110.31-30.99-151.66,22.86-160.93,132.85-10.24,121.46,35.5,162.73,97.25,175.66-3.16-12.52-4.85-27.03-4.85-43.97Z";
+var PB="M571.86,107.4c-89.93,0-162.12,13.63-162.13,171.56,0,113.31,75.55,118.03,162.13,142.36,110.31,30.99,151.66-22.86,160.93-132.85,13.55-160.8-70.99-181.07-160.93-181.07Z";
+var secs=[].slice.call(document.querySelectorAll('main > section'));
+if(GL){
+ GL.setPixelRatio(Math.min(devicePixelRatio||1,1.75));GL.setClearColor(0x050604,1);
+ var scene=new THREE.Scene();scene.fog=new THREE.Fog(0x050604,26,72);
+ var cam=new THREE.PerspectiveCamera(36,W/H,.1,200);
+ scene.add(new THREE.AmbientLight(0xffffff,.28));
+ var key=new THREE.DirectionalLight(0xffffff,.95);key.position.set(10,22,14);scene.add(key);
+ var rim=new THREE.DirectionalLight(0xC6FF34,.5);rim.position.set(-14,8,-10);scene.add(rim);
+ var glowL=new THREE.PointLight(0xC6FF34,1.4,26,1.6);glowL.position.set(8,6,0);scene.add(glowL);
+ var narrow=W<=920,NX=narrow?30:58,NZ=narrow?34:42,N=NX*NZ;
+ var geo=new THREE.BoxGeometry(.84,1,.84);geo.translate(0,.5,0);
+ var mat=new THREE.MeshStandardMaterial({color:0xffffff,roughness:.42,metalness:.18});
+ var mesh=new THREE.InstancedMesh(geo,mat,N);mesh.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
+ var tmpC=new THREE.Color(0,0,0);for(var k=0;k<N;k++)mesh.setColorAt(k,tmpC);mesh.instanceColor.setUsage(THREE.DynamicDrawUsage);
+ scene.add(mesh);
+ var X=new Float32Array(N),Z=new Float32Array(N),Hc=new Float32Array(N),Gc=new Float32Array(N),Rn=new Float32Array(N);
+ for(var j=0;j<NZ;j++)for(var i=0;i<NX;i++){var n=j*NX+i;X[n]=i-(NX-1)/2;Z[n]=j-(NZ-1)/2;Hc[n]=.3;Rn[n]=Math.random();}
+ var FX=narrow?0:9,FZ=narrow?-3:0;
+ /* the logo, sampled once */
+ var probe=document.createElement('canvas').getContext('2d'),pa=new Path2D(PA),pb=new Path2D(PB),MK=new Int8Array(N);
+ for(n=0;n<N;n++){var u=(X[n]-(FX-9))/18,v=(Z[n]-(FZ-9))/18;if(u<0||u>1||v<0||v>1)continue;var mx=310.13+u*424.1,my=v*429.98;
+  MK[n]=probe.isPointInPath(pb,mx,my)?2:probe.isPointInPath(pa,mx,my)?1:0;}
+ function inBox(n,cx,cz,r){return Math.abs(X[n]-cx)<=r&&Math.abs(Z[n]-cz)<=r;}
+ var TW=[];(function(){for(var a=0;a<6;a++){var t=a/6*Math.PI*2-Math.PI/2;TW.push([FX+Math.cos(t)*6.4,FZ+Math.sin(t)*6.4*(narrow?.8:1)]);}})();
+ var TH=[4.4,3.5,5,3.8,4.6,2.6];
+ /* formations: height and glow for each cell. glow < 0 means a claimed figure, tinted warm */
+ function F(name,n,t){var x=X[n],z=Z[n],h,g=0;
+  switch(name){
+  case 'hero':h=.45+.32*Math.sin(x*.32+z*.18)+.22*Math.sin(z*.47-x*.13)+.15;g=(Rn[n]>.972&&(narrow||x>-4))?.85:0;return [h,g];
+  case 'agents':h=.14;
+   if(inBox(n,FX,FZ,1.1)){return [7.6+(S.sel===0?1.6:0),S.sel===0?1:.7];}
+   for(var a=0;a<6;a++)if(inBox(n,TW[a][0],TW[a][1],.6)){var on=S.sel===a+1;return [TH[a]+(on?2.6:0),on?1:.18];}
+   return [h,0];
+  case 'journey':h=.12;var act=S.stepHover>=0?S.stepHover:S.step;
+   for(var s=0;s<6;s++){var cx=FX-7.5+s*3,cz=FZ+5-s*2;if(inBox(n,cx,cz,1.05)){return [1+s*1.25,s===act?1:s<act?.42:.06];}}
+   return [h,0];
+  case 'platform':return [.06+.04*Math.sin(x*.4+t),0];
+  case 'diff':if(inBox(n,FX,FZ,1.6)){return [S.recounted?.75:11.5,S.recounted?1:-1];}
+   return [.15+(Rn[n]>.8?Rn[n]*1.2:0)*(Math.abs(x-FX)<9&&Math.abs(z-FZ)<7?1:.2),0];
+  case 'who':h=.12;
+   if(S.who===0){if(inBox(n,FX,FZ,2.1))return [3.2,1];}
+   else if(S.who===1){var P=[[-4.5,-2],[0,-3.5],[4.5,-2],[-2.5,3],[2.5,3]];for(var q=0;q<5;q++)if(inBox(n,FX+P[q][0],FZ+P[q][1],.6))return [2+q*.35,q===1?1:.55];}
+   else{for(var r=0;r<3;r++)for(var c=0;c<5;c++)if(Math.abs(x-(FX-6+c*3))<.5&&Math.abs(z-(FZ-3+r*3))<.5){var rd=(r*5+c)%3!==1;return [rd?1.8:.9,rd?1:.12];}}
+   return [h,0];
+  case 'join':if(MK[n]===2)return [3.4+S.pulse*1.2,1];if(MK[n]===1)return [2.3+S.pulse*.8,.62];return [.1,0];}
+  return [.3,0];}
+ /* camera per section: position, target */
+ var CAM=narrow?{hero:[0,22,30,0,0,2],agents:[5,21,26,0,1,6],journey:[-5,18,28,0,1,6],platform:[0,34,36,0,0,-2],diff:[7,10,26,0,3,6],who:[4,22,26,0,0,6],join:[0,40,24,0,0,7]}
+  :{hero:[6,13,25,7,0,0],agents:[19,15,19,8,2.5,0],journey:[-3,11,23,6,3,0],platform:[0,30,34,0,0,-6],diff:[17,5.5,17,8,4.5,0],who:[12,17,19,8,0,0],join:[5,36,21,4.6,0,-1]};
+ var curCam=CAM.hero.slice(),lookV=new THREE.Vector3();
+ /* interaction: cursor lift and click ripples */
+ var ray=new THREE.Raycaster(),ndc=new THREE.Vector2(9,9),plane=new THREE.Plane(new THREE.Vector3(0,1,0),0),hit=new THREE.Vector3(),cur={x:1e3,z:1e3,a:0},ripples=[],lastMove=0;
+ var onPage=false;addEventListener('pointermove',function(e){if(e.pointerType!=='mouse')return;onPage=true;ndc.set(e.clientX/W*2-1,-(e.clientY/H)*2+1);lastMove=performance.now();},{passive:true});
+ document.documentElement.addEventListener('mouseleave',function(){onPage=false;});
+ function project(){ray.setFromCamera(ndc,cam);return ray.ray.intersectPlane(plane,hit);}
+ cv.addEventListener('pointerdown',function(e){ndc.set(e.clientX/W*2-1,-(e.clientY/H)*2+1);if(project())ripples.push({x:hit.x,z:hit.z,t:performance.now()});});
+ /* scroll position to section blend */
+ function blend(){var y=scrollY+H*.5,cs=secs.map(function(s){return s.offsetTop+s.offsetHeight/2});
+  if(y<=cs[0])return [0,0,0];for(var i=0;i<cs.length-1;i++){if(y<cs[i+1]){var t=(y-cs[i])/(cs[i+1]-cs[i]);return [i,i+1,ss((t-.32)/.36)];}}
+  return [cs.length-1,cs.length-1,0];}
+ function resize(){W=innerWidth;H=innerHeight;GL.setSize(W,H,false);cam.aspect=W/H;cam.updateProjectionMatrix();}
+ resize();addEventListener('resize',resize);
+ var arr=mesh.instanceMatrix.array,carr=mesh.instanceColor.array,last=performance.now(),vis=true;
+ document.addEventListener('visibilitychange',function(){vis=!document.hidden;});
+ var D=[.07,.085,.055],LI=[.776,1,.204],RD=[1,.42,.25];
+ function frame(now){requestAnimationFrame(frame);if(!vis)return;var dt=Math.min(.05,(now-last)/1000);last=now;var t=now/1000;
+  var b=blend(),A=secs[b[0]].dataset.f,B=secs[b[1]].dataset.f,w=b[2];
+  /* journey step follows scroll inside its section */
+  var js=document.getElementById('journey').getBoundingClientRect();S.step=Math.max(-1,Math.min(5,Math.floor(clamp((H*.55-js.top)/js.height)*7.2)-1));
+  stl.forEach(function(li,i){li.classList.toggle('on',i===(S.stepHover>=0?S.stepHover:S.step))});
+  if(!S.userRecount){var dr=document.getElementById('difference').getBoundingClientRect();var want=dr.top<H*.4&&dr.bottom>H*.3;if(want!==S.recounted&&dr.top<H*.4)recount(true);}
+  S.pulse*=.96;
+  /* camera flies between sections */
+  var ca=CAM[A],cb=CAM[B];for(var c=0;c<6;c++){var tgt=ca[c]+(cb[c]-ca[c])*w;curCam[c]+=(tgt-curCam[c])*(RM?1:.06);}
+  var sway=RM?0:Math.sin(t*.12)*.8;cam.position.set(curCam[0]+sway,curCam[1],curCam[2]);lookV.set(curCam[3],curCam[4],curCam[5]);cam.lookAt(lookV);
+  /* cursor */
+  var moving=fine&&onPage&&(now-lastMove)<12000;cur.a+=((moving?1:0)-cur.a)*.1;if(moving&&project()){cur.x+=(hit.x-cur.x)*.25;cur.z+=(hit.z-cur.z)*.25;}
+  ripples=ripples.filter(function(r){return now-r.t<3200});
+  var gl_=0;
+  for(var n=0;n<N;n++){var fa=F(A,n,t),fb=A===B?fa:F(B,n,t),h=fa[0]+(fb[0]-fa[0])*w,g=fa[1]+(fb[1]-fa[1])*w;
+   if(!RM){h+=.28*Math.sin(X[n]*.45+t*1.1)*Math.cos(Z[n]*.38-t*.8)*(A==='hero'||B==='hero'?1:.35);}
+   var dx=X[n]-cur.x,dz=Z[n]-cur.z,d2=dx*dx+dz*dz,bump=cur.a*2.4*Math.exp(-d2/6);
+   for(var r=0;r<ripples.length;r++){var R=ripples[r],age=(now-R.t)/1000,dd=Math.sqrt((X[n]-R.x)*(X[n]-R.x)+(Z[n]-R.z)*(Z[n]-R.z))-age*7.5;bump+=2.8*Math.exp(-dd*dd/6)*(1-age/3.2);}
+   h=Math.max(.05,h+bump);g=g<0?g:Math.max(g,Math.min(1,bump*.45));
+   var kk=RM?1:(bump>.3?.3:.11);Hc[n]+=(h-Hc[n])*kk;Gc[n]+=(g-Gc[n])*(RM?1:(bump>.3?.3:.1));
+   var o=n*16,hh=Hc[n];arr[o]=1;arr[o+1]=0;arr[o+2]=0;arr[o+3]=0;arr[o+4]=0;arr[o+5]=hh;arr[o+6]=0;arr[o+7]=0;arr[o+8]=0;arr[o+9]=0;arr[o+10]=1;arr[o+11]=0;
+   arr[o+12]=X[n];arr[o+13]=0;arr[o+14]=Z[n];arr[o+15]=1;
+   var G=Gc[n],k=n*3,lift=1+Math.min(hh,8)*.06;
+   if(G>=0){carr[k]=(D[0]+(LI[0]-D[0])*G)*lift;carr[k+1]=(D[1]+(LI[1]-D[1])*G)*lift;carr[k+2]=(D[2]+(LI[2]-D[2])*G)*lift;}
+   else{var q=-G;carr[k]=D[0]+(RD[0]-D[0])*q*.8;carr[k+1]=D[1]+(RD[1]-D[1])*q*.8;carr[k+2]=D[2]+(RD[2]-D[2])*q*.8;}}
+  mesh.instanceMatrix.needsUpdate=true;mesh.instanceColor.needsUpdate=true;
+  glowL.position.set(curCam[3],6+Math.sin(t)*.5,curCam[5]);glowL.intensity=(A==='platform'&&B==='platform')?.2:1.4;
+  GL.render(scene,cam);}
+ requestAnimationFrame(frame);
+}
+
+/* ---------- bold 3D scroll on the panels and the screen ---------- */
+var panels=[].slice.call(document.querySelectorAll('.tilt3d')),stage=document.getElementById('stage3d'),ptilt=document.getElementById('ptilt'),pmx=0,pmy=0,tmx=0,tmy=0;
+if(fine)stage.addEventListener('pointermove',function(e){var r=stage.getBoundingClientRect();tmx=(e.clientX-r.left)/r.width-.5;tmy=(e.clientY-r.top)/r.height-.5;});
+stage.addEventListener('pointerleave',function(){tmx=0;tmy=0;});
+var nav=document.getElementById('nav');
+(function fg(){requestAnimationFrame(fg);nav.classList.toggle('on',scrollY>12);if(RM)return;
+ panels.forEach(function(p){var r=p.getBoundingClientRect();if(r.bottom<-200||r.top>H+200)return;var e=ss((H-r.top)/(H*.7)),x=ss((-r.top)/(H*.9));
+  p.style.transform='perspective(1100px) translate3d(0,'+((1-e)*90).toFixed(1)+'px,'+((1-e)*-220).toFixed(0)+'px) rotateX('+((1-e)*42-x*14).toFixed(2)+'deg) rotateY('+((1-e)*-10).toFixed(2)+'deg)';
+  p.style.opacity=(.15+.85*e).toFixed(3);});
+ var sr=stage.getBoundingClientRect();if(sr.bottom>-100&&sr.top<H+100){var e=ss((H-sr.top)/(H*.85));pmx+=(tmx-pmx)*.08;pmy+=(tmy-pmy)*.08;
+  ptilt.style.transform='rotateX('+((1-e)*48-pmy*7).toFixed(2)+'deg) rotateY('+(pmx*9).toFixed(2)+'deg) translate3d(0,'+((1-e)*80).toFixed(1)+'px,'+((1-e)*-300).toFixed(0)+'px) scale('+(.84+.16*e).toFixed(3)+')';}})();
+addEventListener('resize',function(){W=innerWidth;H=innerHeight;scale();});
+new ResizeObserver(scale).observe(document.body);
+if(document.fonts&&document.fonts.ready)document.fonts.ready.then(scale);
+})();
+</script>
+</body>
+</html>
