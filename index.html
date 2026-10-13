@@ -273,25 +273,31 @@ footer ul a:hover{color:var(--lime)}
 .fbar nav{display:flex;gap:22px}.fbar a:hover{color:var(--lime)}
 @media(max-width:900px){.ftop{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.ftop>div:first-child{grid-column:1/-1}}
 
-/* phone and short-screen mode: no fixed device; each chapter shows its own */
-.mob .devfix{display:none}
-.mob .mdev{display:block}
-.mob .chap.hold{min-height:0;display:block;padding-block:var(--sec) 0}
-.mob .hero{padding-top:calc(var(--navh) + 36px)!important}
-.mob .long{height:auto!important}
-.mob .long .stick{position:static}
-.mob .alist,.mob .slist{display:none}
-.mob .mcards{display:grid;gap:12px;margin-top:30px}
+/* phone and short-screen mode: the same device, docked at the top while the story scrolls beneath it */
+.mob .devfix{z-index:50;left:0;right:0;width:auto;bottom:auto;height:calc(var(--navh) + env(safe-area-inset-top,0px) + var(--devh));padding-top:calc(var(--navh) + env(safe-area-inset-top,0px));background:var(--bg);overflow:hidden;perspective:1200px}
+.mob .devfix::after{content:"";position:absolute;left:0;right:0;bottom:0;height:26px;background:linear-gradient(rgba(10,11,9,0),var(--bg))}
+.mob .dev{width:min(86vw,calc((var(--devh) - 40px) * 1.55))}
+.mob .bz{padding:6px;border-radius:14px}.mob .scr{border-radius:9px}.mob .back{border-radius:14px}
+.mob .edge.r,.mob .edge.l{width:9px}.mob .edge.b,.mob .edge.t{height:9px}
+.mob .tst{font-size:10.5px;padding:6px 9px;gap:6px;border-radius:10px}.mob .tst .abd{font-size:11px}.mob .tst b{font-size:9px}
+.mob .orbit .abd{font-size:12px}
+.mob .pop{width:60%;padding:8px 10px;border-radius:10px;font-size:9.5px}.mob .pop h4{font-size:12.5px;margin-top:4px}.mob .pop p{margin-top:3px}.mob .pop span{font-size:8.5px;margin-top:6px;padding:4px 6px}.mob .pop .n{font-size:8.5px}
+.mob .nav.on,.mob .nav{background:var(--bg);border-color:transparent}
+.mob .hero{padding-top:calc(var(--navh) + env(safe-area-inset-top,0px) + var(--devh) + 28px)!important}
+.mob .chap.hold{min-height:calc(100svh - var(--navh) - var(--devh));padding-block:56px}
 .mob .chap .txt{width:100%}
-.mc{border:1px solid var(--line2);border-radius:18px;background:linear-gradient(170deg,#171B13,#0D0F0B);padding:20px}
-.mc .tp{display:flex;align-items:center;justify-content:space-between;font:500 11px/1 var(--mono);color:var(--mute);letter-spacing:.1em}
-.mc .tp .abd{font-size:16px}
-.mc .role{font:500 11px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--lime);margin-top:18px}
-.mc h3{font-size:22px;font-stretch:112%;margin-top:8px}
-.mc p{color:var(--fg2);font-size:15px;margin-top:8px}
-.mc em{display:inline-block;font:500 11px/1 var(--mono);font-style:normal;color:var(--lime);border:1px solid rgba(198,255,52,.3);border-radius:999px;padding:6px 9px;margin-top:12px}
-.mob .trio{grid-template-columns:minmax(0,1fr)}
+.mob .long>.wrap{height:100%}
+.mob .long .txt{height:100%;position:static}
+.mob .alist,.mob .slist{position:sticky;top:calc(var(--navh) + env(safe-area-inset-top,0px) + var(--devh) + 10px);margin-top:26px;z-index:1}
+.mob .alist li,.mob .slist li{display:none;background:var(--panel);border:1px solid var(--line2)}
+.mob .alist li.on,.mob .slist li.on{display:grid}
+.mob .alist li span{display:block!important;color:var(--lime);font:500 11px/1.6 var(--mono);letter-spacing:.1em;text-transform:uppercase}
+.alist .ad{display:none;grid-column:2;color:var(--fg2);font-size:15px;line-height:1.5;margin-top:6px}
+.mob .alist li.on .ad{display:block}
+.mob .alist li,.mob .slist li{padding:16px}
 .mob .chk{grid-template-columns:minmax(0,1fr)}
+.mob .ptabs{margin-top:22px}
+.mcards{display:none!important}
 
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.001s!important;animation-iteration-count:1!important;transition-duration:.001s!important}}
 </style>
@@ -321,7 +327,6 @@ footer ul a:hover{color:var(--lime)}
   <p class="lead rv d2">QuidQuo is a venture platform staffed by AI agents. Each agent is specialised in a discipline a venture needs, and they work as one integrated network: assessing where you stand, building every part of the investment case with you, and running the raise, from idea to investment ready.</p>
   <div class="ctas rv d3"><a class="btn go" href="mailto:info@quidquo.com?subject=QuidQuo%20demo%20request">Book a demo<svg><use href="#arr"/></svg></a><a class="btn" href="#platform">See the platform</a></div>
   <p class="note rv d3">Free to start. Your first venture assessment costs nothing.</p>
-  <div class="mdev" data-face="0"></div>
  </div></div>
 </section>
 
@@ -331,7 +336,6 @@ footer ul a:hover{color:var(--lime)}
   <h2 class="h2 rv">One venture record</h2>
   <p class="lead rv d1">QuidQuo is a multi-agent system, fully integrated and orchestrated by Aether. Every agent reads and writes the same structured record, so a change one makes is a change every other already knows about.</p>
   <p class="p2 rv d2">The deck says one thing, the model another, the data room a third. <em>On QuidQuo they are the same record.</em></p>
-  <div class="mdev" data-face="1"></div>
  </div></div>
 </section>
 
@@ -369,7 +373,6 @@ footer ul a:hover{color:var(--lime)}
   <h2 class="h2 rv">Four surfaces, each worked in depth</h2>
   <p class="lead rv d1">Where you watch the agentic team work, review what it produces, and decide.</p>
   <div class="ptabs" id="ptabs" role="tablist" aria-label="Platform surfaces"></div>
-  <div class="mdev" data-face="4"></div>
   <div class="pinfo" id="pinfo"></div>
  </div></div>
 </section>
@@ -531,7 +534,7 @@ collect();
 
 /* lists */
 var alist=document.getElementById('alist'),amc=document.getElementById('amc'),slist=document.getElementById('slist'),smc=document.getElementById('smc');
-AG.forEach(function(a,i){var li=document.createElement('li');li.innerHTML='<i>'+String(i+1).padStart(2,'0')+'</i><b>'+a[1]+'</b><span>'+a[2]+'</span>';li.addEventListener('click',function(){jump('agents',i,7)});alist.appendChild(li);
+AG.forEach(function(a,i){var li=document.createElement('li');li.innerHTML='<i>'+String(i+1).padStart(2,'0')+'</i><b>'+a[1]+'</b><span>'+a[2]+'</span><p class="ad">'+a[3]+'</p>';li.addEventListener('click',function(){jump('agents',i,7)});alist.appendChild(li);
  var c=document.createElement('article');c.className='mc rv';c.innerHTML='<div class="tp"><span class="abd">'+badge(a[0])+'</span>'+String(i+1).padStart(2,'0')+' / 07</div><div class="role">'+a[2]+'</div><h3>'+a[1]+'</h3><p>'+a[3]+'</p>';amc.appendChild(c);});
 ST.forEach(function(s,i){var li=document.createElement('li');li.innerHTML='<i>'+s[0]+'</i><b>'+s[1]+'</b><span>'+s[2]+'</span><em>'+s[3]+'</em>';li.addEventListener('click',function(){jump('journey',i,6)});slist.appendChild(li);
  var c=document.createElement('article');c.className='mc rv';c.innerHTML='<div class="tp">STAGE '+s[0]+'</div><h3>'+s[1]+'</h3><p>'+s[2]+'</p><em>'+s[3]+'</em>';smc.appendChild(c);});
@@ -576,24 +579,28 @@ function play(i){var tk=++tok,T=TOUR[i],F=PF[T.k];
 
 /* chapters and poses */
 var chaps=[].slice.call(document.querySelectorAll('[data-ch]'));
+var POSEM=[[8,-16,1,.94,0,0],[6,14,-1,.94,0,0],[6,-6,0,.82,0,0],[52,0,-12,.8,0,34],[0,0,0,1,0,0],[-6,20,0,.8,0,-60]];
 var POSE=[[10,-26,2,1,0,0],[6,20,-1,1,0,0],[8,-8,0,.86,0,0],[58,0,-16,.92,0,40],[0,0,0,1.06,0,0],[-6,28,0,.78,0,-120]];
 var Z=[],goT={};
 function setGo(face,on){if(!face)return;var key=face===dfaces[1]?'d':'m';if(face.classList.contains('go')===on)return;face.classList.toggle('go',on);(goT[key]||[]).forEach(clearTimeout);goT[key]=[];
  var rows=[].slice.call(face.querySelectorAll('.rc .r'));if(!on){rows.forEach(function(r){r.classList.remove('on')});return;}
  rows.forEach(function(r,k){goT[key].push(setTimeout(function(){r.classList.add('on')},RM?0:650+k*420));});}
+var DEVH=0,NAVH=70;
 function layout(){W=innerWidth;H=innerHeight;var was=DESK;DESK=W>900&&H>=620;root.classList.toggle('mob',!DESK);
- [].forEach.call(document.querySelectorAll('.long'),function(l){var n=+l.dataset.steps;l.style.height=DESK?(H+n*H*.42)+'px':'';});
- Z=chaps.map(function(c){var r=c.getBoundingClientRect(),top=r.top+scrollY,h=c.offsetHeight;if(c.classList.contains('long'))return [top,top+h-H];var m=top+h/2-H/2;if(c.id==='platform')return [m,Math.max(m,top+h-H*.9)];return [m,m];});
- if(Z.length>5){var dt=chaps[5].getBoundingClientRect().top+scrollY-H*.4;Z[5]=[dt,dt];}
- var scope=DESK?dev:document.querySelector('.mdev[data-face="4"]');if(!tour||tour.face.closest('.dev')!==scope.closest('.dev')&&scope){bindTour(scope);play(0);}
+ DEVH=DESK?0:Math.round(Math.min(H*.44,W*.7));root.style.setProperty('--devh',DEVH+'px');
+ var A=DESK?H/2:NAVH+DEVH+(H-NAVH-DEVH)/2;
+ [].forEach.call(document.querySelectorAll('.long'),function(l){var n=+l.dataset.steps;l.style.height=(H+n*H*(DESK?.42:.38))+'px';});
+ Z=chaps.map(function(c){var r=c.getBoundingClientRect(),top=r.top+scrollY,h=c.offsetHeight;if(c.classList.contains('long'))return [top,top+h-H];var m=top+h/2-A;if(c.id==='platform')return [m,Math.max(m,top+h-H*.9)];return [m,m];});
+ if(Z.length>5){var dt=chaps[5].getBoundingClientRect().top+scrollY-H*(DESK?.4:.85);Z[5]=[dt,dt];}
+ if(!tour){bindTour(dev);play(0);}
  if(io&&!was&&DESK)rvs.forEach(function(el){el.classList.add('in')});}
-function jump(id,i,n){if(!DESK)return;var c=document.getElementById(id),r=c.getBoundingClientRect(),top=r.top+scrollY,span=c.offsetHeight-H;scrollTo({top:top+span*(i+.5)/n,behavior:RM?'auto':'smooth'});}
+function jump(id,i,n){var c=document.getElementById(id),r=c.getBoundingClientRect(),top=r.top+scrollY,span=c.offsetHeight-H;scrollTo({top:top+span*(i+.5)/n,behavior:RM?'auto':'smooth'});}
 var t0=performance.now(),cn=[].slice.call(document.querySelectorAll('#chapnav a'));
-function devUpdate(t){if(!DESK)return;
+function devUpdate(t){
  var y=scrollY,k=0,tt=0;
  for(var i=0;i<Z.length;i++){if(y>=Z[i][0]){k=i;tt=y<=Z[i][1]?0:-1;}}
  var a,b,f;if(y<=Z[0][1]){a=b=0;f=0;}else{var i2=k;if(y<=Z[i2][1]){a=b=i2;f=0;}else{a=i2;b=Math.min(Z.length-1,i2+1);f=b===a?0:clamp((y-Z[a][1])/(Z[b][0]-Z[a][1]));}}
- var e=RM?Math.round(f):eio(clamp((f-.15)/.7)),P=POSE[a].map(function(v,j){return lerp(v,POSE[b][j],e)});
+ var e=RM?Math.round(f):eio(clamp((f-.15)/.7)),PS=DESK?POSE:POSEM,P=PS[a].map(function(v,j){return lerp(v,PS[b][j],e)});
  var intro=RM?1:eio(clamp((t-t0-250)/1400));
  var rx=lerp(70,P[0],intro)+(RM?0:my*-4),ry=lerp(-50,P[1],intro)+(RM?0:mx*6),bob=RM?0:Math.sin(t*.0008)*5;
  dev.style.transform='translate3d('+P[4]+'px,'+(P[5]+bob+(1-intro)*80).toFixed(1)+'px,0) rotateX('+rx.toFixed(2)+'deg) rotateY('+ry.toFixed(2)+'deg) rotateZ('+P[2].toFixed(2)+'deg) scale('+(P[3]*lerp(.85,1,intro)).toFixed(3)+')';
@@ -603,10 +610,10 @@ function devUpdate(t){if(!DESK)return;
  var w=dev.offsetWidth,h=dev.offsetHeight;
  /* toasts float in front during the opening */
  var tw=(near===0?1:0)*(1-Math.abs(a===0&&b===1?e:0));
- toasts.forEach(function(o,j){var p=o.p;o.el.style.opacity=clamp(tw*1.4-j*.0).toFixed(3);o.el.style.transform='translate3d('+(p[0]*w).toFixed(1)+'px,'+(p[1]*h+Math.sin(t*.0012+j*2)*(RM?0:6)).toFixed(1)+'px,'+(p[2]*(.4+.6*tw)).toFixed(1)+'px)';});
+ toasts.forEach(function(o,j){var p=o.p;o.el.style.opacity=clamp(tw*1.4-j*.0).toFixed(3);o.el.style.transform='translate3d('+(p[0]*w*(DESK?1:.75)+(DESK?0:w*.04)).toFixed(1)+'px,'+(p[1]*h+Math.sin(t*.0012+j*2)*(RM?0:6)).toFixed(1)+'px,'+(p[2]*(DESK?1:.45)*(.4+.6*tw)).toFixed(1)+'px)';});
  /* agent badges orbit the device in the team chapter */
  var ow=near===2?1:0;orbit.style.opacity=ow;
- var rot=RM?0:t*.00018;obs.forEach(function(o,j){var ang=rot+j*(Math.PI*2/obs.length),x=Math.cos(ang)*w*.66,yy=Math.sin(ang)*h*.62,z=Math.sin(ang)*140+40;o.style.transform='translate3d('+(x-22).toFixed(1)+'px,'+(yy-22).toFixed(1)+'px,'+z.toFixed(1)+'px)';});
+ var rot=RM?0:t*.00018,orx=DESK?.66:.6,ory=DESK?.62:.66,oz=DESK?140:60,half=DESK?22:14;obs.forEach(function(o,j){var ang=rot+j*(Math.PI*2/obs.length),x=Math.cos(ang)*w*orx,yy=Math.sin(ang)*h*ory,z=Math.sin(ang)*oz+30;o.style.transform='translate3d('+(x-half).toFixed(1)+'px,'+(yy-half).toFixed(1)+'px,'+z.toFixed(1)+'px)';});
  /* journey card stands up from the board */
  var pw=near===3&&a===b?1:near===3?clamp(1-Math.abs(e-(a===3?0:1))*2):0;pop.style.opacity=pw.toFixed(3);
  if(pw>0){var tl=dfaces[3].querySelectorAll('.tile')[Math.max(0,curSt)],ox=0,oy=0,el=tl;while(el&&el!==dev){ox+=el.offsetLeft;oy+=el.offsetTop;el=el.offsetParent;}
@@ -618,9 +625,6 @@ function devUpdate(t){if(!DESK)return;
  cn.forEach(function(x,j){x.classList.toggle('on',j===Math.min(4,near))});document.getElementById('chapnav').style.opacity=near>=5?0:1;
  tvis=near===4;}
 
-/* mobile: tour runs when its device is on screen */
-function mobUpdate(){if(DESK)return;var m=document.querySelector('.mdev[data-face="4"]');var r=m.getBoundingClientRect();tvis=r.bottom>0&&r.top<H;
- var ag=document.querySelectorAll('#amc .mc');}
 
 /* before/after sliders: sweep once when they appear */
 [].forEach.call(document.querySelectorAll('.sl'),function(sl,i){var inp=sl.querySelector('input');function set(v){sl.style.setProperty('--p',v+'%');}
@@ -638,7 +642,7 @@ function railUpdate(){var r=document.getElementById('rail').getBoundingClientRec
 
 var nav=document.getElementById('nav');
 layout();addEventListener('resize',layout);addEventListener('load',layout);if(document.fonts&&document.fonts.ready)document.fonts.ready.then(layout);
-function frame(t){devUpdate(t);mobUpdate();whoUpdate();railUpdate();nav.classList.toggle('on',scrollY>10);requestAnimationFrame(frame);}
+function frame(t){devUpdate(t);whoUpdate();railUpdate();nav.classList.toggle('on',scrollY>10);requestAnimationFrame(frame);}
 requestAnimationFrame(frame);
 })();
 </script>
