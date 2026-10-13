@@ -7,17 +7,17 @@
 <meta name="description" content="QuidQuo is a venture platform staffed by AI agents. They assess where you stand, build every part of the investment case with you, and run the raise.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..800&family=Schibsted+Grotesk:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@400;500;600&family=Martian+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-/* Layout: scrollytelling. Text chapters on the left; one physical device on the right stays with you, turning to a new angle for each chapter while its screen shows that chapter. */
+/* Layout: every section is a card in a stack. As the next card slides up, the one beneath tips back into the dark. Inside the cards, real product objects move in 3D. */
 :root{
- --bg:#0A0B09;--bg2:#10120E;--panel:#151812;--panel2:#1B1F17;--line:rgba(242,244,236,.08);--line2:rgba(242,244,236,.15);
- --fg:#F2F4EC;--fg2:#A9AF9E;--mute:#737A69;
+ --bg:#070806;--card:#0E100C;--card2:#141711;--card3:#1B1F17;--line:rgba(240,243,232,.08);--line2:rgba(240,243,232,.15);
+ --fg:#F0F3E8;--fg2:#A8AE9D;--mute:#737969;
  --lime:#C6FF34;--acid:#A8E01F;--up:#00E5A0;--hold:#FFB020;--down:#FF5470;
- --display:"Archivo","Schibsted Grotesk",system-ui,-apple-system,"Segoe UI",sans-serif;
- --body:"Schibsted Grotesk",system-ui,-apple-system,"Segoe UI",Arial,sans-serif;
- --mono:"DM Mono",ui-monospace,Menlo,Consolas,monospace;
- --gut:clamp(16px,4.6vw,56px);--max:1320px;--sec:clamp(90px,11vw,150px);--navh:70px;--e:cubic-bezier(.2,.8,.2,1);
+ --serif:"Instrument Serif",Georgia,"Times New Roman",serif;
+ --body:"Geist",system-ui,-apple-system,"Segoe UI",Arial,sans-serif;
+ --mono:"Martian Mono",ui-monospace,Menlo,Consolas,monospace;
+ --gut:clamp(16px,4.4vw,56px);--max:1300px;--navh:68px;--pad:clamp(26px,5vw,72px);--rad:clamp(22px,3vw,38px);--e:cubic-bezier(.2,.8,.2,1);
  color-scheme:dark;
 }
 *,*::before,*::after{box-sizing:border-box}
@@ -28,243 +28,242 @@ body{margin:0;font-family:var(--body);font-size:17px;line-height:1.6;-webkit-fon
 ::selection{background:var(--lime);color:var(--bg)}
 a{color:inherit;text-decoration:none}
 h1,h2,h3,h4,p{margin:0}
-h1,h2,h3{font-family:var(--display);font-stretch:118%;font-weight:600;letter-spacing:-.035em;line-height:1.02;text-wrap:balance}
+h1,h2{font-family:var(--serif);font-weight:400;letter-spacing:-.02em;line-height:1;text-wrap:balance}
+h1 em,h2 em{color:var(--lime)}
+h3{font-family:var(--body);font-weight:600;letter-spacing:-.02em;line-height:1.2}
 :focus-visible{outline:2px solid var(--lime);outline-offset:3px;border-radius:8px}
 .wrap{max-width:var(--max);margin:0 auto;padding-inline:var(--gut);position:relative}
-.ey{display:flex;align-items:center;gap:10px;font:500 12px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--mute);margin-bottom:22px}
-.ey i{font-style:normal;color:var(--bg);background:var(--lime);border-radius:4px;padding:4px 6px}
-.h2{font-size:clamp(30px,3.6vw,54px)}
-.h2 em{font-style:normal;color:var(--lime)}
-.lead{font-size:clamp(16.5px,1.25vw,18.5px);color:var(--fg2);max-width:50ch;margin-top:20px}
-.btn{display:inline-flex;align-items:center;gap:10px;height:50px;padding:0 22px;border-radius:999px;font:600 15px/1 var(--body);border:1px solid var(--line2);color:var(--fg);background:transparent;cursor:pointer;white-space:nowrap;transition:transform .35s var(--e),border-color .25s,box-shadow .35s}
+.ey{display:inline-flex;align-items:center;gap:10px;font:500 11px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--mute);margin-bottom:22px}
+.ey::before{content:"";width:8px;height:8px;border-radius:2px;background:var(--lime)}
+.h2{font-size:clamp(40px,5.4vw,80px)}
+.lead{font-size:clamp(16.5px,1.3vw,19px);color:var(--fg2);max-width:52ch;margin-top:22px}
+.btn{display:inline-flex;align-items:center;gap:10px;height:50px;padding:0 22px;border-radius:12px;font:500 15px/1 var(--body);border:1px solid var(--line2);color:var(--fg);background:transparent;cursor:pointer;white-space:nowrap;transition:transform .35s var(--e),border-color .25s,box-shadow .35s}
 .btn:hover{border-color:var(--fg2)}
 .btn svg{width:16px;height:16px;transition:transform .35s var(--e)}
 .btn:hover svg{transform:translateX(3px)}
-.btn.go{background:var(--lime);border-color:var(--lime);color:#0A0B09}
+.btn.go{background:var(--lime);border-color:var(--lime);color:#0A0B08}
 .btn.go:hover{transform:translateY(-2px);box-shadow:0 16px 36px -14px rgba(198,255,52,.7)}
-.btn.sm{height:40px;padding:0 17px;font-size:14px}
-.abd{display:inline-flex;align-items:center;justify-content:center;flex:none;width:1.9em;height:1.9em;border-radius:.55em;font:500 .7em/1 var(--mono);color:var(--lime);border:1px solid rgba(198,255,52,.32);background:rgba(198,255,52,.06)}
-.abd svg{width:60%;height:60%}
-.abd.am{color:var(--hold);border-color:rgba(255,176,32,.42);background:rgba(255,176,32,.07)}
-.js .rv{opacity:0;transform:translateY(28px);transition:opacity .9s var(--e),transform .9s var(--e)}
+.btn.sm{height:40px;padding:0 16px;font-size:14px;border-radius:10px}
+.abd{display:inline-flex;align-items:center;justify-content:center;flex:none;width:28px;height:28px;border-radius:8px;font:500 10px/1 var(--mono);color:var(--lime);border:1px solid rgba(198,255,52,.3);background:rgba(198,255,52,.06)}
+.abd svg{width:16px;height:16px}
+.js .rv{opacity:0;transform:translateY(26px);transition:opacity .9s var(--e),transform .9s var(--e)}
 .js .rv.in{opacity:1;transform:none}
 .js .rv.d1{transition-delay:.08s}.js .rv.d2{transition-delay:.16s}.js .rv.d3{transition-delay:.24s}
 
 /* nav */
-.nav{position:fixed;left:0;right:0;top:0;z-index:90;padding-top:env(safe-area-inset-top,0px);transition:background .35s,border-color .35s;border-bottom:1px solid transparent}
-.nav.on{background:rgba(10,11,9,.84);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-color:var(--line)}
+.nav{position:fixed;left:0;right:0;top:0;z-index:90;padding-top:env(safe-area-inset-top,0px);background:rgba(7,8,6,.82);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
 .nav .wrap{display:flex;align-items:center;gap:34px;height:var(--navh)}
 .logo{display:flex;color:var(--fg)}.logo svg{width:128px;height:26px;display:block}
-.menu{display:flex;gap:28px;font-size:14.5px;color:var(--fg2)}.menu a{transition:color .2s}.menu a:hover{color:var(--fg)}
+.menu{display:flex;gap:28px;font-size:14.5px;color:var(--fg2)}.menu a:hover{color:var(--fg)}
 .nav .side{margin-left:auto;display:flex;align-items:center;gap:16px}.nav .si{font-size:14.5px;color:var(--fg2)}
-.chapnav{position:fixed;left:max(14px,calc((100vw - var(--max))/2 - 22px));top:50%;transform:translateY(-50%);z-index:5;display:flex;flex-direction:column;gap:10px;transition:opacity .4s}
-.chapnav a{width:6px;height:6px;border-radius:50%;background:var(--line2);transition:height .3s,background .3s,border-radius .3s}
-.chapnav a.on{height:22px;border-radius:4px;background:var(--lime)}
-@media(max-width:900px){.menu,.nav .si,.chapnav{display:none}.logo svg{width:112px;height:23px}}
+.nav .pg{position:absolute;left:0;right:0;bottom:-1px;height:1px;transform-origin:0 50%;transform:scaleX(0);background:var(--lime)}
+@media(max-width:900px){.menu,.nav .si{display:none}.logo svg{width:112px;height:23px}}
 
-/* ---------- the device ---------- */
-.devfix{position:fixed;top:0;bottom:0;right:0;width:56%;z-index:1;pointer-events:none;perspective:1900px;perspective-origin:50% 45%;display:flex;align-items:center;justify-content:center;padding-top:var(--navh)}
-.dev{position:relative;width:min(40vw,640px);transform-style:preserve-3d;will-change:transform}
-.bz{position:relative;border-radius:22px;padding:10px;background:linear-gradient(145deg,#2A3022,#12150F 40%,#0B0D09);box-shadow:inset 0 0 0 1px rgba(242,244,236,.12),0 60px 120px -40px rgba(0,0,0,.9);transform-style:preserve-3d}
-.scr{position:relative;aspect-ratio:16/10;border-radius:13px;overflow:hidden;background:#090B08;container-type:inline-size}
-.scr::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(115deg,rgba(255,255,255,.07),transparent 38%);mix-blend-mode:screen}
-.edge{position:absolute;background:linear-gradient(90deg,#1E2319,#0C0E0A);border-radius:2px}
-.edge.r{left:100%;top:12px;bottom:12px;width:14px;transform-origin:0 50%;transform:rotateY(90deg)}
-.edge.l{right:100%;top:12px;bottom:12px;width:14px;transform-origin:100% 50%;transform:rotateY(-90deg)}
-.edge.b{top:100%;left:12px;right:12px;height:14px;transform-origin:50% 0;transform:rotateX(-90deg);background:linear-gradient(#1E2319,#0C0E0A)}
-.edge.t{bottom:100%;left:12px;right:12px;height:14px;transform-origin:50% 100%;transform:rotateX(90deg);background:linear-gradient(#0C0E0A,#1E2319)}
-.back{position:absolute;inset:0;border-radius:22px;background:linear-gradient(145deg,#1C2117,#0D0F0B);transform:translateZ(-14px) rotateY(180deg);display:grid;place-items:center;backface-visibility:hidden}
-.back svg{width:22%;opacity:.8}
-.shadow{position:absolute;left:8%;right:8%;bottom:-18%;height:16%;border-radius:50%;background:radial-gradient(closest-side,rgba(0,0,0,.7),transparent);transform:translateZ(-60px)}
-.face{position:absolute;inset:0;opacity:0;transition:opacity .6s var(--e);font-size:2.35cqw;color:var(--fg)}
-.face.on{opacity:1}
-.face img.full{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-.tst{position:absolute;left:0;top:0;display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:14px;background:rgba(21,24,18,.94);border:1px solid var(--line2);font-size:13px;white-space:nowrap;box-shadow:0 24px 40px -20px rgba(0,0,0,.95);transform-style:preserve-3d;transition:opacity .5s}
-.tst .abd{font-size:15px}
-.tst b{font:500 11px/1 var(--mono);color:var(--up);margin-left:4px}.tst b.a{color:var(--hold)}
-.orbit{position:absolute;left:50%;top:50%;transform-style:preserve-3d;transition:opacity .5s}
-.orbit .abd{position:absolute;font-size:20px;background:#12160E;width:2.3em;height:2.3em;border-radius:.7em;box-shadow:0 14px 26px -12px rgba(0,0,0,.9)}
-.orbit .abd.on{background:var(--lime);color:#0A0B09;border-color:var(--lime);box-shadow:0 0 30px -4px rgba(198,255,52,.7)}
-.pop{position:absolute;width:44%;left:0;top:0;pointer-events:none;transform-origin:50% 100%;border-radius:14px;padding:14px 16px;background:linear-gradient(170deg,#1D2416,#10140D);border:1px solid rgba(198,255,52,.5);box-shadow:0 0 40px -10px rgba(198,255,52,.45),0 30px 50px -20px rgba(0,0,0,.9);font-size:13px;transition:opacity .4s}
-.pop .n{font:500 10.5px/1 var(--mono);color:var(--lime);letter-spacing:.1em}
-.pop h4{font:600 19px/1.1 var(--display);font-stretch:115%;letter-spacing:-.03em;margin-top:8px}
-.pop p{color:var(--fg2);margin-top:6px;line-height:1.45}
-.pop span{display:inline-block;margin-top:10px;font:500 10.5px/1 var(--mono);color:var(--lime);border:1px solid rgba(198,255,52,.3);border-radius:999px;padding:6px 9px}
+/* ---------- the stack of section cards ---------- */
+main{padding-top:calc(var(--navh) + env(safe-area-inset-top,0px) + 10px)}
+.sh{position:sticky;top:calc(var(--navh) + 10px);padding-inline:clamp(8px,1.2vw,16px);margin-bottom:14px}
+.shi{position:relative;max-width:1500px;margin:0 auto;border-radius:var(--rad);background:linear-gradient(180deg,var(--card2),var(--card) 30%);border:1px solid var(--line);padding-block:var(--pad);transform-origin:50% 0;will-change:transform}
+.shi::after{content:"";position:absolute;inset:-1px;border-radius:inherit;background:#000;opacity:var(--dim,0);pointer-events:none;z-index:20}
+.sh.alt .shi{background:linear-gradient(180deg,#151B0E,#0C0F09 40%);border-color:rgba(198,255,52,.16)}
 
-/* faces: app-like content, sized in container units so it scales with the device */
-.app{position:absolute;inset:0;display:grid;grid-template-columns:20% 1fr;background:#0B0D0A}
-.app .sd{border-right:1px solid var(--line);padding:4% 6%;display:flex;flex-direction:column;gap:.55em;font-size:.82em;color:var(--mute)}
-.app .sd .lg{display:flex;align-items:center;gap:.4em;color:var(--fg);font-weight:600;margin-bottom:.8em}
-.app .sd .lg svg{width:1.3em;height:1.3em}
-.app .sd span{padding:.35em .5em;border-radius:.4em}
-.app .sd span.on{background:rgba(198,255,52,.1);color:var(--lime)}
-.app .mn{padding:4% 5%;min-width:0;display:flex;flex-direction:column}
-.app .tt{font:600 1.05em/1.2 var(--display);font-stretch:112%;letter-spacing:-.02em;display:flex;align-items:center;gap:.5em}
-.app .tt .live{margin-left:auto}
-.app .tt svg{width:1.3em;height:1.3em;flex:none}
-.live{display:inline-flex;align-items:center;gap:.4em;font:500 .7em/1 var(--mono);color:var(--up);border:1px solid rgba(0,229,160,.35);border-radius:999px;padding:.35em .6em}
-.live::before{content:"";width:.45em;height:.45em;border-radius:50%;background:var(--up);animation:blink 1.6s infinite}
-@keyframes blink{50%{opacity:.25}}
-/* record face */
-.rc .chg{display:flex;gap:.8em;align-items:flex-start;margin-top:1em;padding:.8em;border-radius:.7em;background:rgba(198,255,52,.06);border:1px solid rgba(198,255,52,.22);transition:border-color .6s,box-shadow .6s}
-.rc .chg b{display:block;font-weight:500;font-size:.95em}
-.rc .chg small{display:block;font:400 .72em/1.5 var(--mono);color:var(--fg2);margin-top:.2em}
-.rc .chg del{color:var(--mute)}.rc .chg ins{text-decoration:none;color:var(--lime)}
-.rc .rl{font:500 .62em/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--mute);margin:1em 0 .2em}
-.rc .r{display:flex;align-items:center;gap:.8em;padding:.5em 0;border-bottom:1px solid var(--line);font-size:.86em}
-.rc .r:last-child{border-bottom:0}
-.rc .r .t{flex:1;min-width:0}
-.rc .st{font:500 .8em/1 var(--mono);color:var(--mute);white-space:nowrap}
-.rc .st .a{display:none}
-.go .rc .chg{border-color:rgba(198,255,52,.6);box-shadow:0 0 2em -.4em rgba(198,255,52,.45)}
-.rc .r .st{transition:color .3s}
-.rc .r.on .st .a{display:inline}.rc .r.on .st .w{display:none}
-.rc .r.on .st{color:var(--up)}.rc .r.am.on .st{color:var(--hold)}
-/* agents face */
-.agf .hdr{display:flex;align-items:center;gap:1em;margin-top:.6em}
-.agf .ic{width:3.4em;height:3.4em;border-radius:1em;background:var(--lime);color:#0A0B09;display:grid;place-items:center;font:500 1em/1 var(--mono);flex:none}
-.agf .ic svg{width:60%;height:60%}
-.agf .role{font:500 .7em/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--lime)}
-.agf h4{font:600 2.3em/1 var(--display);font-stretch:115%;letter-spacing:-.035em;margin-top:.25em}
-.agf p{color:var(--fg2);margin-top:1em;font-size:.95em;line-height:1.5;max-width:46ch}
-.agf .strip{display:flex;gap:.45em;margin-top:auto;padding-top:.8em;border-top:1px dashed var(--line2);font-size:1.1em}
-.agf .strip .abd.on{background:var(--lime);color:#0A0B09;border-color:var(--lime)}
-.agf .swap{transition:opacity .3s,transform .4s var(--e)}
-.agf.chg .swap{opacity:0;transform:translateY(.6em)}
-/* journey face */
-.jf .board{display:grid;grid-template-columns:repeat(3,1fr);gap:.7em;margin-top:1em;flex:1}
-.jf .tile{border-radius:.7em;border:1px solid var(--line2);background:#12160F;padding:.7em;display:flex;flex-direction:column;justify-content:space-between;transition:border-color .4s,background .4s}
-.jf .tile i{font:500 .65em/1 var(--mono);font-style:normal;color:var(--mute)}
-.jf .tile b{font:600 .95em/1.1 var(--display);font-stretch:110%;letter-spacing:-.02em}
-.jf .tile u{display:block;height:.25em;border-radius:.25em;background:var(--line2);text-decoration:none;overflow:hidden;position:relative}
-.jf .tile u::after{content:"";position:absolute;inset:0;background:var(--lime);transform-origin:0 50%;transform:scaleX(0);transition:transform .5s var(--e)}
-.jf .tile.done u::after{transform:scaleX(1)}
-.jf .tile.on{border-color:rgba(198,255,52,.6);background:#182012}
-.jf .tile.on i{color:var(--lime)}
-/* tour face */
-.tour img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:opacity .55s,transform .9s var(--e)}
-.tour img.b{opacity:0}
-.cur{position:absolute;left:60%;top:60%;width:4cqw;height:4cqw;max-width:22px;max-height:22px;margin:-2px 0 0 -3px;transition:left .95s var(--e),top .95s var(--e);pointer-events:none;z-index:3;filter:drop-shadow(0 3px 5px rgba(0,0,0,.6))}
-.ring{position:absolute;width:44px;height:44px;margin:-22px 0 0 -22px;border-radius:50%;border:2px solid var(--lime);opacity:0;pointer-events:none;z-index:2}
-.ring.go{animation:ring .7s var(--e)}
-@keyframes ring{0%{opacity:1;transform:scale(.3)}100%{opacity:0;transform:scale(1.4)}}
-
-/* inline devices for phones */
-.mdev{display:none;perspective:1200px;margin-top:34px}
-.mdev .dev{width:100%;transform:rotateX(14deg) rotateY(-10deg);transition:transform 1.1s var(--e)}
-.mdev.in .dev{transform:rotateX(4deg) rotateY(-4deg)}
-.mdev .bz{padding:6px;border-radius:14px}.mdev .scr{border-radius:9px}
-
-/* ---------- chapters ---------- */
-.chap{position:relative;z-index:2}
-.chap .txt{width:min(100%,560px,42vw)}
-@media(max-height:820px){.alist li span{display:none!important}.long .h2{font-size:clamp(28px,3vw,44px)}.alist li,.slist li{padding:7px 14px}}
-.chap.tail{padding-block:10px var(--sec)}
-.chap.hold{min-height:100vh;display:flex;align-items:center;padding-block:var(--sec)}
-.chap.hold>.wrap{width:100%}
-.hero{padding-top:calc(var(--navh) + 60px)!important}
-.pill{display:inline-flex;align-items:center;gap:10px;padding:6px 14px 6px 6px;border-radius:999px;border:1px solid var(--line2);font-size:14px;color:var(--fg2);margin-bottom:28px}
-.pill b{font:500 11px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;background:var(--lime);color:#0A0B09;padding:6px 9px;border-radius:999px}
-.hero h1{font-size:clamp(40px,5.4vw,82px);line-height:.98;letter-spacing:-.045em}
-.hero h1 em{font-style:normal;color:var(--lime)}
+/* ---------- hero ---------- */
+.hero .wrap{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:clamp(24px,4vw,60px);align-items:center}
+.pill{display:inline-flex;align-items:center;gap:10px;padding:6px 14px 6px 6px;border-radius:999px;border:1px solid var(--line2);font-size:14px;color:var(--fg2);margin-bottom:26px}
+.pill b{font:500 10px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;background:var(--lime);color:#0A0B08;padding:6px 9px;border-radius:999px}
+.hero h1{font-size:clamp(48px,6.6vw,104px);line-height:.95}
 .hero .lead{margin-top:26px}
 .ctas{display:flex;flex-wrap:wrap;gap:12px;margin-top:32px}
 .note{margin-top:16px;font-size:14px;color:var(--mute)}
-.p2{font-size:clamp(18px,1.5vw,21px);line-height:1.45;margin-top:22px;max-width:36ch}
-.p2 em{font-style:normal;color:var(--lime)}
-.long>.wrap{height:100%}
-.long .stick{position:sticky;top:calc(var(--navh) + 7vh)}
-.alist,.slist{list-style:none;margin:30px 0 0;padding:0;display:grid;gap:2px}
-.alist li,.slist li{cursor:pointer;border-radius:12px;padding:10px 14px;display:grid;grid-template-columns:34px minmax(0,1fr);gap:4px 10px;color:var(--mute);transition:background .3s,color .3s}
-.alist li i,.slist li i{font:500 11.5px/1.7 var(--mono);font-style:normal}
-.alist li b,.slist li b{font:600 17px/1.3 var(--display);font-stretch:112%;letter-spacing:-.02em}
-.alist li span,.slist li span{grid-column:2;font-size:14.5px;line-height:1.45;color:var(--fg2);display:none}
-.alist li.on,.slist li.on{background:rgba(242,244,236,.04);color:var(--fg)}
-.alist li.on i,.slist li.on i{color:var(--lime)}
-.alist li.on span,.slist li.on span{display:block}
-.slist li em{grid-column:2;font:500 11px/1 var(--mono);font-style:normal;color:var(--lime);display:none;margin-top:6px}
-.slist li.on em{display:block}
-.trio{display:grid;grid-template-columns:minmax(0,1fr);gap:18px;margin-top:10px}
-.trio div{border-top:1px solid var(--line2);padding-top:16px}
-.trio h3{font-size:16px;font-stretch:108%;letter-spacing:-.02em;line-height:1.25}
-.trio p{color:var(--fg2);font-size:14.5px;margin-top:6px}
-.ptabs{display:flex;flex-wrap:wrap;gap:6px;margin-top:28px}
-.ptab{all:unset;cursor:pointer;position:relative;overflow:hidden;padding:10px 16px;border-radius:999px;border:1px solid var(--line2);font:500 14.5px/1 var(--body);color:var(--fg2);transition:border-color .3s,color .3s,background .3s}
-.ptab i{font:500 11px/1 var(--mono);font-style:normal;color:var(--mute);margin-right:6px}
-.ptab.on{color:#0A0B09;background:var(--lime);border-color:var(--lime)}.ptab.on i{color:#0A0B09}
+.hv{position:relative;perspective:1500px;perspective-origin:50% 30%}
+.hrig{position:relative;transform-style:preserve-3d;will-change:transform}
+.win{border-radius:14px;background:#0A0C08;border:1px solid rgba(240,243,232,.12);overflow:hidden;box-shadow:0 50px 90px -40px rgba(0,0,0,.95)}
+.wbar{display:flex;align-items:center;gap:6px;height:30px;padding:0 12px;border-bottom:1px solid rgba(240,243,232,.07);background:#0D100B}
+.wbar i{width:8px;height:8px;border-radius:50%;background:#2A3022}
+.wbar span{margin:0 auto;font:400 10px/1 var(--mono);color:var(--mute);transform:translateX(-18px)}
+.win img{display:block;width:100%;aspect-ratio:16/10;object-fit:cover}
+.chip{position:absolute;display:flex;align-items:center;gap:9px;padding:9px 13px;border-radius:12px;background:rgba(20,23,17,.94);border:1px solid var(--line2);font-size:13px;white-space:nowrap;box-shadow:0 22px 40px -18px rgba(0,0,0,.95);transform-style:preserve-3d}
+.chip b{font:500 10px/1 var(--mono);color:var(--up)}.chip b.a{color:var(--hold)}
+@media(max-width:900px){.hero .wrap{grid-template-columns:minmax(0,1fr)}.hv{margin-top:14px}.chip{font-size:11px;padding:6px 9px;gap:6px}.chip .abd{width:22px;height:22px;font-size:8.5px}.chip b{font-size:8.5px}.wbar{height:22px}}
+
+/* ---------- the system ---------- */
+.sys .wrap{display:grid;grid-template-columns:minmax(0,.82fr) minmax(0,1.18fr);gap:clamp(24px,4vw,60px);align-items:start}
+.sys .txt{position:relative}
+.pts{list-style:none;margin:30px 0 0;padding:0;display:grid;gap:18px}
+.pts li{display:grid;grid-template-columns:28px minmax(0,1fr);gap:4px 14px;padding-top:18px;border-top:1px solid var(--line2)}
+.pts i{font:500 10.5px/1.9 var(--mono);font-style:normal;color:var(--lime)}
+.pts h3{font-size:17px}
+.pts p{grid-column:2;color:var(--fg2);font-size:15.5px}
+.track{position:relative}
+.bpin{position:sticky;top:calc(var(--navh) + 30px);height:min(600px,calc(100svh - var(--navh) - 60px));display:flex;flex-direction:column;justify-content:center}
+.bview{position:relative;perspective:1600px;perspective-origin:50% 0%;overflow:hidden;border-radius:18px}
+.board{position:relative;width:760px;transform-origin:50% 0;will-change:transform;border-radius:18px;border:1px solid var(--line2);background:linear-gradient(180deg,#12160F,#0B0D09);padding:16px 16px 18px}
+.bh{display:grid;grid-template-columns:120px repeat(6,minmax(0,1fr));gap:6px;font:500 9.5px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--mute);padding-bottom:10px;border-bottom:1px solid var(--line)}
+.bh span{text-align:center;transition:color .4s}
+.bh span.on{color:var(--lime)}
+.lane{display:grid;grid-template-columns:120px repeat(6,minmax(0,1fr));gap:6px;align-items:center;padding:9px 0;border-bottom:1px dashed var(--line)}
+.lane:last-of-type{border-bottom:0}
+.lane .who{display:flex;align-items:center;gap:8px;font-size:12.5px;font-weight:500}
+.lane .who small{display:block;font:400 9.5px/1.3 var(--mono);color:var(--mute)}
+.task{position:relative;border-radius:9px;border:1px solid var(--line2);background:#151A12;padding:8px 8px 9px;font-size:11px;line-height:1.3;color:var(--fg2);min-height:50px;transition:border-color .4s,background .4s,color .4s,box-shadow .4s,opacity .4s;opacity:.45}
+.task::before{content:"";display:block;width:6px;height:6px;border-radius:50%;background:var(--mute);margin-bottom:6px;transition:background .3s}
+.task.on{opacity:1;color:var(--fg);border-color:rgba(198,255,52,.7);background:#1A2312;box-shadow:0 0 22px -6px rgba(198,255,52,.55)}
+.task.on::before{background:var(--lime);animation:blink 1.2s infinite}
+.task.done{opacity:1;color:var(--fg);border-color:rgba(198,255,52,.28)}
+.task.done::before{background:var(--up)}
+@keyframes blink{50%{opacity:.25}}
+.cursor{position:absolute;top:8px;bottom:8px;width:2px;margin-left:-1px;background:var(--lime);box-shadow:0 0 14px rgba(198,255,52,.7);border-radius:2px;pointer-events:none;z-index:3}
+.cursor::before{content:attr(data-l);position:absolute;top:-2px;left:6px;font:500 9px/1 var(--mono);color:#0A0B08;background:var(--lime);padding:4px 6px;border-radius:5px;white-space:nowrap}
+.hand{position:absolute;inset:0;pointer-events:none;overflow:visible;z-index:2}
+.hand path{fill:none;stroke:var(--lime);stroke-width:1.6;stroke-dasharray:5 5;opacity:0;transition:opacity .4s}
+.hand path.on{opacity:.85;animation:dash 1s linear infinite}
+@keyframes dash{to{stroke-dashoffset:-20}}
+.blegend{display:flex;gap:16px;flex-wrap:wrap;margin-top:14px;font:400 10.5px/1 var(--mono);color:var(--mute)}
+.blegend span{display:inline-flex;align-items:center;gap:7px}
+.blegend i{width:8px;height:8px;border-radius:50%}
+.llb{display:none;position:absolute;left:0;top:0;bottom:0;width:52px;z-index:4;background:linear-gradient(90deg,#10140D 78%,rgba(16,20,13,0));pointer-events:none}
+.llb .abd{position:absolute;left:10px;margin-top:-14px;background:#141910}
+@media(max-width:900px){.llb{display:block}.bh,.lane{grid-template-columns:52px repeat(6,minmax(0,1fr))!important}.lane .who>div{display:none}.board{width:700px}.bview{border-radius:14px}
+.sys .wrap{grid-template-columns:minmax(0,1fr)}.sys .txt{position:static}.bpin{height:auto;min-height:0;top:calc(var(--navh) + 24px)}}
+
+/* ---------- agents coverflow ---------- */
+.ag-head{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:40px;align-items:end}
+.ag-head .lead{margin-top:0}
+.flow{position:relative;margin-top:clamp(36px,5vw,60px);perspective:1400px}
+.strip{display:flex;gap:18px;overflow-x:auto;scroll-snap-type:x mandatory;padding:30px calc(50% - 160px) 40px;scrollbar-width:none;-ms-overflow-style:none;cursor:grab;transform-style:preserve-3d}
+.strip::-webkit-scrollbar{display:none}
+.strip.drag{cursor:grabbing;scroll-snap-type:none}
+.ac{flex:none;width:320px;scroll-snap-align:center;border-radius:22px;border:1px solid var(--line2);background:linear-gradient(165deg,#1B2216,#0E110B 70%);padding:24px;min-height:330px;display:flex;flex-direction:column;will-change:transform;user-select:none;transition:border-color .3s}
+.ac.on{border-color:rgba(198,255,52,.5)}
+.ac .ic{width:54px;height:54px;border-radius:15px;background:var(--lime);color:#0A0B08;display:grid;place-items:center;font:500 13px/1 var(--mono)}
+.ac .ic svg{width:30px;height:30px}
+.ac.more .ic{background:transparent;color:var(--lime);border:1px dashed rgba(198,255,52,.5)}
+.ac .role{font:500 10px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--lime);margin-top:24px}
+.ac h3{font-family:var(--serif);font-weight:400;font-size:40px;line-height:1;letter-spacing:-.01em;margin-top:8px}
+.ac p{color:var(--fg2);font-size:15px;margin-top:12px}
+.fctl{display:flex;justify-content:center;align-items:center;gap:12px}
+.fctl button{width:44px;height:44px;border-radius:12px;border:1px solid var(--line2);background:transparent;color:var(--fg);cursor:pointer;display:grid;place-items:center}
+.fctl button:hover{border-color:var(--fg2)}
+.fctl svg{width:16px;height:16px}
+.fctl .dots{display:flex;gap:6px}
+.fctl .dots i{width:6px;height:6px;border-radius:6px;background:var(--line2);transition:width .3s,background .3s}
+.fctl .dots i.on{width:20px;background:var(--lime)}
+.trio{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-top:clamp(40px,5vw,64px)}
+.trio div{border-top:1px solid var(--line2);padding-top:18px}
+.trio h3{font-size:17px}
+.trio p{color:var(--fg2);font-size:15.5px;margin-top:8px}
+@media(max-width:900px){.ag-head{grid-template-columns:minmax(0,1fr);gap:0}.ag-head .lead{margin-top:20px}.ac{width:min(300px,78vw)}.strip{padding-inline:calc(50% - min(150px,39vw))}.trio{grid-template-columns:minmax(0,1fr)}}
+
+/* ---------- journey: flip cards ---------- */
+.jt{position:relative}
+.jpin{position:sticky;top:calc(var(--navh) + 30px);min-height:calc(100svh - var(--navh) - 60px);display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(24px,4vw,60px);align-items:center}
+.jcount{font:400 clamp(80px,10vw,150px)/.8 var(--serif);letter-spacing:-.03em;margin-top:30px;font-variant-numeric:tabular-nums}
+.jcount small{font-size:.3em;color:var(--mute)}
+.jbar{display:flex;gap:5px;margin-top:22px;max-width:340px}
+.jbar i{flex:1;height:3px;border-radius:3px;background:var(--line2);position:relative;overflow:hidden}
+.jbar i::after{content:"";position:absolute;inset:0;background:var(--lime);transform-origin:0 50%;transform:scaleX(var(--f,0))}
+.flipdeck{position:relative;height:330px;perspective:1300px;perspective-origin:50% 0}
+.fp{position:absolute;inset:0;transform-origin:50% 0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:22px;border:1px solid var(--line2);background:linear-gradient(170deg,#1B2216,#0E110B);padding:26px;display:flex;flex-direction:column;will-change:transform;box-shadow:0 30px 60px -30px rgba(0,0,0,.9)}
+.fp .n{display:flex;justify-content:space-between;align-items:center;font:500 10.5px/1 var(--mono);letter-spacing:.12em;color:var(--mute)}
+.fp .n svg{width:28px;height:28px;color:var(--lime)}
+.fp h3{font-family:var(--serif);font-weight:400;font-size:clamp(36px,3.6vw,52px);line-height:1;margin-top:auto}
+.fp p{color:var(--fg2);font-size:16px;margin-top:12px;max-width:40ch}
+.fp .art{align-self:flex-start;margin-top:18px;font:500 10.5px/1 var(--mono);color:var(--lime);border:1px solid rgba(198,255,52,.3);background:rgba(198,255,52,.07);border-radius:999px;padding:7px 10px}
+@media(max-width:900px){.jpin{grid-template-columns:minmax(0,1fr);align-content:center;gap:22px}.jcount{font-size:72px;margin-top:18px}.flipdeck{height:290px}.fp{padding:20px}}
+
+/* ---------- platform ---------- */
+.pf{display:grid;grid-template-columns:minmax(0,.62fr) minmax(0,1.38fr);gap:clamp(24px,4vw,56px);margin-top:clamp(36px,5vw,60px);align-items:start}
+.ptabs{display:flex;flex-direction:column;gap:6px}
+.ptab{all:unset;cursor:pointer;position:relative;overflow:hidden;display:block;padding:16px 18px;border-radius:14px;border:1px solid var(--line);transition:border-color .3s,background .3s}
+.ptab:hover{border-color:var(--line2)}
+.ptab.on{border-color:rgba(198,255,52,.45);background:rgba(198,255,52,.05)}
 .ptab:focus-visible{outline:2px solid var(--lime)}
-.ptab .bar{position:absolute;left:0;bottom:0;height:2px;width:100%;transform-origin:0 50%;transform:scaleX(0);background:#0A0B09;opacity:.35}
-.pinfo h3{font-size:22px;margin-top:24px;font-stretch:110%}
-.pinfo p{color:var(--fg2);margin-top:8px;font-size:16px}
-.chk{list-style:none;padding:0;margin:14px 0 0;display:grid;grid-template-columns:1fr 1fr;gap:10px 18px}
+.ptab .t1{display:flex;align-items:baseline;gap:10px}
+.ptab .t1 i{font:500 10px/1 var(--mono);font-style:normal;color:var(--mute)}
+.ptab.on .t1 i{color:var(--lime)}
+.ptab .t1 b{font:400 26px/1 var(--serif)}
+.ptab .t2{display:block;color:var(--fg2);font-size:14.5px;margin-top:6px}
+.ptab .bar{position:absolute;left:0;bottom:0;height:2px;width:100%;transform-origin:0 50%;transform:scaleX(0);background:var(--lime)}
+.pstage{perspective:1600px}
+.pwin{transform-origin:50% 100%;will-change:transform}
+.pwin .wbar{height:36px}.pwin .wbar span{font-size:11px}
+.screen{position:relative;aspect-ratio:16/10;overflow:hidden;background:#0A0C08}
+.screen img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:opacity .55s,transform .9s var(--e);aspect-ratio:auto}
+.screen img.b{opacity:0}
+.cur{position:absolute;left:60%;top:60%;width:22px;height:22px;margin:-2px 0 0 -3px;transition:left .95s var(--e),top .95s var(--e);pointer-events:none;z-index:3;filter:drop-shadow(0 3px 5px rgba(0,0,0,.6))}
+.ring{position:absolute;width:44px;height:44px;margin:-22px 0 0 -22px;border-radius:50%;border:2px solid var(--lime);opacity:0;pointer-events:none;z-index:2}
+.ring.go{animation:ring .7s var(--e)}
+@keyframes ring{0%{opacity:1;transform:scale(.3)}100%{opacity:0;transform:scale(1.4)}}
+.pinfo{margin-top:22px}
+.pinfo p{color:var(--fg2);font-size:16px}
+.chk{list-style:none;padding:0;margin:14px 0 0;display:grid;grid-template-columns:1fr 1fr;gap:10px 20px}
 .chk li{display:flex;gap:9px;font-size:14.5px;line-height:1.4}
 .chk li::before{content:"";flex:none;width:16px;height:16px;margin-top:1px;border-radius:5px;background:rgba(198,255,52,.12) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4.5 8.2l2.3 2.3 4.7-4.9' fill='none' stroke='%23C6FF34' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/15px no-repeat;border:1px solid rgba(198,255,52,.3)}
-.mcards{display:none}
+@media(max-width:900px){.pf{grid-template-columns:minmax(0,1fr)}.ptabs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr))}.ptab{padding:12px 6px;text-align:center}.ptab .t1{flex-direction:column;align-items:center;gap:6px}.ptab .t1 b{font-size:20px}.ptab .t2{display:none}.pwin .wbar{height:24px}.pwin .wbar span{font-size:8.5px}.cur{width:16px;height:16px}.chk{grid-template-columns:minmax(0,1fr)}}
 
-/* ---------- full-width sections after the device ---------- */
-.sec{padding-block:var(--sec);position:relative;z-index:2}
-.cmp{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(14px,2vw,24px);margin-top:clamp(40px,6vw,64px)}
-.cm{display:flex;flex-direction:column}
-.sl{position:relative;height:250px;border-radius:20px;overflow:hidden;border:1px solid var(--line2);--p:50%;touch-action:pan-y;user-select:none}
-.sl .ly{position:absolute;inset:0;padding:18px;display:flex;flex-direction:column}
-.sl .bf{background:repeating-linear-gradient(135deg,rgba(255,84,112,.045) 0 10px,transparent 10px 20px),#10120E}
-.sl .af{background:radial-gradient(90% 90% at 70% 30%,rgba(198,255,52,.14),transparent 70%),#121A0C;clip-path:inset(0 0 0 var(--p))}
-.sl .lb{display:flex;justify-content:space-between;font:500 10.5px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase}
-.sl .bf .lb{color:var(--down)}.sl .af .lb{color:var(--lime);justify-content:flex-end}
-.sl .vb{flex:1;display:flex;flex-direction:column;justify-content:center;gap:7px}
-.sl .cap{font:500 10.5px/1.3 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--mute)}
-.sl .af .cap{color:var(--lime);text-align:right}
-.sl .hd{position:absolute;top:0;bottom:0;left:var(--p);width:2px;margin-left:-1px;background:var(--lime);box-shadow:0 0 16px rgba(198,255,52,.7);pointer-events:none}
-.sl .hd::after{content:"";position:absolute;top:50%;left:50%;width:34px;height:34px;margin:-17px 0 0 -17px;border-radius:50%;background:var(--lime) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M9 7l-5 5 5 5M15 7l5 5-5 5' fill='none' stroke='%230A0B09' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/18px no-repeat;box-shadow:0 6px 18px -6px rgba(0,0,0,.8)}
-.sl input{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:ew-resize;margin:0}
-.sl input:focus-visible~.hd::after{outline:2px solid var(--fg);outline-offset:3px}
-.ln{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:8px 11px;border-radius:10px;border:1px solid var(--line);background:rgba(242,244,236,.03);font-size:13.5px}
+/* ---------- difference: the after panel unfolds ---------- */
+.rows{display:grid;gap:clamp(18px,2.4vw,30px);margin-top:clamp(36px,5vw,60px)}
+.row{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr) minmax(0,1.3fr);gap:16px;align-items:stretch;perspective:1400px}
+.row .meta{padding-top:6px}
+.row .meta h3{font-family:var(--serif);font-weight:400;font-size:clamp(28px,2.4vw,36px);line-height:1.05}
+.row .meta p{color:var(--fg2);font-size:15.5px;margin-top:10px}
+.row .meta .tag{display:inline-block;margin-top:14px;font:500 10px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--lime)}
+.pn{border-radius:18px;border:1px solid var(--line2);padding:18px;display:flex;flex-direction:column;min-height:200px}
+.pn.bf{background:repeating-linear-gradient(135deg,rgba(255,84,112,.04) 0 10px,transparent 10px 20px),#10120E}
+.pn.af{background:radial-gradient(90% 90% at 70% 30%,rgba(198,255,52,.13),transparent 70%),#121A0C;border-color:rgba(198,255,52,.38);transform-origin:0 50%;will-change:transform}
+.pn .lb{font:500 10px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase}
+.pn.bf .lb{color:var(--down)}.pn.af .lb{color:var(--lime)}
+.pn .vb{flex:1;display:flex;flex-direction:column;justify-content:center;gap:7px;margin:14px 0}
+.pn .cap{font:500 9.5px/1.4 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--mute)}
+.pn.af .cap{color:var(--lime)}
+.ln{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:8px 11px;border-radius:10px;border:1px solid var(--line);background:rgba(240,243,232,.03);font-size:13.5px}
 .ln span{display:flex;align-items:center;gap:9px}
-.ln .abd{font-size:13px}
-.ln .you{font:500 11px/1 var(--mono);color:var(--down)}
-.ln b{font:500 11px/1 var(--mono);color:var(--up)}
+.ln .abd{width:22px;height:22px;font-size:8.5px;border-radius:6px}
+.ln .you{font:500 10px/1 var(--mono);color:var(--down)}
+.ln b{font:500 10px/1 var(--mono);color:var(--up)}
 .files{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}
-.file{border-radius:10px;border:1px solid var(--line);padding:11px 9px;display:flex;flex-direction:column;gap:12px;background:rgba(242,244,236,.03);min-width:0}
-.file small{font:500 9.5px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--mute)}
-.file b{font:600 clamp(17px,1.5vw,20px)/1 var(--display);font-stretch:110%;letter-spacing:-.03em}
+.file{border-radius:10px;border:1px solid var(--line);padding:11px 9px;display:flex;flex-direction:column;gap:12px;background:rgba(240,243,232,.03);min-width:0}
+.file small{font:500 9px/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--mute)}
+.file b{font:400 clamp(22px,2vw,28px)/1 var(--serif)}
 .bf .file:nth-child(2) b{color:var(--down)}.bf .file:nth-child(3) b{color:var(--hold)}
 .af .file{border-color:rgba(198,255,52,.3)}.af .file b{color:var(--lime)}
-.big{font:600 clamp(26px,2.4vw,34px)/1 var(--display);font-stretch:115%;letter-spacing:-.04em}
-.gauge{display:flex;align-items:center;justify-content:flex-end;gap:14px}
-.gauge svg{width:84px;height:84px;transform:rotate(-90deg)}
-.gauge .v{font:600 38px/1 var(--display);letter-spacing:-.04em}
-.gauge .v small{font-size:13px;color:var(--mute);letter-spacing:0}
-.cm h3{font-size:clamp(19px,1.6vw,22px);font-stretch:110%;line-height:1.2;margin-top:22px}
-.cm p{color:var(--fg2);font-size:15.5px;margin-top:8px}
-.cm .tag{margin-top:14px;font:500 11px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--lime)}
-@media(max-width:980px){.cmp{grid-template-columns:minmax(0,1fr)}}
-.who-g{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(14px,2vw,24px);margin-top:clamp(40px,6vw,64px);perspective:1400px}
-.wc{border-radius:22px;border:1px solid var(--line2);background:linear-gradient(170deg,#171B13,#0D0F0B);padding:24px;transform-style:preserve-3d;will-change:transform;display:flex;flex-direction:column}
-.wc .num{font:600 clamp(44px,4.4vw,64px)/.9 var(--display);font-stretch:125%;letter-spacing:-.06em;color:transparent;-webkit-text-stroke:1px rgba(198,255,52,.55);transform:translateZ(40px)}
-.wc .k{font:500 11px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--lime);margin-top:26px}
-.wc h3{font-size:clamp(21px,1.9vw,26px);font-stretch:112%;margin-top:10px;transform:translateZ(24px)}
-.wc p{color:var(--fg2);font-size:15.5px;margin-top:10px}
-@media(max-width:980px){.who-g{grid-template-columns:minmax(0,1fr)}}
-.join .box{border-radius:30px;border:1px solid rgba(198,255,52,.3);background:radial-gradient(70% 120% at 0% 0%,rgba(198,255,52,.13),transparent 60%),linear-gradient(170deg,#141A10,#0B0D09);padding:clamp(28px,5vw,64px);overflow:hidden}
-.join .top{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:30px;align-items:end}
-.rail{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;margin-top:clamp(36px,5vw,56px);perspective:1200px}
-.rail li{list-style:none;border-radius:16px;border:1px solid var(--line2);background:rgba(10,11,9,.75);padding:18px;transform-origin:50% 100%;will-change:transform;display:flex;flex-direction:column;min-height:190px}
-.rail .n{display:flex;justify-content:space-between;align-items:center}
-.rail .n b{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;font:500 12px/1 var(--mono);color:#0A0B09;background:var(--lime)}
-.rail .n span{font:500 10.5px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--lime);border:1px solid rgba(198,255,52,.35);border-radius:999px;padding:5px 8px}
-.rail h3{font-size:16.5px;font-stretch:108%;letter-spacing:-.02em;line-height:1.25;margin-top:auto;padding-top:22px}
-.rail p{color:var(--fg2);font-size:14px;margin-top:6px;line-height:1.45}
-.rail ol{margin:0;padding:0;display:contents}
-@media(max-width:1000px){.join .top{grid-template-columns:minmax(0,1fr)}.rail{grid-template-columns:minmax(0,1fr)}.rail li{min-height:0}.rail h3{padding-top:14px}}
+.big{font:400 clamp(34px,3vw,44px)/1 var(--serif)}
+.gauge{display:flex;align-items:center;gap:16px}
+.gauge svg{width:80px;height:80px;transform:rotate(-90deg)}
+.gauge .v{font:400 46px/1 var(--serif)}
+.gauge .v small{font:400 13px/1 var(--mono);color:var(--mute)}
+@media(max-width:980px){.row{grid-template-columns:minmax(0,1fr)}.pn.af{transform-origin:50% 0}}
 
-footer{border-top:1px solid var(--line);position:relative;z-index:2;background:var(--bg)}
+/* ---------- who ---------- */
+.who-g{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-top:clamp(36px,5vw,60px);perspective:1200px}
+.wc{border-radius:20px;border:1px solid var(--line2);background:linear-gradient(170deg,#171C13,#0D0F0B);padding:26px;transition:transform .5s var(--e),border-color .3s;transform-style:preserve-3d}
+.wc:hover{border-color:rgba(198,255,52,.4)}
+.wc .k{font:500 10px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--lime)}
+.wc h3{font-family:var(--serif);font-weight:400;font-size:clamp(30px,2.6vw,40px);line-height:1.02;margin-top:14px}
+.wc p{color:var(--fg2);font-size:15.5px;margin-top:12px}
+.wc .vis{display:flex;gap:6px;margin-top:22px;flex-wrap:wrap}
+.wc .vis i{width:22px;height:22px;border-radius:6px;border:1px solid rgba(198,255,52,.35);background:rgba(198,255,52,.08)}
+.wc .vis i.f{background:var(--lime);border-color:var(--lime)}
+.wc .vis i.a{background:rgba(255,176,32,.2);border-color:var(--hold)}
+@media(max-width:980px){.who-g{grid-template-columns:minmax(0,1fr)}}
+
+/* ---------- join ---------- */
+.join .wrap{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(30px,5vw,70px);align-items:start}
+.steps{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.steps li{display:grid;grid-template-columns:40px minmax(0,1fr) auto;gap:14px;align-items:start;padding:16px;border-radius:14px;border:1px solid var(--line2);background:rgba(7,8,6,.6)}
+.steps .n{width:36px;height:36px;border-radius:10px;display:grid;place-items:center;font:500 11px/1 var(--mono);color:#0A0B08;background:var(--lime)}
+.steps h3{font-size:16.5px;margin-top:2px}
+.steps p{color:var(--fg2);font-size:14.5px;margin-top:4px}
+.steps .tg{font:500 9.5px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--lime);border:1px solid rgba(198,255,52,.35);border-radius:999px;padding:6px 9px;margin-top:4px}
+@media(max-width:900px){.join .wrap{grid-template-columns:minmax(0,1fr)}.steps li{grid-template-columns:36px minmax(0,1fr);gap:12px}.steps .tg{grid-column:2;justify-self:start;margin-top:2px}}
+
+footer{position:relative;z-index:5;background:var(--bg);margin-top:40px;border-top:1px solid var(--line)}
 .ftop{display:grid;grid-template-columns:minmax(0,1.4fr) repeat(3,minmax(0,1fr));gap:34px;padding-block:clamp(56px,7vw,90px) 46px}
 .ftop .tl{margin-top:18px;max-width:30ch;color:var(--fg2);font-size:15.5px}
 .soc{display:flex;gap:10px;margin-top:24px}
-.soc a{width:42px;height:42px;border-radius:50%;border:1px solid var(--line2);display:grid;place-items:center;transition:background .3s,color .3s,border-color .3s}
-.soc a:hover{background:var(--lime);color:#0A0B09;border-color:var(--lime)}
+.soc a{width:42px;height:42px;border-radius:12px;border:1px solid var(--line2);display:grid;place-items:center;transition:background .3s,color .3s,border-color .3s}
+.soc a:hover{background:var(--lime);color:#0A0B08;border-color:var(--lime)}
 .soc svg{width:18px;height:18px}
-footer h4{margin:0 0 16px;font:500 11px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--mute)}
+footer h4{margin:0 0 16px;font:500 10px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--mute)}
 footer ul{list-style:none;margin:0;padding:0;display:grid;gap:10px;font-size:15.5px;color:var(--fg2)}
 footer ul a:hover{color:var(--lime)}
 .ct{display:flex;align-items:center;gap:9px}.ct svg{width:16px;height:16px;flex:none}
@@ -272,32 +271,6 @@ footer ul a:hover{color:var(--lime)}
 .fbar .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;padding-block:22px;font-size:14px;color:var(--mute)}
 .fbar nav{display:flex;gap:22px}.fbar a:hover{color:var(--lime)}
 @media(max-width:900px){.ftop{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.ftop>div:first-child{grid-column:1/-1}}
-
-/* phone and short-screen mode: the same device, docked at the top while the story scrolls beneath it */
-.mob .devfix{z-index:50;left:0;right:0;width:auto;bottom:auto;height:calc(var(--navh) + env(safe-area-inset-top,0px) + var(--devh));padding-top:calc(var(--navh) + env(safe-area-inset-top,0px));background:var(--bg);overflow:hidden;perspective:1200px}
-.mob .devfix::after{content:"";position:absolute;left:0;right:0;bottom:0;height:26px;background:linear-gradient(rgba(10,11,9,0),var(--bg))}
-.mob .dev{width:min(86vw,calc((var(--devh) - 40px) * 1.55))}
-.mob .bz{padding:6px;border-radius:14px}.mob .scr{border-radius:9px}.mob .back{border-radius:14px}
-.mob .edge.r,.mob .edge.l{width:9px}.mob .edge.b,.mob .edge.t{height:9px}
-.mob .tst{font-size:10.5px;padding:6px 9px;gap:6px;border-radius:10px}.mob .tst .abd{font-size:11px}.mob .tst b{font-size:9px}
-.mob .orbit .abd{font-size:12px}
-.mob .pop{width:60%;padding:8px 10px;border-radius:10px;font-size:9.5px}.mob .pop h4{font-size:12.5px;margin-top:4px}.mob .pop p{margin-top:3px}.mob .pop span{font-size:8.5px;margin-top:6px;padding:4px 6px}.mob .pop .n{font-size:8.5px}
-.mob .nav.on,.mob .nav{background:var(--bg);border-color:transparent}
-.mob .hero{padding-top:calc(var(--navh) + env(safe-area-inset-top,0px) + var(--devh) + 28px)!important}
-.mob .chap.hold{min-height:calc(100svh - var(--navh) - var(--devh));padding-block:56px}
-.mob .chap .txt{width:100%}
-.mob .long>.wrap{height:100%}
-.mob .long .txt{height:100%;position:static}
-.mob .alist,.mob .slist{position:sticky;top:calc(var(--navh) + env(safe-area-inset-top,0px) + var(--devh) + 10px);margin-top:26px;z-index:1}
-.mob .alist li,.mob .slist li{display:none;background:var(--panel);border:1px solid var(--line2)}
-.mob .alist li.on,.mob .slist li.on{display:grid}
-.mob .alist li span{display:block!important;color:var(--lime);font:500 11px/1.6 var(--mono);letter-spacing:.1em;text-transform:uppercase}
-.alist .ad{display:none;grid-column:2;color:var(--fg2);font-size:15px;line-height:1.5;margin-top:6px}
-.mob .alist li.on .ad{display:block}
-.mob .alist li,.mob .slist li{padding:16px}
-.mob .chk{grid-template-columns:minmax(0,1fr)}
-.mob .ptabs{margin-top:22px}
-.mcards{display:none!important}
 
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.001s!important;animation-iteration-count:1!important;transition-duration:.001s!important}}
 </style>
@@ -308,148 +281,146 @@ footer ul a:hover{color:var(--lime)}
 <symbol id="mark" viewBox="310.13 0 424.1 429.98"><path fill="#A8E01F" d="M403.97,273.21c0-157.93,72.2-171.56,162.13-171.56,22,0,43.67,1.22,63.66,5.4-18-71.16-83.64-77.69-157.26-98.37-110.31-30.99-151.66,22.86-160.93,132.85-10.24,121.46,35.5,162.73,97.25,175.66-3.16-12.52-4.85-27.03-4.85-43.97Z"/><path fill="#C6FF34" d="M571.86,107.4c-89.93,0-162.12,13.63-162.13,171.56,0,113.31,75.55,118.03,162.13,142.36,110.31,30.99,151.66-22.86,160.93-132.85,13.55-160.8-70.99-181.07-160.93-181.07Z"/></symbol>
 <symbol id="logoH" viewBox="0 0 2111 430"><g transform="translate(-310.13,-0.01) scale(1.0)"><path fill="#A8E01F" d="M403.97,273.21c0-157.93,72.2-171.56,162.13-171.56,22,0,43.67,1.22,63.66,5.4-18-71.16-83.64-77.69-157.26-98.37-110.31-30.99-151.66,22.86-160.93,132.85-10.24,121.46,35.5,162.73,97.25,175.66-3.16-12.52-4.85-27.03-4.85-43.97Z"/><path fill="#C6FF34" d="M571.86,107.4c-89.93,0-162.12,13.63-162.13,171.56,0,113.31,75.55,118.03,162.13,142.36,110.31,30.99,151.66-22.86,160.93-132.85,13.55-160.8-70.99-181.07-160.93-181.07Z"/></g><g transform="translate(484.29720000000003,-683.81) scale(1.5578)"><path fill="currentColor" d="M98.91,490.14c48.83,0,75.98,27.65,75.98,84.21,0,39.86-13.45,65.52-38.62,76.98l15.94,33.38h-29.65l-12.95-26.91c-3.49.5-6.98.5-10.71.5h-22.92c-49.08,0-75.98-27.65-75.98-83.96s27.16-84.21,75.98-84.21h22.92ZM108.62,593.28l14.7,31.14c15.2-7.23,21.92-23.42,21.92-50.08,0-38.37-13.95-54.81-46.34-54.81h-22.92c-32.39,0-46.59,16.44-46.59,54.81s13.95,54.56,46.59,54.56h19.93l-16.94-35.63h29.65Z"/><path fill="currentColor" d="M218.99,526.76v78.73c0,15.45,11.46,27.16,32.39,27.16h21.43c20.93,0,32.14-11.71,32.14-27.16v-78.73h25.91v79.72c0,30.39-19.43,51.82-57.05,51.82h-24.41c-37.62,0-57.05-21.43-57.05-51.82v-79.72h26.66Z"/><path fill="currentColor" d="M379.68,477.18v30.64h-26.66v-30.64h26.66ZM379.43,526.76v131.54h-26.41v-131.54h26.41Z"/><path fill="currentColor" d="M537.88,469.71v132.29c0,37.87-16.94,56.3-48.33,56.3h-36.37c-35.13,0-57.05-21.43-57.05-65.77s21.92-65.77,57.05-65.77h58.05v-57.05h26.66ZM511.22,600.75v-48.58h-55.56c-22.67,0-32.89,11.96-32.89,40.36s10.21,40.11,32.89,40.11h26.16c21.18,0,29.4-9.47,29.4-31.89Z"/><path fill="currentColor" d="M654.72,490.14c48.83,0,75.98,27.65,75.98,84.21,0,39.86-13.45,65.52-38.62,76.98l15.94,33.38h-29.65l-12.95-26.91c-3.49.5-6.98.5-10.71.5h-22.92c-49.08,0-75.98-27.65-75.98-83.96s27.16-84.21,75.98-84.21h22.92ZM664.43,593.28l14.7,31.14c15.2-7.23,21.92-23.42,21.92-50.08,0-38.37-13.95-54.81-46.34-54.81h-22.92c-32.39,0-46.59,16.44-46.59,54.81s13.95,54.56,46.59,54.56h19.93l-16.94-35.63h29.65Z"/><path fill="currentColor" d="M774.8,526.76v78.73c0,15.45,11.46,27.16,32.39,27.16h21.43c20.93,0,32.14-11.71,32.14-27.16v-78.73h25.91v79.72c0,30.39-19.43,51.82-57.05,51.82h-24.41c-37.62,0-57.05-21.43-57.05-51.82v-79.72h26.66Z"/><path fill="currentColor" d="M987.31,526.76c34.88,0,57.05,21.42,57.05,65.77s-22.17,65.77-57.05,65.77h-27.65c-35.13,0-57.05-21.43-57.05-65.77s21.92-65.77,57.05-65.77h27.65ZM962.15,552.17c-22.92,0-32.89,11.96-32.89,40.36s9.97,40.11,32.89,40.11h22.67c22.67,0,32.89-11.71,32.89-40.11s-10.21-40.36-32.89-40.36h-22.67Z"/></g></symbol>
 <symbol id="arr" viewBox="0 0 16 16"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+<marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 10 5 0 10z" fill="#C6FF34"/></marker>
 </defs></svg>
 
 <header class="nav" id="nav"><div class="wrap">
  <a class="logo" href="#top" aria-label="QuidQuo home"><svg viewBox="0 0 2111 430"><use href="#logoH"/></svg></a>
  <nav class="menu" aria-label="Main"><a href="#agents">Agents</a><a href="#journey">Journey</a><a href="#platform">Platform</a><a href="#who">Who it is for</a></nav>
  <div class="side"><a class="si" href="#join">Sign in</a><a class="btn go sm" href="mailto:info@quidquo.com?subject=QuidQuo%20demo%20request">Book a demo</a></div>
-</div></header>
-<nav class="chapnav" id="chapnav" aria-label="Chapters"><a href="#top" aria-label="Start"></a><a href="#record" aria-label="One record"></a><a href="#agents" aria-label="Agents"></a><a href="#journey" aria-label="Journey"></a><a href="#platform" aria-label="Platform"></a></nav>
-
-<div class="devfix" id="devfix" aria-hidden="true"><div class="dev" id="dev"></div></div>
+</div><i class="pg" id="pg"></i></header>
 
 <main id="top">
-<section class="chap hold hero" data-ch="0">
- <div class="wrap"><div class="txt">
+<section class="sh hero"><div class="shi"><div class="wrap">
+ <div>
   <div class="pill rv"><b>Free</b>Your first venture assessment costs nothing</div>
   <h1 class="rv d1">Capital formation, run by <em>specialized AI agents</em></h1>
   <p class="lead rv d2">QuidQuo is a venture platform staffed by AI agents. Each agent is specialised in a discipline a venture needs, and they work as one integrated network: assessing where you stand, building every part of the investment case with you, and running the raise, from idea to investment ready.</p>
   <div class="ctas rv d3"><a class="btn go" href="mailto:info@quidquo.com?subject=QuidQuo%20demo%20request">Book a demo<svg><use href="#arr"/></svg></a><a class="btn" href="#platform">See the platform</a></div>
   <p class="note rv d3">Free to start. Your first venture assessment costs nothing.</p>
- </div></div>
-</section>
-
-<section class="chap hold" id="record" data-ch="1">
- <div class="wrap"><div class="txt">
-  <div class="ey rv"><i>01</i>One record</div>
-  <h2 class="h2 rv">One venture record</h2>
-  <p class="lead rv d1">QuidQuo is a multi-agent system, fully integrated and orchestrated by Aether. Every agent reads and writes the same structured record, so a change one makes is a change every other already knows about.</p>
-  <p class="p2 rv d2">The deck says one thing, the model another, the data room a third. <em>On QuidQuo they are the same record.</em></p>
- </div></div>
-</section>
-
-<section class="chap long" id="agents" data-ch="2" data-steps="7">
- <div class="wrap"><div class="txt stick">
-  <div class="ey rv"><i>02</i>The agentic team</div>
-  <h2 class="h2 rv">Meet Aether, and the network behind it</h2>
-  <p class="lead rv d1">Aether is your chief of staff and the agent you talk to by default. It works out what the venture needs, briefs the specialist agents, hands work between them and reports back.</p>
-  <ol class="alist" id="alist"></ol>
-  <div class="mcards" id="amc"></div>
- </div></div>
-</section>
-<section class="chap tail">
- <div class="wrap"><div class="txt">
-  <div class="trio">
-   <div class="rv"><h3>Talk to one or all of them</h3><p>Aether brokers by default. When you want a specialist directly, you open a thread with them.</p></div>
-   <div class="rv d1"><h3>One venture record</h3><p>Agents read and write structured state, so a change one makes is a change every other already knows about.</p></div>
-   <div class="rv d2"><h3>Contradictions surface</h3><p>When two agents disagree, Aether shows you both readings rather than quietly picking one.</p></div>
-  </div>
- </div></div>
-</section>
-
-<section class="chap long" id="journey" data-ch="3" data-steps="6">
- <div class="wrap"><div class="txt stick">
-  <div class="ey rv"><i>03</i>The journey</div>
-  <h2 class="h2 rv">Comprehensive, idea to investment ready</h2>
-  <ol class="slist" id="slist"></ol>
-  <div class="mcards" id="smc"></div>
- </div></div>
-</section>
-
-<section class="chap hold" id="platform" data-ch="4">
- <div class="wrap"><div class="txt">
-  <div class="ey rv"><i>04</i>The platform</div>
-  <h2 class="h2 rv">Four surfaces, each worked in depth</h2>
-  <p class="lead rv d1">Where you watch the agentic team work, review what it produces, and decide.</p>
-  <div class="ptabs" id="ptabs" role="tablist" aria-label="Platform surfaces"></div>
-  <div class="pinfo" id="pinfo"></div>
- </div></div>
-</section>
-
-<section class="sec" id="difference" data-ch="5">
- <div class="wrap">
-  <div class="ey rv"><i>05</i>The difference</div>
-  <h2 class="h2 rv" style="max-width:18ch">What changes when agents do the work</h2>
-  <p class="lead rv d1">Three things a founder cannot fix alone, and what the network does about each. Drag across each card to compare.</p>
-  <div class="cmp">
-   <article class="cm rv">
-    <div class="sl"><div class="ly bf"><div class="lb">Before</div><div class="vb">
-      <div class="ln"><span>Deck tool</span><span class="you">you</span></div><div class="ln"><span>Model template</span><span class="you">you</span></div><div class="ln"><span>Data room</span><span class="you">you</span></div></div>
-      <div class="cap">Three tools, one person doing it all</div></div>
-     <div class="ly af"><div class="lb">After</div><div class="vb">
-      <div class="ln"><span><span class="abd">BD</span>Build</span><b>drafting</b></div><div class="ln"><span><span class="abd">AS</span>Assessment</span><b>scoring</b></div><div class="ln"><span><span class="abd">DF</span>Deal Flow</span><b>running</b></div></div>
-      <div class="cap">One team doing it · you decide</div></div>
-     <input type="range" min="0" max="100" value="50" aria-label="Compare before and after: a team that does the work"><span class="hd"></span></div>
-    <h3>A team that does the work</h3>
-    <p>Most software gives you somewhere to do the work. QuidQuo gives you the team that does it, coordinated by Aether, with every decision left to you.</p>
-    <div class="tag">Service, not software</div>
-   </article>
-   <article class="cm rv d1">
-    <div class="sl"><div class="ly bf"><div class="lb">Before</div><div class="vb">
-      <div class="files"><div class="file"><small>Deck</small><b>340M</b></div><div class="file"><small>Model</small><b>290M</b></div><div class="file"><small>Data room</small><b>310M</b></div></div></div>
-      <div class="cap">Three files, three answers</div></div>
-     <div class="ly af"><div class="lb">After</div><div class="vb">
-      <div class="files"><div class="file"><small>Deck</small><b>17.0M</b></div><div class="file"><small>Model</small><b>17.0M</b></div><div class="file"><small>Data room</small><b>17.0M</b></div></div></div>
-      <div class="cap">One record, one answer</div></div>
-     <input type="range" min="0" max="100" value="50" aria-label="Compare before and after: one record, not a dozen files"><span class="hd"></span></div>
-    <h3>One record, not a dozen files</h3>
-    <p>The deck says one thing, the model another, the data room a third. Change one number and nothing else knows.</p>
-    <div class="tag">Change one, all follow</div>
-   </article>
-   <article class="cm rv d2">
-    <div class="sl"><div class="ly bf"><div class="lb">Before</div><div class="vb"><div class="big">Looks ready</div></div><div class="cap">The deck goes out anyway</div></div>
-     <div class="ly af"><div class="lb">After</div><div class="vb">
-      <div class="gauge"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="42" fill="none" stroke="#232A1D" stroke-width="9"/><circle cx="50" cy="50" r="42" fill="none" stroke="#FFB020" stroke-width="9" stroke-linecap="round" stroke-dasharray="126.7 263.9"/></svg><div class="v">48<small> / 100</small></div></div></div>
-      <div class="cap" style="color:var(--hold)">Not ready · 3 blocking findings</div></div>
-     <input type="range" min="0" max="100" value="50" aria-label="Compare before and after: an honest read on readiness"><span class="hd"></span></div>
-    <h3>An honest read on readiness</h3>
-    <p>Every tool helps you send the deck. None of them tells you the deck should not go out yet.</p>
-    <div class="tag">Computed, not negotiated</div>
-   </article>
-  </div>
  </div>
-</section>
+ <div class="hv" id="hv" aria-hidden="true"><div class="hrig" id="hrig"></div></div>
+</div></div></section>
 
-<section class="sec" id="who" style="padding-top:0">
- <div class="wrap">
-  <div class="ey rv"><i>06</i>Who it is for</div>
-  <h2 class="h2 rv" style="max-width:18ch">Built for the people who carry the raise</h2>
-  <p class="lead rv d1">One venture or fifty, the agents work the same way.</p>
-  <div class="who-g" id="whog">
-   <article class="wc"><div class="num">One</div><div class="k">One venture</div><h3>Founders</h3><p>You have the venture and not the team. The agentic team gives you the operating capability a raise needs, without hiring for it.</p></article>
-   <article class="wc"><div class="num">Many</div><div class="k">Many, separate</div><h3>Portfolios and venture arms</h3><p>Every venture gets its own agents and its own record, assessed on its own, never averaged into a score that hides the one in trouble.</p></article>
-   <article class="wc"><div class="num">Cohort</div><div class="k">A cohort</div><h3>Accelerators</h3><p>Put the same standard of investment case behind every company in a cohort, and see which of them are actually ready.</p></article>
-  </div>
- </div>
-</section>
-
-<section class="sec join" id="join" style="padding-top:0">
- <div class="wrap"><div class="box">
-  <div class="top">
-   <div><div class="ey rv"><i>07</i>Join the platform</div><h2 class="h2 rv">Give your venture <em>agentic capabilities</em></h2></div>
-   <div><p class="lead rv d1" style="margin-top:0">Bring on a network of specialised AI agents and let them carry the work a venture needs done. It begins with onboarding and your first assessment, both free, so the agents know what they are working with before they start building.</p>
-   <div class="ctas rv d2"><a class="btn go" href="mailto:info@quidquo.com?subject=QuidQuo%20demo%20request">Book a demo<svg><use href="#arr"/></svg></a></div></div>
-  </div>
-  <ol class="rail" id="rail">
-   <li><div class="n"><b>01</b><span>today</span></div><h3>Aether meets you</h3><p>Your chief of staff introduces itself and learns the venture.</p></li>
-   <li><div class="n"><b>02</b><span>free</span></div><h3>The assessment runs</h3><p>A full diagnosis with every score traced to evidence.</p></li>
-   <li><div class="n"><b>03</b></div><h3>You staff the agentic team</h3><p>Told what the venture needs and which agents serve it, then you choose.</p></li>
-   <li><div class="n"><b>04</b></div><h3>They build the investment case</h3><p>Idea generation through to investment readiness, section by section.</p></li>
-   <li><div class="n"><b>05</b></div><h3>They run the raise</h3><p>Materials, valuation, terms and full pipeline management.</p></li>
+<section class="sh sys" id="system"><div class="shi"><div class="wrap">
+ <div class="txt">
+  <div class="ey rv">The system</div>
+  <h2 class="h2 rv">A full team of agents for every part of the <em>raise</em></h2>
+  <p class="lead rv d1">QuidQuo is a fully integrated, orchestrated multi-agent system for capital formation. Specialised agents cover every discipline a venture needs, from shaping the idea to closing the round, and they work together as one team.</p>
+  <ol class="pts">
+   <li class="rv"><i>01</i><h3>Every discipline covered</h3><p>Founders, diagnosis, market, model, strategy, legal, materials, valuation and investors. Each has an agent that specialises in it.</p></li>
+   <li class="rv d1"><i>02</i><h3>Orchestrated, not stitched together</h3><p>Work moves between agents as it is done. The model is built on the validated market, and the deck is built on the model.</p></li>
+   <li class="rv d2"><i>03</i><h3>From idea to capital raise</h3><p>One continuous journey on one platform, instead of a new tool and a new adviser at every stage.</p></li>
   </ol>
+ </div>
+ <div class="track" id="btrack">
+  <div class="bpin" id="bpin">
+   <div class="bview" id="bview"><div class="board" id="board" aria-label="How the agents work across the raise">
+    <div class="bh" id="bh"><span></span><span>Idea</span><span>Validate</span><span>Model</span><span>Build</span><span>Prepare</span><span>Raise</span></div>
+    <svg class="hand" id="hand"></svg>
+    <span class="cursor" id="bcur" data-l="Idea"></span>
+   </div></div>
+   <div class="blegend"><span><i style="background:var(--up)"></i>done</span><span><i style="background:var(--lime)"></i>in progress</span><span><i style="background:var(--lime);height:2px;width:16px;border-radius:0"></i>handed to the next agent</span></div>
+  </div>
+ </div>
+</div></div></section>
+
+<section class="sh" id="agents"><div class="shi">
+ <div class="wrap ag-head">
+  <div><div class="ey rv">The agentic team</div><h2 class="h2 rv">Meet Aether, and the network behind it</h2></div>
+  <p class="lead rv d1">Aether is your chief of staff and the agent you talk to by default. It works out what the venture needs, briefs the specialist agents, hands work between them and reports back.</p>
+ </div>
+ <div class="flow"><div class="strip" id="strip" tabindex="0" aria-label="Agents, scroll sideways"></div></div>
+ <div class="fctl"><button type="button" id="fprev" aria-label="Previous agent"><svg viewBox="0 0 16 16" style="transform:scaleX(-1)"><use href="#arr"/></svg></button><span class="dots" id="fdots"></span><button type="button" id="fnext" aria-label="Next agent"><svg><use href="#arr"/></svg></button></div>
+ <div class="wrap"><div class="trio">
+  <div class="rv"><h3>Talk to one or all of them</h3><p>Aether brokers by default. When you want a specialist directly, you open a thread with them.</p></div>
+  <div class="rv d1"><h3>One venture record</h3><p>Agents read and write structured state, so a change one makes is a change every other already knows about.</p></div>
+  <div class="rv d2"><h3>Contradictions surface</h3><p>When two agents disagree, Aether shows you both readings rather than quietly picking one.</p></div>
  </div></div>
-</section>
+</div></section>
+
+<section class="sh" id="journey"><div class="shi"><div class="wrap">
+ <div class="jt" id="jt">
+  <div class="jpin">
+   <div>
+    <div class="ey rv">The journey</div>
+    <h2 class="h2 rv">Comprehensive, idea to investment ready</h2>
+    <div class="jcount" aria-hidden="true"><span id="jn">01</span><small> / 06</small></div>
+    <div class="jbar" id="jbar" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+   </div>
+   <div class="flipdeck" id="flipdeck"></div>
+  </div>
+ </div>
+</div></div></section>
+
+<section class="sh" id="platform"><div class="shi"><div class="wrap">
+ <div class="ey rv">The platform</div>
+ <h2 class="h2 rv">Four surfaces, each worked in depth</h2>
+ <p class="lead rv d1">Where you watch the agentic team work, review what it produces, and decide.</p>
+ <div class="pf">
+  <div class="ptabs" id="ptabs" role="tablist" aria-label="Platform surfaces"></div>
+  <div>
+   <div class="pstage"><div class="win pwin" id="pwin">
+    <div class="wbar"><i></i><i></i><i></i><span id="url">app.quidquo.com/assess</span></div>
+    <div class="screen"><img class="a" id="imA" alt="QuidQuo platform screen"><img class="b" id="imB" alt="">
+     <span class="ring" id="ring"></span>
+     <svg class="cur" id="cur" viewBox="0 0 24 24"><path d="M4 2.5v17.2l4.6-4.3 2.9 6.6 3.1-1.4-2.9-6.5H18L4 2.5Z" fill="#F0F3E8" stroke="#070806" stroke-width="1.3" stroke-linejoin="round"/></svg>
+    </div>
+   </div></div>
+   <div class="pinfo" id="pinfo"></div>
+  </div>
+ </div>
+</div></div></section>
+
+<section class="sh" id="difference"><div class="shi"><div class="wrap">
+ <div class="ey rv">The difference</div>
+ <h2 class="h2 rv">What changes when agents do the work</h2>
+ <p class="lead rv d1">Three things a founder cannot fix alone, and what the network does about each.</p>
+ <div class="rows">
+  <div class="row">
+   <div class="meta"><h3>A team that does the work</h3><p>Most software gives you somewhere to do the work. QuidQuo gives you the team that does it, coordinated by Aether, with every decision left to you.</p><span class="tag">Service, not software</span></div>
+   <div class="pn bf"><span class="lb">Before</span><div class="vb"><div class="ln"><span>Deck tool</span><span class="you">you</span></div><div class="ln"><span>Model template</span><span class="you">you</span></div><div class="ln"><span>Data room</span><span class="you">you</span></div></div><span class="cap">Three tools, one person doing it all</span></div>
+   <div class="pn af"><span class="lb">After</span><div class="vb"><div class="ln"><span><span class="abd">BD</span>Build</span><b>drafting</b></div><div class="ln"><span><span class="abd">AS</span>Assessment</span><b>scoring</b></div><div class="ln"><span><span class="abd">DF</span>Deal Flow</span><b>running</b></div></div><span class="cap">One team doing it · you decide</span></div>
+  </div>
+  <div class="row">
+   <div class="meta"><h3>One record, not a dozen files</h3><p>The deck says one thing, the model another, the data room a third. Change one number and nothing else knows.</p><span class="tag">Change one, all follow</span></div>
+   <div class="pn bf"><span class="lb">Before</span><div class="vb"><div class="files"><div class="file"><small>Deck</small><b>340M</b></div><div class="file"><small>Model</small><b>290M</b></div><div class="file"><small>Data room</small><b>310M</b></div></div></div><span class="cap">Three files, three answers</span></div>
+   <div class="pn af"><span class="lb">After</span><div class="vb"><div class="files"><div class="file"><small>Deck</small><b>17.0M</b></div><div class="file"><small>Model</small><b>17.0M</b></div><div class="file"><small>Data room</small><b>17.0M</b></div></div></div><span class="cap">One record, one answer</span></div>
+  </div>
+  <div class="row">
+   <div class="meta"><h3>An honest read on readiness</h3><p>Every tool helps you send the deck. None of them tells you the deck should not go out yet.</p><span class="tag">Computed, not negotiated</span></div>
+   <div class="pn bf"><span class="lb">Before</span><div class="vb"><div class="big">Looks ready</div></div><span class="cap">The deck goes out anyway</span></div>
+   <div class="pn af"><span class="lb">After</span><div class="vb"><div class="gauge"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="42" fill="none" stroke="#232A1D" stroke-width="9"/><circle cx="50" cy="50" r="42" fill="none" stroke="#FFB020" stroke-width="9" stroke-linecap="round" stroke-dasharray="126.7 263.9"/></svg><div class="v">48<small> / 100</small></div></div></div><span class="cap" style="color:var(--hold)">Not ready · 3 blocking findings</span></div>
+  </div>
+ </div>
+</div></div></section>
+
+<section class="sh" id="who"><div class="shi"><div class="wrap">
+ <div class="ey rv">Who it is for</div>
+ <h2 class="h2 rv">Built for the people who carry the raise</h2>
+ <p class="lead rv d1">One venture or fifty, the agents work the same way.</p>
+ <div class="who-g">
+  <article class="wc rv"><div class="k">One venture</div><h3>Founders</h3><p>You have the venture and not the team. The agentic team gives you the operating capability a raise needs, without hiring for it.</p><div class="vis" aria-hidden="true"><i class="f"></i></div></article>
+  <article class="wc rv d1"><div class="k">Many, separate</div><h3>Portfolios and venture arms</h3><p>Every venture gets its own agents and its own record, assessed on its own, never averaged into a score that hides the one in trouble.</p><div class="vis" aria-hidden="true"><i class="f"></i><i class="f"></i><i class="a"></i><i class="f"></i><i class="f"></i><i class="f"></i></div></article>
+  <article class="wc rv d2"><div class="k">A cohort</div><h3>Accelerators</h3><p>Put the same standard of investment case behind every company in a cohort, and see which of them are actually ready.</p><div class="vis" aria-hidden="true"><i class="f"></i><i></i><i class="f"></i><i></i><i></i><i class="f"></i><i></i><i class="f"></i></div></article>
+ </div>
+</div></div></section>
+
+<section class="sh alt join" id="join"><div class="shi"><div class="wrap">
+ <div>
+  <div class="ey rv">Join the platform</div>
+  <h2 class="h2 rv">Give your venture <em>agentic capabilities</em></h2>
+  <p class="lead rv d1">Bring on a network of specialised AI agents and let them carry the work a venture needs done. It begins with onboarding and your first assessment, both free, so the agents know what they are working with before they start building.</p>
+  <div class="ctas rv d2"><a class="btn go" href="mailto:info@quidquo.com?subject=QuidQuo%20demo%20request">Book a demo<svg><use href="#arr"/></svg></a></div>
+ </div>
+ <ol class="steps">
+  <li class="rv"><span class="n">01</span><div><h3>Aether meets you</h3><p>Your chief of staff introduces itself and learns the venture.</p></div><span class="tg">today</span></li>
+  <li class="rv d1"><span class="n">02</span><div><h3>The assessment runs</h3><p>A full diagnosis with every score traced to evidence.</p></div><span class="tg">free</span></li>
+  <li class="rv d1"><span class="n">03</span><div><h3>You staff the agentic team</h3><p>Told what the venture needs and which agents serve it, then you choose.</p></div></li>
+  <li class="rv d2"><span class="n">04</span><div><h3>They build the investment case</h3><p>Idea generation through to investment readiness, section by section.</p></div></li>
+  <li class="rv d3"><span class="n">05</span><div><h3>They run the raise</h3><p>Materials, valuation, terms and full pipeline management.</p></div></li>
+ </ol>
+</div></div></section>
 </main>
 
 <footer>
@@ -478,11 +449,79 @@ var RM=matchMedia('(prefers-reduced-motion: reduce)').matches,FINE=matchMedia('(
 function clamp(v,a,b){a=a==null?0:a;b=b==null?1:b;return v<a?a:v>b?b:v}
 function lerp(a,b,t){return a+(b-a)*t}
 function eio(t){return t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2}
-var W=innerWidth,H=innerHeight,DESK=true,mx=0,my=0;
+var W=innerWidth,H=innerHeight,NAVH=68,mx=0,my=0;
 var MARK='<svg><use href="#mark"/></svg>';
 if(FINE)addEventListener('pointermove',function(e){mx=e.clientX/W-.5;my=e.clientY/H-.5;},{passive:true});
 
-/* content */
+/* reveal */
+var rvs=[].slice.call(document.querySelectorAll('.rv'));
+var io=('IntersectionObserver' in window&&!RM)?new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}})},{rootMargin:'0px 0px -6% 0px'}):null;
+rvs.forEach(function(el){if(!io){el.classList.add('in');return;}var r=el.getBoundingClientRect();if(r.top<H&&r.bottom>0)setTimeout(function(){el.classList.add('in')},60);else io.observe(el);});
+
+/* ===== stacked section cards ===== */
+var shs=[].slice.call(document.querySelectorAll('.sh')),shi=shs.map(function(s){return s.querySelector('.shi')});
+function stackLayout(){shs.forEach(function(s){var h=s.offsetHeight,avail=H-NAVH-10;s.style.top=(h<=avail?NAVH+10:H-h-8)+'px';});}
+function stackUpdate(){for(var i=0;i<shs.length;i++){var nx=shs[i+1];var q=0,hide=false;if(nx){var r=nx.getBoundingClientRect(),own=shs[i].getBoundingClientRect();q=clamp((H-r.top)/(H*.85));hide=r.bottom<H-2&&r.top<=Math.max(own.top,NAVH)+30;}
+ shs[i].style.visibility=hide?'hidden':'';
+ if(RM)q=0;var el=shi[i];
+ if(q<=0){if(el._q!==0){el.style.transform='';el.style.setProperty('--dim',0);el._q=0;}continue;}
+ el._q=q;el.style.transform='perspective(1600px) rotateX('+(q*5).toFixed(2)+'deg) scale('+(1-q*.07).toFixed(4)+')';el.style.setProperty('--dim',(q*.65).toFixed(3));}}
+
+/* ===== hero: product window in 3D ===== */
+var hrig=document.getElementById('hrig'),hv=document.getElementById('hv');
+hrig.innerHTML='<div class="win"><div class="wbar"><i></i><i></i><i></i><span>app.quidquo.com/watch</span></div><img alt="" src="'+PF.Watch[0].s+'"></div>';
+var CH=[['<span class="abd">BD</span>Build · market sizing','<b>drafting</b>',[-.06,.12,90]],['<span class="abd">AS</span>Assessment · evidence graded','<b>done</b>',[.52,.36,150]],['<span class="abd">DF</span>Deal Flow · investor pipeline','<b class="a">waiting on you</b>',[.12,.8,120]]];
+var chips=CH.map(function(c){var d=document.createElement('div');d.className='chip';d.innerHTML=c[0]+c[1];hrig.appendChild(d);return {el:d,p:c[2]};});
+var hrx=0,hry=0,t0=performance.now();
+function hero(t){var r=hv.getBoundingClientRect();if(r.bottom<0||r.top>H)return;
+ var intro=RM?1:eio(clamp((t-t0-200)/1400)),w=hrig.offsetWidth,h=hrig.offsetHeight;
+ hrx+=((RM?0:-my*7)-hrx)*.06;hry+=((RM?0:mx*10)-hry)*.06;
+ var sp=RM?0:clamp(-r.top/(H*.8));
+ hrig.style.transform='translateY('+((1-intro)*60).toFixed(1)+'px) rotateX('+(lerp(48,16,intro)+hrx-sp*10).toFixed(2)+'deg) rotateY('+(-14+hry+sp*8).toFixed(2)+'deg) rotateZ(1.5deg)';
+ hrig.style.opacity=intro.toFixed(3);
+ chips.forEach(function(c,i){var p=c.p,cw=c.el.offsetWidth,f=clamp(intro*1.6-i*.25);c.el.style.opacity=f.toFixed(3);
+  c.el.style.transform='translate3d('+(clamp(p[0]*w,-.06*w,w-cw+.06*w)).toFixed(1)+'px,'+(p[1]*h+Math.sin(t*.0012+i*2)*(RM?0:5)).toFixed(1)+'px,'+(p[2]*f*(W<=900?.55:1)).toFixed(1)+'px)';});}
+
+/* ===== the system: orchestration board ===== */
+var LANES=[['ID','Identity','founders'],['AS','Assessment','diagnosis'],['BD','Build','venture building'],['DF','Deal Flow','the raise']];
+var TASKS=[[0,0,'Founder profile'],[0,3,'Team gaps mapped'],
+ [1,0,'Baseline assessment'],[1,1,'Evidence graded'],[1,5,'Readiness gate'],
+ [2,0,'Ideas shortlisted'],[2,1,'Customer interviews'],[2,2,'Market sized and modelled'],[2,3,'Strategy, legal and ops'],
+ [3,2,'Valuation inputs'],[3,4,'Deck and data room'],[3,5,'Investor pipeline']];
+var HO=[[0,0,1,0],[1,0,2,0],[2,1,1,1],[2,2,3,2],[0,3,2,3],[2,3,3,4],[1,5,3,5]];
+var PH=['Idea','Validate','Model','Build','Prepare','Raise'];
+var board=document.getElementById('board'),bh=document.getElementById('bh'),hand=document.getElementById('hand'),bcur=document.getElementById('bcur'),bview=document.getElementById('bview'),btrack=document.getElementById('btrack'),bpin=document.getElementById('bpin');
+var cells={};
+LANES.forEach(function(L,li){var row=document.createElement('div');row.className='lane';row.innerHTML='<div class="who"><span class="abd">'+L[0]+'</span><div>'+L[1]+'<small>'+L[2]+'</small></div></div>';
+ for(var c=0;c<6;c++){var cell=document.createElement('div');row.appendChild(cell);cells[li+'-'+c]=cell;}
+ board.insertBefore(row,hand);});
+var tEls=TASKS.map(function(t){var c=cells[t[0]+'-'+t[1]],d=document.createElement('div');d.className='task';d.textContent=t[2];c.appendChild(d);return {el:d,lane:t[0],col:t[1]};});
+var hEls=[],colX=[],BW=760,llb=document.createElement('div');llb.className='llb';bview.appendChild(llb);llb.innerHTML=LANES.map(function(L){return '<span class="abd">'+L[0]+'</span>'}).join('');
+function boardLayout(){var narrow=W<=900;BW=board.offsetWidth;
+ [].forEach.call(llb.children,function(b,i){var ln=board.querySelectorAll('.lane')[i];b.style.top=(ln.offsetTop+ln.offsetHeight/2)+'px';});
+ /* geometry in the board's own (untransformed) coordinates */
+ var heads=[].slice.call(bh.children).slice(1);colX=heads.map(function(h){return h.offsetLeft+h.offsetWidth/2});
+ hand.setAttribute('viewBox','0 0 '+board.offsetWidth+' '+board.offsetHeight);hand.style.width=board.offsetWidth+'px';hand.style.height=board.offsetHeight+'px';
+ hand.innerHTML='';hEls=HO.map(function(h){var a=cells[h[0]+'-'+h[1]].firstChild,b=cells[h[2]+'-'+h[3]].firstChild;
+  function pos(el){var x=0,y=0,e=el;while(e&&e!==board){x+=e.offsetLeft;y+=e.offsetTop;e=e.offsetParent;}return [x,y,el.offsetWidth,el.offsetHeight];}
+  var A=pos(a),B=pos(b),x1,y1,x2,y2,d;
+  if(h[1]===h[3]){x1=A[0]+A[2]*.5;x2=x1;if(B[1]>A[1]){y1=A[1]+A[3];y2=B[1];}else{y1=A[1];y2=B[1]+B[3];}d='M'+x1+' '+y1+' L'+x2+' '+y2;}
+  else{x1=A[0]+A[2];y1=A[1]+A[3]/2;x2=B[0];y2=B[1]+B[3]/2;var mxp=(x1+x2)/2;d='M'+x1+' '+y1+' C'+mxp+' '+y1+' '+mxp+' '+y2+' '+x2+' '+y2;}
+  var p=document.createElementNS('http://www.w3.org/2000/svg','path');p.setAttribute('d',d);p.setAttribute('marker-end','url(#ah)');hand.appendChild(p);return {el:p,col:h[1]};});
+ btrack.style.height=(narrow?bpin.offsetHeight+H*2.2:Math.max(bpin.offsetHeight+H*2,H*2.6))+'px';
+ var vw=bview.parentNode.clientWidth;bview.style.height=(board.offsetHeight*(narrow?1:Math.min(1,vw/BW)))+'px';}
+function boardUpdate(){var r=btrack.getBoundingClientRect();if(r.bottom<-50||r.top>H+50)return;
+ var span=r.height-bpin.offsetHeight-(NAVH+30),p=RM?1:clamp((NAVH+30-r.top)/Math.max(1,span));
+ var narrow=W<=900,vw=bview.clientWidth,s=narrow?1:Math.min(1,vw/BW);
+ var pos=p*5.999,col=Math.floor(pos),fr=pos-col;
+ var cx=lerp(colX[0]-30,colX[5]+30,p);bcur.style.left=cx+'px';bcur.setAttribute('data-l',PH[Math.min(5,col)]);
+ [].forEach.call(bh.children,function(h,i){h.classList.toggle('on',i-1===Math.min(5,col))});
+ tEls.forEach(function(t){t.el.classList.toggle('done',t.col<col);t.el.classList.toggle('on',t.col===col);});
+ hEls.forEach(function(h){h.el.classList.toggle('on',h.col<col||(h.col===col&&fr>.55));});
+ var tilt=RM?0:(1-eio(clamp(p*3)))*24,pan=narrow?clamp(cx-(vw+52)/2,0,Math.max(0,BW-vw)):0;
+ board.style.transform='translateX('+(-pan).toFixed(1)+'px) scale('+s.toFixed(4)+') rotateX('+tilt.toFixed(2)+'deg)';board.style.transformOrigin=narrow?'0 0':'0 0';}
+
+/* ===== agents: coverflow ===== */
 var AG=[['ae','Aether','Chief of staff','Decides what the venture needs and who is needed for it, briefs them, hands off, and reports back. Present from your first message and never removed from the team.'],
  ['ID','Identity','Founders','Learns you and your co-founders. The progress bar is how much your chief of staff knows about you, not form completion.'],
  ['AS','Assessment','Diagnosis','Scores the venture from evidence, recalculating your figures from source rather than accepting them.'],
@@ -490,159 +529,79 @@ var AG=[['ae','Aether','Chief of staff','Decides what the venture needs and who 
  ['DF','Deal flow','The raise','Materials, valuation, terms and full pipeline management. It drafts; you send.'],
  ['MK','Market','What changed','Watches the market on the venture’s behalf and brings back what moved, with the source attached.'],
  ['+','More specialists','As it grows','New agents join as the platform expands. You staff only what the venture needs, and stand them down when the work changes.']];
+var strip=document.getElementById('strip'),fdots=document.getElementById('fdots');
+var acs=AG.map(function(a){var c=document.createElement('article');c.className='ac'+(a[0]==='+'?' more':'');c.innerHTML='<div class="ic">'+(a[0]==='ae'?MARK:a[0])+'</div><div class="role">'+a[2]+'</div><h3>'+a[1]+'</h3><p>'+a[3]+'</p>';strip.appendChild(c);fdots.appendChild(document.createElement('i'));return c;});
+var dts=[].slice.call(fdots.children),curA=0;
+function flowUpdate(){var r=strip.getBoundingClientRect();if(r.bottom<0||r.top>H)return;var c=r.left+r.width/2,best=0,bd=1e9;
+ acs.forEach(function(a,i){var b=a.getBoundingClientRect(),d=(b.left+b.width/2-c)/(b.width+18),ad=Math.abs(d);if(ad<bd){bd=ad;best=i;}
+  var cd=clamp(d,-2.2,2.2);a.style.transform=RM?'':'rotateY('+(-cd*28).toFixed(2)+'deg) translateZ('+(-Math.abs(cd)*90).toFixed(1)+'px)';a.style.opacity=(1-Math.min(.6,Math.abs(cd)*.28)).toFixed(3);});
+ if(best!==curA){curA=best;}acs.forEach(function(a,i){a.classList.toggle('on',i===curA)});dts.forEach(function(d,i){d.classList.toggle('on',i===curA)});}
+function goA(i){i=clamp(i,0,AG.length-1);var a=acs[i];strip.scrollTo({left:a.offsetLeft-(strip.clientWidth-a.offsetWidth)/2,behavior:RM?'auto':'smooth'});}
+document.getElementById('fprev').onclick=function(){goA(curA-1)};document.getElementById('fnext').onclick=function(){goA(curA+1)};
+strip.addEventListener('keydown',function(e){if(e.key==='ArrowRight'){e.preventDefault();goA(curA+1)}if(e.key==='ArrowLeft'){e.preventDefault();goA(curA-1)}});
+if(FINE){var dg=null;strip.addEventListener('pointerdown',function(e){if(e.pointerType!=='mouse')return;dg={x:e.clientX,s:strip.scrollLeft,m:0};strip.classList.add('drag');});
+ addEventListener('pointermove',function(e){if(!dg)return;dg.m=Math.abs(e.clientX-dg.x);strip.scrollLeft=dg.s-(e.clientX-dg.x);});
+ addEventListener('pointerup',function(){if(!dg)return;dg=null;strip.classList.remove('drag');goA(curA);});}
+setTimeout(function(){goA(0)},50);
+
+/* ===== journey: pages flip up as you scroll ===== */
 var ST=[['01','Idea','Generated, targeted and shortlisted against a market you can actually reach.','3 ideas scored'],
  ['02','Validated','Real interviews, with simulated evidence kept in its own column and capped below them.','11 real interviews'],
  ['03','Modelled','Market counted from source, economics built line by line, never estimated.','EGP 340M recounted to 17.0M'],
  ['04','Built','Strategy, product, brand, commercial, legal and operations, section by section.','42 sections approved'],
  ['05','Documented','Deck, data room, cap table and terms, assembled as the work happens.','48 documents in the data room'],
  ['06','Investment ready','The gate is computed from evidence. If it is not there, the materials are withheld.','Readiness gate cleared']];
-var TOUR=[{k:'Assess',h:'Know exactly where the venture stands',p:'A full diagnosis across four dimensions and fourteen sub-pillars, with every score traced to its evidence.',c:['Your figures recounted from source','Evidence graded, never hidden','Confidence shown per dimension','Blocking findings named plainly']},
- {k:'Build',h:'The investment case, section by section',p:'The agents draft every section from ideation to the financial model. Nothing lands until you approve it.',c:['Twelve sections, one record','Every draft waits for approval','Contradictions surfaced','Change once, it follows everywhere']},
- {k:'Raise',h:'Run the raise with the record behind you',p:'Materials, valuation, terms and the pipeline, all generated from the same record you approved.',c:['Teaser, deck and memo','Valuation with the working shown','Data room access per investor','Updates built from live numbers']},
- {k:'Watch',h:'One place to see the whole venture',p:'What the agents are working on, what needs your decision, and how the business is actually performing.',c:['Live agent activity','Decisions waiting on you','Performance from your systems','Alerts when things contradict']}];
-function badge(a){return a==='ae'?MARK:a;}
+var SIC=['<path d="M12 3a6 6 0 0 0-3.5 10.9V16h7v-2.1A6 6 0 0 0 12 3Z"/><path d="M9.5 19h5M10.5 21.5h3"/>','<path d="M4 5h11a3 3 0 0 1 3 3v4a3 3 0 0 1-3 3H9l-4 3v-3H4"/><path d="m8 10 2 2 4-4"/>','<path d="M3 21h18"/><rect x="5" y="12" width="3" height="7"/><rect x="10.5" y="8" width="3" height="11"/><rect x="16" y="4" width="3" height="15"/>',
+ '<rect x="3" y="3" width="8" height="8" rx="1.5"/><rect x="13" y="3" width="8" height="8" rx="1.5"/><rect x="3" y="13" width="8" height="8" rx="1.5"/><rect x="13" y="13" width="8" height="8" rx="1.5"/>','<path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4M9 12h6M9 16h6"/>','<path d="M12 3 4 6v6c0 5 3.5 8 8 9 4.5-1 8-4 8-9V6l-8-3Z"/><path d="m8.5 12 2.5 2.5 4.5-5"/>'];
+var deck=document.getElementById('flipdeck'),jt=document.getElementById('jt'),jn=document.getElementById('jn'),jb=[].slice.call(document.querySelectorAll('#jbar i'));
+var fps=ST.map(function(s,i){var d=document.createElement('article');d.className='fp';d.style.zIndex=String(20-i);
+ d.innerHTML='<div class="n">STAGE '+s[0]+' / 06<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">'+SIC[i]+'</svg></div><h3>'+s[1]+'</h3><p>'+s[2]+'</p><span class="art">'+s[3]+'</span>';deck.appendChild(d);return d;});
+function jLayout(){jt.style.height=(H*.55*6+jt.querySelector('.jpin').offsetHeight)+'px';}
+function jUpdate(){var r=jt.getBoundingClientRect();if(r.bottom<0||r.top>H)return;var pin=jt.querySelector('.jpin');
+ var span=r.height-pin.offsetHeight,p=RM?0:clamp((NAVH+30-r.top)/Math.max(1,span)),f=p*5.0;
+ fps.forEach(function(c,i){var k=clamp(f-i),a=eio(k)*180,behind=i-f;
+  var y=behind>0?Math.min(behind,3)*10:0,sc=behind>0?1-Math.min(behind,3)*.04:1;
+  c.style.transform='translateY('+(-y).toFixed(1)+'px) scale('+sc.toFixed(3)+') rotateX('+a.toFixed(2)+'deg)';c.style.visibility=k>=1||behind>3.2?'hidden':'visible';});
+ var idx=Math.min(5,Math.round(f));jn.textContent=ST[idx][0];jb.forEach(function(b,i){b.style.setProperty('--f',clamp(f+1-i).toFixed(3))});}
 
-/* faces */
-function side(on){var L=['Command centre','Venture context','Fundraising','Knowledge base'],A=['Aether','Identity','Assessment','Build','Deal Flow'];
- return '<div class="sd"><div class="lg">'+MARK+'QuidQuo</div>'+L.map(function(x){return '<span class="'+(x===on?'on':'')+'">'+x+'</span>'}).join('')+'<span style="margin-top:.6em;font-size:.85em;letter-spacing:.1em">AGENTS</span>'+A.map(function(x){return '<span class="'+(x===on?'on':'')+'">'+x+'</span>'}).join('')+'</div>';}
-function faceHTML(i){
- if(i===0)return '<img class="full" alt="" src="'+PF.Watch[0].s+'">';
- if(i===1)return '<div class="app">'+side('Venture context')+'<div class="mn rc"><div class="tt">'+MARK+'One venture record<span class="live">live</span></div>'+
-  '<div class="chg"><span class="abd">BD</span><div><b>Build changed the market size</b><small><del>EGP 340M</del> → <ins>EGP 450M</ins> · counted from the register</small></div></div><div class="rl">Follows automatically</div>'+
-  [['BD','Financial model · revenue ceiling','updated'],['DF','Pitch deck · market slide','updated'],['DF','Valuation range','updated'],['AS','Viability score','re-scored'],['Æ','Go-to-market plan still sized for EGP 340M','sent to you',1]].map(function(r,k){
-   return '<div class="r'+(r[3]?' am':'')+'"><span class="abd'+(r[3]?' am':'')+'">'+r[0]+'</span><span class="t">'+r[1]+'</span><span class="st" style="transition-delay:'+(0.5+k*.35)+'s"><span class="w">waiting</span><span class="a">'+r[2]+'</span></span></div>';}).join('')+'</div></div>';
- if(i===2)return '<div class="app">'+side('Aether')+'<div class="mn agf"><div class="tt">Your agentic team<span class="live">staffed</span></div><div class="swap"><div class="hdr"><div class="ic"></div><div><div class="role"></div><h4></h4></div></div><p></p></div><div class="strip">'+AG.map(function(a){return '<span class="abd">'+badge(a[0])+'</span>'}).join('')+'</div></div></div>';
- if(i===3)return '<div class="app">'+side('Venture context')+'<div class="mn jf"><div class="tt">Journey<span class="live">in progress</span></div><div class="board">'+ST.map(function(s){return '<div class="tile"><i>'+s[0]+'</i><b>'+s[1]+'</b><u></u></div>'}).join('')+'</div></div></div>';
- if(i===4)return '<div class="tour"><img class="a" alt=""><img class="b" alt=""><span class="ring"></span><svg class="cur" viewBox="0 0 24 24"><path d="M4 2.5v17.2l4.6-4.3 2.9 6.6 3.1-1.4-2.9-6.5H18L4 2.5Z" fill="#F2F4EC" stroke="#0A0B09" stroke-width="1.3" stroke-linejoin="round"/></svg></div>';}
-function deviceHTML(faces){return '<div class="shadow"></div><div class="bz"><div class="scr">'+faces.map(function(i){return '<div class="face" data-f="'+i+'">'+faceHTML(i)+'</div>'}).join('')+'</div></div><span class="edge r"></span><span class="edge l"></span><span class="edge b"></span><span class="edge t"></span><div class="back">'+MARK+'</div>';}
-
-/* the fixed device */
-var dev=document.getElementById('dev'),devfix=document.getElementById('devfix');
-dev.innerHTML=deviceHTML([0,1,2,3,4]);
-var dfaces=[].slice.call(dev.querySelectorAll('.face'));
-var TS=[['<span class="abd am">Æ</span>1 decision waiting on you','<b class="a">for you</b>',[-.2,-.16,120]],['<span class="abd">DF</span>Pitch deck · market slide','<b>updated</b>',[.62,.08,170]],['<span class="abd">AS</span>Viability score','<b>re-scored</b>',[.04,.86,90]]];
-var toasts=TS.map(function(t){var d=document.createElement('div');d.className='tst';d.innerHTML=t[0]+t[1];dev.appendChild(d);return {el:d,p:t[2]};});
-var orbit=document.createElement('div');orbit.className='orbit';dev.appendChild(orbit);
-var obs=AG.map(function(a){var s=document.createElement('span');s.className='abd';s.innerHTML=badge(a[0]);orbit.appendChild(s);return s;});
-var pop=document.createElement('div');pop.className='pop';dev.appendChild(pop);
-var agFaces=[],jFaces=[];
-
-/* inline devices for phones */
-[].forEach.call(document.querySelectorAll('.mdev'),function(m){var f=+m.dataset.face;m.innerHTML='<div class="dev">'+deviceHTML([f])+'</div>';m.querySelector('.face').classList.add('on');});
-function collect(){agFaces=[].slice.call(document.querySelectorAll('.agf'));jFaces=[].slice.call(document.querySelectorAll('.jf'));}
-collect();
-
-/* lists */
-var alist=document.getElementById('alist'),amc=document.getElementById('amc'),slist=document.getElementById('slist'),smc=document.getElementById('smc');
-AG.forEach(function(a,i){var li=document.createElement('li');li.innerHTML='<i>'+String(i+1).padStart(2,'0')+'</i><b>'+a[1]+'</b><span>'+a[2]+'</span><p class="ad">'+a[3]+'</p>';li.addEventListener('click',function(){jump('agents',i,7)});alist.appendChild(li);
- var c=document.createElement('article');c.className='mc rv';c.innerHTML='<div class="tp"><span class="abd">'+badge(a[0])+'</span>'+String(i+1).padStart(2,'0')+' / 07</div><div class="role">'+a[2]+'</div><h3>'+a[1]+'</h3><p>'+a[3]+'</p>';amc.appendChild(c);});
-ST.forEach(function(s,i){var li=document.createElement('li');li.innerHTML='<i>'+s[0]+'</i><b>'+s[1]+'</b><span>'+s[2]+'</span><em>'+s[3]+'</em>';li.addEventListener('click',function(){jump('journey',i,6)});slist.appendChild(li);
- var c=document.createElement('article');c.className='mc rv';c.innerHTML='<div class="tp">STAGE '+s[0]+'</div><h3>'+s[1]+'</h3><p>'+s[2]+'</p><em>'+s[3]+'</em>';smc.appendChild(c);});
-var alis=[].slice.call(alist.children),slis=[].slice.call(slist.children);
-
-/* reveal */
-var rvs=[].slice.call(document.querySelectorAll('.rv'));
-var io=('IntersectionObserver' in window&&!RM)?new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}})},{rootMargin:'0px 0px -6% 0px'}):null;
-rvs.forEach(function(el){if(!io){el.classList.add('in');return;}var r=el.getBoundingClientRect();if(r.top<H&&r.bottom>0)setTimeout(function(){el.classList.add('in')},60);else io.observe(el);});
-var mio=('IntersectionObserver' in window)?new IntersectionObserver(function(es){es.forEach(function(e){e.target.classList.toggle('in',e.isIntersecting);var f=e.target.querySelector('.face');if(f&&f.querySelector('.rc'))setGo(f,e.isIntersecting&&e.intersectionRatio>.5);})},{threshold:[0,.5,1]}):null;
-[].forEach.call(document.querySelectorAll('.mdev'),function(m){if(mio)mio.observe(m);else m.classList.add('in');});
-
-/* agents + journey face state */
-var curAg=-1,curSt=-1;
-function setAgent(i){if(i===curAg)return;curAg=i;var a=AG[i];
- agFaces.forEach(function(f){f.classList.add('chg');setTimeout(function(){f.querySelector('.ic').innerHTML=badge(a[0]);f.querySelector('.role').textContent=a[2];f.querySelector('h4').textContent=a[1];f.querySelector('.swap p').textContent=a[3];
-  [].forEach.call(f.querySelectorAll('.strip .abd'),function(b,k){b.classList.toggle('on',k===i)});f.classList.remove('chg');},RM?0:220);});
- alis.forEach(function(l,k){l.classList.toggle('on',k===i)});obs.forEach(function(b,k){b.classList.toggle('on',k===i)});}
-function setStage(i){if(i===curSt)return;curSt=i;var s=ST[i];
- jFaces.forEach(function(f){[].forEach.call(f.querySelectorAll('.tile'),function(t,k){t.classList.toggle('on',k===i);t.classList.toggle('done',k<=i)});});
- slis.forEach(function(l,k){l.classList.toggle('on',k===i)});
- pop.innerHTML='<div class="n">STAGE '+s[0]+'</div><h4>'+s[1]+'</h4><p>'+s[2]+'</p><span>'+s[3]+'</span>';}
-setAgent(0);setStage(0);
-
-/* platform tour */
-var ptabs=document.getElementById('ptabs'),pinfo=document.getElementById('pinfo'),tour=null,tok=0,tvis=false;
-var tabBtns=TOUR.map(function(x,i){var b=document.createElement('button');b.type='button';b.className='ptab';b.setAttribute('role','tab');b.innerHTML='<i>0'+(i+1)+'</i>'+x.k+'<span class="bar"></span>';b.addEventListener('click',function(){play(i)});ptabs.appendChild(b);return b;});
-function bindTour(scope){var t=scope.querySelector('.tour');if(!t)return;tour={a:t.querySelector('img.a'),b:t.querySelector('img.b'),cur:t.querySelector('.cur'),ring:t.querySelector('.ring'),front:null,back:null,face:t.parentNode};tour.front=tour.a;tour.back=tour.b;}
-function show(src,slide){var T=tour;T.back.src=src;T.back.style.transform=slide?'translateY(3%)':'none';T.back.style.opacity='1';T.front.style.opacity='0';if(slide)T.front.style.transform='translateY(-3%)';var f=T.front;T.front=T.back;T.back=f;requestAnimationFrame(function(){T.front.style.transform='none'});setTimeout(function(){f.style.transform='none'},700);}
-function wait(ms,tk){return new Promise(function(res){var left=ms;(function w(){if(tk!==tok)return;if(!tvis){setTimeout(w,250);return;}var s=Math.min(100,left);left-=s;if(left<=0)res();else setTimeout(w,s);})();});}
+/* ===== platform tour ===== */
+var TOUR=[{k:'Assess',h:'Know exactly where the venture stands',p:'A full diagnosis across four dimensions and fourteen sub-pillars, with every score traced to its evidence.',c:['Your figures recounted from source','Evidence graded, never hidden','Confidence shown per dimension','Blocking findings named plainly'],u:'assess'},
+ {k:'Build',h:'The investment case, section by section',p:'The agents draft every section from ideation to the financial model. Nothing lands until you approve it.',c:['Twelve sections, one record','Every draft waits for approval','Contradictions surfaced','Change once, it follows everywhere'],u:'build'},
+ {k:'Raise',h:'Run the raise with the record behind you',p:'Materials, valuation, terms and the pipeline, all generated from the same record you approved.',c:['Teaser, deck and memo','Valuation with the working shown','Data room access per investor','Updates built from live numbers'],u:'raise'},
+ {k:'Watch',h:'One place to see the whole venture',p:'What the agents are working on, what needs your decision, and how the business is actually performing.',c:['Live agent activity','Decisions waiting on you','Performance from your systems','Alerts when things contradict'],u:'watch'}];
+var ptabs=document.getElementById('ptabs'),pinfo=document.getElementById('pinfo'),imA=document.getElementById('imA'),imB=document.getElementById('imB'),curEl=document.getElementById('cur'),ring=document.getElementById('ring'),urlEl=document.getElementById('url'),pwin=document.getElementById('pwin');
+var tabBtns=TOUR.map(function(x,i){var b=document.createElement('button');b.type='button';b.className='ptab';b.setAttribute('role','tab');b.innerHTML='<span class="t1"><i>0'+(i+1)+'</i><b>'+x.k+'</b></span><span class="t2">'+x.h+'</span><span class="bar"></span>';b.addEventListener('click',function(){play(i)});ptabs.appendChild(b);return b;});
+var front=imA,back=imB,tok=0,pfVis=false;
+function show(src,slide){back.src=src;back.style.transform=slide?'translateY(3%)':'none';back.style.opacity='1';front.style.opacity='0';if(slide)front.style.transform='translateY(-3%)';var f=front;front=back;back=f;requestAnimationFrame(function(){front.style.transform='none'});setTimeout(function(){f.style.transform='none'},700);}
+function wait(ms,tk){return new Promise(function(res){var left=ms;(function w(){if(tk!==tok)return;if(!pfVis){setTimeout(w,250);return;}var s=Math.min(100,left);left-=s;if(left<=0)res();else setTimeout(w,s);})();});}
 function bar(i,v,d){var b=tabBtns[i].querySelector('.bar');b.style.transition=d?'transform '+d+'ms linear':'none';b.style.transform='scaleX('+v+')';}
 function play(i){var tk=++tok,T=TOUR[i],F=PF[T.k];
  tabBtns.forEach(function(b,k){b.classList.toggle('on',k===i);b.setAttribute('aria-selected',k===i);if(k!==i)bar(k,0,0)});
- pinfo.innerHTML='<h3>'+T.h+'</h3><p>'+T.p+'</p><ul class="chk">'+T.c.map(function(x){return '<li>'+x+'</li>'}).join('')+'</ul>';
- if(!tour)return;show(F[0].s,false);bar(i,0,0);if(RM)return;
+ pinfo.innerHTML='<p>'+(W<=900?'<b style="color:var(--fg);font-weight:600">'+T.h+'.</b> ':'')+T.p+'</p><ul class="chk">'+T.c.map(function(x){return '<li>'+x+'</li>'}).join('')+'</ul>';urlEl.textContent='app.quidquo.com/'+T.u;
+ show(F[0].s,false);bar(i,0,0);if(RM)return;
  requestAnimationFrame(function(){bar(i,1,F.length*2600+1800)});
  (async function(){for(var f=0;f<F.length;f++){var a=F[f].a;await wait(900,tk);if(tk!==tok)return;
   if(!a){await wait(1800,tk);if(tk!==tok)return;play((i+1)%4);return;}
-  tour.cur.style.left=a[1][0]+'%';tour.cur.style.top=a[1][1]+'%';await wait(1050,tk);if(tk!==tok)return;
-  if(a[0]==='click'){tour.ring.style.left=a[1][0]+'%';tour.ring.style.top=a[1][1]+'%';tour.ring.classList.remove('go');void tour.ring.offsetWidth;tour.ring.classList.add('go');await wait(260,tk);show(F[f+1].s,false);}
+  curEl.style.left=a[1][0]+'%';curEl.style.top=a[1][1]+'%';await wait(1050,tk);if(tk!==tok)return;
+  if(a[0]==='click'){ring.style.left=a[1][0]+'%';ring.style.top=a[1][1]+'%';ring.classList.remove('go');void ring.offsetWidth;ring.classList.add('go');await wait(260,tk);show(F[f+1].s,false);}
   else show(F[f+1].s,true);await wait(400,tk);}})();}
+if('IntersectionObserver' in window)new IntersectionObserver(function(es){pfVis=es[0].isIntersecting},{threshold:.2}).observe(pwin);else pfVis=true;
+play(0);
+function pTilt(){var r=pwin.getBoundingClientRect();if(r.bottom<0||r.top>H)return;var p=RM?1:eio(clamp((H*1.02-r.top)/(H*.7)));
+ pwin.style.transform='rotateX('+((1-p)*38).toFixed(2)+'deg) scale('+(.86+.14*p).toFixed(3)+')';}
 
-/* chapters and poses */
-var chaps=[].slice.call(document.querySelectorAll('[data-ch]'));
-var POSEM=[[8,-16,1,.94,0,0],[6,14,-1,.94,0,0],[6,-6,0,.82,0,0],[52,0,-12,.8,0,34],[0,0,0,1,0,0],[-6,20,0,.8,0,-60]];
-var POSE=[[10,-26,2,1,0,0],[6,20,-1,1,0,0],[8,-8,0,.86,0,0],[58,0,-16,.92,0,40],[0,0,0,1.06,0,0],[-6,28,0,.78,0,-120]];
-var Z=[],goT={};
-function setGo(face,on){if(!face)return;var key=face===dfaces[1]?'d':'m';if(face.classList.contains('go')===on)return;face.classList.toggle('go',on);(goT[key]||[]).forEach(clearTimeout);goT[key]=[];
- var rows=[].slice.call(face.querySelectorAll('.rc .r'));if(!on){rows.forEach(function(r){r.classList.remove('on')});return;}
- rows.forEach(function(r,k){goT[key].push(setTimeout(function(){r.classList.add('on')},RM?0:650+k*420));});}
-var DEVH=0,NAVH=70;
-function layout(){W=innerWidth;H=innerHeight;var was=DESK;DESK=W>900&&H>=620;root.classList.toggle('mob',!DESK);
- DEVH=DESK?0:Math.round(Math.min(H*.44,W*.7));root.style.setProperty('--devh',DEVH+'px');
- var A=DESK?H/2:NAVH+DEVH+(H-NAVH-DEVH)/2;
- [].forEach.call(document.querySelectorAll('.long'),function(l){var n=+l.dataset.steps;l.style.height=(H+n*H*(DESK?.42:.38))+'px';});
- Z=chaps.map(function(c){var r=c.getBoundingClientRect(),top=r.top+scrollY,h=c.offsetHeight;if(c.classList.contains('long'))return [top,top+h-H];var m=top+h/2-A;if(c.id==='platform')return [m,Math.max(m,top+h-H*.9)];return [m,m];});
- if(Z.length>5){var dt=chaps[5].getBoundingClientRect().top+scrollY-H*(DESK?.4:.85);Z[5]=[dt,dt];}
- if(!tour){bindTour(dev);play(0);}
- if(io&&!was&&DESK)rvs.forEach(function(el){el.classList.add('in')});}
-function jump(id,i,n){var c=document.getElementById(id),r=c.getBoundingClientRect(),top=r.top+scrollY,span=c.offsetHeight-H;scrollTo({top:top+span*(i+.5)/n,behavior:RM?'auto':'smooth'});}
-var t0=performance.now(),cn=[].slice.call(document.querySelectorAll('#chapnav a'));
-function devUpdate(t){
- var y=scrollY,k=0,tt=0;
- for(var i=0;i<Z.length;i++){if(y>=Z[i][0]){k=i;tt=y<=Z[i][1]?0:-1;}}
- var a,b,f;if(y<=Z[0][1]){a=b=0;f=0;}else{var i2=k;if(y<=Z[i2][1]){a=b=i2;f=0;}else{a=i2;b=Math.min(Z.length-1,i2+1);f=b===a?0:clamp((y-Z[a][1])/(Z[b][0]-Z[a][1]));}}
- var e=RM?Math.round(f):eio(clamp((f-.15)/.7)),PS=DESK?POSE:POSEM,P=PS[a].map(function(v,j){return lerp(v,PS[b][j],e)});
- var intro=RM?1:eio(clamp((t-t0-250)/1400));
- var rx=lerp(70,P[0],intro)+(RM?0:my*-4),ry=lerp(-50,P[1],intro)+(RM?0:mx*6),bob=RM?0:Math.sin(t*.0008)*5;
- dev.style.transform='translate3d('+P[4]+'px,'+(P[5]+bob+(1-intro)*80).toFixed(1)+'px,0) rotateX('+rx.toFixed(2)+'deg) rotateY('+ry.toFixed(2)+'deg) rotateZ('+P[2].toFixed(2)+'deg) scale('+(P[3]*lerp(.85,1,intro)).toFixed(3)+')';
- var near=e<.5?a:b,vis=a===5?0:b===5?1-clamp(e*1.4):1;devfix.style.opacity=(vis*intro).toFixed(3);devfix.style.visibility=vis<.02?'hidden':'visible';
- dfaces.forEach(function(fc,j){fc.classList.toggle('on',j===Math.min(4,near));});
- setGo(dfaces[1],near===1);
- var w=dev.offsetWidth,h=dev.offsetHeight;
- /* toasts float in front during the opening */
- var tw=(near===0?1:0)*(1-Math.abs(a===0&&b===1?e:0));
- toasts.forEach(function(o,j){var p=o.p;o.el.style.opacity=clamp(tw*1.4-j*.0).toFixed(3);o.el.style.transform='translate3d('+(p[0]*w*(DESK?1:.75)+(DESK?0:w*.04)).toFixed(1)+'px,'+(p[1]*h+Math.sin(t*.0012+j*2)*(RM?0:6)).toFixed(1)+'px,'+(p[2]*(DESK?1:.45)*(.4+.6*tw)).toFixed(1)+'px)';});
- /* agent badges orbit the device in the team chapter */
- var ow=near===2?1:0;orbit.style.opacity=ow;
- var rot=RM?0:t*.00018,orx=DESK?.66:.6,ory=DESK?.62:.66,oz=DESK?140:60,half=DESK?22:14;obs.forEach(function(o,j){var ang=rot+j*(Math.PI*2/obs.length),x=Math.cos(ang)*w*orx,yy=Math.sin(ang)*h*ory,z=Math.sin(ang)*oz+30;o.style.transform='translate3d('+(x-half).toFixed(1)+'px,'+(yy-half).toFixed(1)+'px,'+z.toFixed(1)+'px)';});
- /* journey card stands up from the board */
- var pw=near===3&&a===b?1:near===3?clamp(1-Math.abs(e-(a===3?0:1))*2):0;pop.style.opacity=pw.toFixed(3);
- if(pw>0){var tl=dfaces[3].querySelectorAll('.tile')[Math.max(0,curSt)],ox=0,oy=0,el=tl;while(el&&el!==dev){ox+=el.offsetLeft;oy+=el.offsetTop;el=el.offsetParent;}
-  var px=ox+tl.offsetWidth/2-pop.offsetWidth/2,py=oy+tl.offsetHeight*.55-pop.offsetHeight;
-  pop.style.transform='translate3d('+px.toFixed(1)+'px,'+py.toFixed(1)+'px,'+(16+40*pw).toFixed(1)+'px) rotateZ('+(-P[2]).toFixed(2)+'deg) rotateY('+(-ry).toFixed(2)+'deg) rotateX('+(-rx*pw).toFixed(2)+'deg)';}
- /* steps in long chapters */
- if(a===2&&b===2||near===2){var c2=chaps[2],r2=c2.getBoundingClientRect();setAgent(Math.min(6,Math.max(0,Math.floor(clamp(-r2.top/Math.max(1,c2.offsetHeight-H))*6.999))));}
- if(a===3&&b===3||near===3){var c3=chaps[3],r3=c3.getBoundingClientRect();setStage(Math.min(5,Math.max(0,Math.floor(clamp(-r3.top/Math.max(1,c3.offsetHeight-H))*5.999))));}
- cn.forEach(function(x,j){x.classList.toggle('on',j===Math.min(4,near))});document.getElementById('chapnav').style.opacity=near>=5?0:1;
- tvis=near===4;}
+/* ===== difference: the after panel unfolds from behind the before ===== */
+var afs=[].slice.call(document.querySelectorAll('.pn.af'));
+function diffUpdate(){var narrow=W<=980;afs.forEach(function(a,i){var r=a.parentNode.getBoundingClientRect();if(r.bottom<0||r.top>H){return;}
+ var p=RM?1:eio(clamp((H*.92-r.top)/(H*.42)));a.style.transform=narrow?'rotateX('+((1-p)*-95).toFixed(2)+'deg)':'rotateY('+((1-p)*95).toFixed(2)+'deg)';a.style.opacity=(.2+.8*p).toFixed(3);});}
 
+/* who: hover tilt */
+if(FINE&&!RM)[].forEach.call(document.querySelectorAll('.wc'),function(c){c.addEventListener('pointermove',function(e){var r=c.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;c.style.transform='rotateX('+(-y*8).toFixed(2)+'deg) rotateY('+(x*10).toFixed(2)+'deg) translateZ(10px)';});c.addEventListener('pointerleave',function(){c.style.transform=''});});
 
-/* before/after sliders: sweep once when they appear */
-[].forEach.call(document.querySelectorAll('.sl'),function(sl,i){var inp=sl.querySelector('input');function set(v){sl.style.setProperty('--p',v+'%');}
- inp.addEventListener('input',function(){sl.dataset.user=1;set(inp.value)});
- if('IntersectionObserver' in window&&!RM){var o=new IntersectionObserver(function(es){if(es[0].isIntersecting&&!sl.dataset.user){o.disconnect();var s=performance.now()+i*180;(function an(t){var p=clamp((t-s)/2600);if(sl.dataset.user)return;var v=p<.34?lerp(50,92,eio(p/.34)):p<.72?lerp(92,8,eio((p-.34)/.38)):lerp(8,50,eio((p-.72)/.28));if(p>=1)v=50;inp.value=v;set(v);if(p<1)requestAnimationFrame(an);})(performance.now());}},{threshold:.6});o.observe(sl);}});
-
-/* who: cards tilt with the scroll */
-var wcs=[].slice.call(document.querySelectorAll('.wc'));
-function whoUpdate(){wcs.forEach(function(c,i){var r=c.getBoundingClientRect();if(r.bottom<0||r.top>H)return;var p=RM?.5:clamp((H-r.top)/(H+r.height));var d=(p-.5);
- c.style.transform='rotateX('+(d*-26).toFixed(2)+'deg) rotateY('+((i-1)*d*-18).toFixed(2)+'deg) translateZ('+((1-Math.abs(d)*2)*30).toFixed(1)+'px)';});}
-/* join: rail cards rise one by one */
-var rail=[].slice.call(document.querySelectorAll('#rail li'));
-function railUpdate(){var r=document.getElementById('rail').getBoundingClientRect();if(r.bottom<0||r.top>H)return;var narrow=W<=1000;
- rail.forEach(function(li,i){var off=narrow?li.getBoundingClientRect().top:r.top+i*40;var p=RM?1:eio(clamp((H*.98-off)/(H*.35)));li.style.transform='rotateX('+((1-p)*-70).toFixed(2)+'deg) translateY('+((1-p)*40).toFixed(1)+'px)';li.style.opacity=(.1+.9*p).toFixed(3);});}
-
-var nav=document.getElementById('nav');
+var pg=document.getElementById('pg');
+function layout(){W=innerWidth;H=innerHeight;NAVH=document.getElementById('nav').offsetHeight;boardLayout();jLayout();stackLayout();}
 layout();addEventListener('resize',layout);addEventListener('load',layout);if(document.fonts&&document.fonts.ready)document.fonts.ready.then(layout);
-function frame(t){devUpdate(t);whoUpdate();railUpdate();nav.classList.toggle('on',scrollY>10);requestAnimationFrame(frame);}
+function frame(t){hero(t);boardUpdate();flowUpdate();jUpdate();pTilt();diffUpdate();stackUpdate();pg.style.transform='scaleX('+clamp(scrollY/Math.max(1,document.documentElement.scrollHeight-H)).toFixed(4)+')';requestAnimationFrame(frame);}
 requestAnimationFrame(frame);
 })();
 </script>
